@@ -1,0 +1,20 @@
+{
+  "light": {
+    "--accent": "#155c91",
+    "--background": "#f4f6f8",
+    "--control-border": "#7b899a",
+    "--muted": "#526174",
+    "--panel": "#fff",
+    "--surface": "#edf2f7",
+    "--text": "#18202a"
+  },
+  "dark": {
+    "--accent": "#9bd8ff",
+    "--background": "#101216",
+    "--control-border": "#8391a3",
+    "--muted": "#abb6c7",
+    "--panel": "#191d24",
+    "--surface": "#242b35",
+    "--text": "#f2f5fa"
+  }
+}

@@ -1,0 +1,8 @@
+.panel { display: flex; flex-direction: column; gap: var(--space-3); overflow-wrap: anywhere; }
+.panel header { margin-bottom: 0; }
+.panel p { font-size: 13px; }
+.panel label { display: flex; flex-direction: column; gap: var(--space-2); font-size: 13px; }
+.panel select { width: 100%; min-width: 0; min-height: 40px; color: var(--text); background: var(--panel); border: 1px solid var(--control-border); border-radius: 8px; padding: 8px; }
+.panel input { width: 100%; min-height: 40px; accent-color: var(--accent); }
+.panel button { white-space: normal; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }

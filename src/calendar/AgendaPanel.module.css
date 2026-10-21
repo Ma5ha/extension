@@ -1,0 +1,8 @@
+.content { display: grid; gap: var(--space-4); margin-top: var(--space-4); min-width: 0; }
+.next { padding: var(--space-3); border-radius: 9px; background: var(--accent-soft); overflow-wrap: anywhere; }
+.events { margin: 0; padding: 0; list-style: none; }
+.events li { display: grid; gap: var(--space-2); padding: var(--space-3) 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.time, .content small { color: var(--muted); font-size: 12px; }
+.links, .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.links a, .actions a { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 40px; }
+.actions { margin-top: var(--space-4); }

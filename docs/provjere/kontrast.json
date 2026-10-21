@@ -1,0 +1,30 @@
+{
+  "light": {
+    "text / background": 15.16,
+    "text / panel": 16.42,
+    "text / surface": 14.58,
+    "muted / background": 5.84,
+    "muted / panel": 6.32,
+    "muted / surface": 5.61,
+    "accent / background": 6.52,
+    "accent / panel": 7.07,
+    "accent / surface": 6.27,
+    "control-border / background": 3.29,
+    "control-border / panel": 3.57,
+    "control-border / surface": 3.17
+  },
+  "dark": {
+    "text / background": 17.16,
+    "text / panel": 15.47,
+    "text / surface": 13.06,
+    "muted / background": 9.15,
+    "muted / panel": 8.25,
+    "muted / surface": 6.96,
+    "accent / background": 12.19,
+    "accent / panel": 10.99,
+    "accent / surface": 9.28,
+    "control-border / background": 5.84,
+    "control-border / panel": 5.27,
+    "control-border / surface": 4.45
+  }
+}

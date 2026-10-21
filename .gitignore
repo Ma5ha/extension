@@ -1,4 +1,7 @@
 node_modules/
+.wxt/
+.output/
+test-results/
 dist/
 build/
 coverage/

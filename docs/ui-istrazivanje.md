@@ -2,6 +2,13 @@
 
 Datum: 21. oktobar 2026. Obim: istraživanje za prvi vizuelni koncept, ne implementacija.
 
+## Aktuelna izmjena obima
+
+TAB-05-A: agenda sada ima implementiran opcioni read-only primarni Google kalendar, umjesto same prečice. Bez build OAuth konfiguracije prikazuje nepodešeno stanje. Stvarni događaji i nova agenda u Chrome-u nisu potvrđeni. Korisnik je odložio svoje ručne provjere; stanje ostaje jasno evidentirano.
+
+
+Korisnik je nakon implementacije uklonio search. Novi UI nema polje pretrage, prečicu Cmd/Ctrl+K ni search/bookmarks dozvole. Stariji nalazi o pretrazi ispod ostaju istorijski kontekst, ne aktivan zahtjev. Sačuvani su raspored Modularnog ateljea i light/dark teme uz mirniju navigaciju, manje ugniježđenih obruba i kraće tekstove nepovezanih modula.
+
 ## 1. Zaključak
 
 Preporučeni pravac je **„Mirna orbita“**: funkcionalna početna stranica sa blagim futurističkim karakterom, jasnom pretragom, neutralnim površinama i pažljivo odmjerenim interakcijama. Rauno Freiberg je glavna referenca za ponašanje, Linear za hijerarhiju, Paco Coursey za pristup pretrazi i jednostavnosti.
@@ -187,3 +194,11 @@ Istraživanje je dovoljno za prvi koncept i agentova pravila. Nije dokaz da su i
 Naknadni izbor: korisnik je izabrao Modularni atelje, treći prikaz ove serije. Na njegov zahtjev generisana je [glass varijanta](ui-koncepti/rasporedi-light/modularni-atelje-glass.png); materijal još nije potvrđen. Ovo zamjenjuje raniju napomenu ispod da izbor nije napravljen.
 
 Na korisnikov zahtjev generisana su tri rasporeda, svi sa light/dark izborom: [Bočni studio](ui-koncepti/rasporedi-light/bocni-studio.png), [Otvoreni horizont](ui-koncepti/rasporedi-light/otvoreni-horizont.png), [Modularni atelje](ui-koncepti/rasporedi-light/modularni-atelje.png). Stvarna ulazna referenca za svaku sliku bila je prethodna slika Dnevni studio. Alat: ugrađeni ImageGen. Promptovi: desktop 1440×1024, bijela/pale-grey osnova, tamni tekst i umjeren plavi akcenat, šest tabova u tri origina, agenda za 21. oktobar 2026, skriven Gmail i pauziran muzički player; bez browser okvira i dekorativnog sata. Varijacije traže bočnu navigaciju sa origin kolonama, horizontalne pojaseve i modularni raspored sa agendom lijevo. Rezultati se donekle razlikuju od zatraženih detalja; slike su vizuelne reference, a ne konačne specifikacije. Izbor još nije napravljen. Nije generisana nova dark razrada niti implementiran UI.
+
+## 13. Implementacioni pregled — 21. oktobar 2026.
+
+Naknadni izbor i implementacija imaju prednost nad istorijskim napomenama ranijih koncepta: Modularni atelje je izabran i implementiran kao prilagodljiva light/dark osnova sa opcionim glass efektom. Vidljivost tri sporedna modula i izgled čuvaju se lokalno. Agenda/Gmail/muzika trenutno imaju samo nepovezana stanja i obične linkove, bez sintetičkih poruka, događaja ili playbacka. Izvještaj i snimci stvarnog HTTP pregleda su u [provjeri](provjere/izvjestaj.md). Konačan materijal, puna pristupačnost i tehničke integracije ostaju otvoreni. Učitavanje kao Chrome ekstenzija i stvarni API tokovi još čekaju potvrdu; HTTP pregled to ne dokazuje.
+
+### Dopuna TAB-07-A — 21. oktobar 2026.
+
+Nepovezani muzički widget zamijenjen je panelom Mediji u istom rasporedu. Standardni DOM adapter i opcione dozvole imaju implementaciju; Spotify nalog/embed nije dio ove izmjene. HTTP pregled potvrđuje osnovni panel u obje teme i 320 px reflow; aktivne Chrome kontrole još zahtijevaju matricu u `provjere/mediji.md`.

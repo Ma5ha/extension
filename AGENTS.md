@@ -24,7 +24,7 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 - Prednost imaju čitljivost, brzina, fokus i korisnikova kontrola.
 - Neutralne površine, jasan nivo aktivnog elementa, jedan umjeren akcenat.
 - Bez dekorativnih stalnih animacija, prekomjernog neona i stakla koje otežava čitanje.
-- Tabora je alat: tabovi i pretraga imaju prednost nad velikim satom i ukrasima.
+- Tabora je alat: tabovi i preglednost imaju prednost nad velikim satom i ukrasima.
 - Početni tokeni i dimenzije su u istraživanju; koristi semantičke tokene, bez nasumičnih vrijednosti po komponentama.
 - Prema korisnikovoj izmjeni, bijela/light tema je osnovna za nove koncepte. Obavezno zadrži ručni izbor light/dark; sistemska tema može ostati dodatna opcija. Provjeri obje teme sa istim funkcijama i rasporedom.
 - Korisnik je izabrao treći raspored nove light serije: `docs/ui-koncepti/rasporedi-light/modularni-atelje.png` (agenda lijevo, tabovi u sredini, Gmail i muzika desno). Sačuvaj taj raspored; trenutno se istražuje njegova glass verzija. Izbor glass materijala još nije potvrđen. Ne traži ponovo izbor rasporeda koji je već napravljen.
@@ -32,7 +32,7 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 ## Struktura i komponente
 
 - Jedna glavna navigacija: Rad, Vijesti, Muzika; podešavanja su odvojena radnja.
-- Jedinstvena pretraga sa jasno označenim vrstama rezultata i opsegom.
+- Prema posljednjoj instrukciji korisnika nema search polja ni komandne pretrage. Ne vraćaj ih bez novog naloga.
 - Sadržaj određuje format: tabovi su grupe/lista, Gmail lista, kalendar agenda, vijesti naslovi, muzika player.
 - Widgeti imaju dosljedan okvir, naslov, akcije i stanja, uz format prilagođen sadržaju.
 - Mali prozor pretvara mrežu u manje kolona i zatim jednu kolonu. Čuvaj logički DOM redoslijed.
@@ -42,8 +42,6 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 ## Ponašanje koje ne smiješ izgubiti
 
 - Ne preuzimaj početni fokus iz Chrome adresne trake.
-- Prečica `Cmd/Ctrl+K` ima vidljivo dugme i dokumentovan opseg; ne obećavaj globalnu dostupnost.
-- Pretraga ne šalje korisnički unos svim servisima. Mrežne izvore uključuj prema vidljivom opsegu i izboru korisnika.
 - Grupisanje koristi `URL.origin`, prvo ručno i u trenutnom prozoru, uz pregled promjena. Jasno prikaži preskočene tabove i djelimičan rezultat.
 - Ne zatvaraj tabove pri grupisanju. Ne prikazuj Undo koji ne radi.
 - Gmail privatni sadržaj prikazuj prema korisnikovom izboru; predloži siguran prikaz za dijeljenje ekrana.
@@ -74,6 +72,16 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 - Ne stavljaj tokene, tajne ili privatne korisničke podatke u repo, logove, screenshotove ili izvoz.
 - Udaljeni sadržaj tretiraj kao nepouzdan; bez izvršavanja RSS HTML-a ili udaljenog koda u privilegovanom kontekstu.
 - Traži samo potrebne dozvole u odgovarajućem trenutku; odbijanje ne smije pokvariti osnovni UI.
+
+## Stil i organizacija koda
+
+- Prednost daj čistim (pure) funkcijama: isti ulaz daje isti izlaz, bez mutiranja ulaznih podataka ili skrivenih sporednih efekata. Izračune, validaciju i transformacije podataka izdvajaj iz UI komponenti.
+- Sporedne efekte, poput mrežnih zahtjeva, pristupa `chrome.storage.local` i izmjena Chrome tabova, jasno odvoji od čistih poslovnih pravila. Tabora nema vlastitu bazu ili aplikacioni server.
+- Koristi što manje `useEffect` poziva. Izvedene vrijednosti izračunavaj tokom renderovanja, a radnje nastale korisničkom interakcijom obrađuj u event handlerima. Efekte koristi kada je potrebna sinhronizacija sa spoljnim sistemom, uz ispravne zavisnosti i cleanup gdje je potreban.
+- Piši male, granularne komponente sa jasnom odgovornošću i razumljivim props interfejsom. Veće ekrane sastavljaj od takvih komponenti; izbjegavaj komponente koje istovremeno upravljaju prikazom, obračunima, mrežom i svim stanjem ekrana.
+- Grupisanje logike prilagodi funkcionalnosti: povezani kod drži zajedno. U ovom WXT + React + TypeScript projektu po potrebi razdvoji domenska pravila, Chrome i servisne adaptere, validaciju, stanje i prikaz u obične TypeScript module i React komponente. Ne koristimo Nx i ne uvodi Nx biblioteke niti apstrakcije samo radi povećanja broja fajlova.
+- Koristi custom hookove za izdvajanje povezanog React stanja, ponašanja i ponovljive React logike. Obične izračune i transformacije ostavi u čistim funkcijama; hook koristi kada su potrebni React hookovi ili životni ciklus.
+- Custom hookovi takođe treba da imaju jasnu odgovornost. Nemoj samo premjestiti veliku komponentu u jedan veliki hook niti skrivati nepotrebne `useEffect` pozive iza hooka.
 
 ## Radni tok i završetak
 

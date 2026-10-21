@@ -23,13 +23,15 @@ Radni slogan: **Tvoj prostor, svaki novi tab.** Dostupnost imena, domena i žiga
 | Oblast | Predloženi obim |
 |---|---|
 | Početna stranica | Widgeti koji se uključuju, premještaju i prilagođavaju; svijetla i tamna tema |
-| Pretraga | Web pretraga preko podrazumijevanog pretraživača; direktni rezultati za otvorene tabove i bookmarkove; naknadno Gmail |
-| Tabovi | Pregled, pretraga, aktiviranje i grupisanje stvarnih Chrome tabova po originu |
+| Pretraga | OTKAZANO prema korisnikovoj izmjeni: uklonjeni search UI, prečica i dozvole; ne vraćati bez naloga |
+| Tabovi | Pregled, aktiviranje i grupisanje stvarnih Chrome tabova po originu |
 | Gmail | Nepročitane poruke, naslovi, pošiljaoci, pretraga i otvaranje poruke u Gmailu |
 | Kalendar | Današnji raspored, naredni događaj, otvaranje sastanka; zatim kreiranje događaja uz posebnu dozvolu |
 | Vijesti | RSS izvori, hronološki naslovi, izbor izvora i čuvanje članaka |
 | Društveni servisi | X i Instagram: istražiti podržane načine prikaza; lični feed nije potvrđen |
 | Muzika | Spotify i SoundCloud playeri za linkove pjesama, playlista i podcasta koje servis podržava |
+| Kontrola YouTube taba | Istražena mogućnost lokalnog daljinskog upravljanja postojećim tabom; [nalaz i provjere](docs/youtube-kontrola.md). Prototip je prijedlog, ne implementirana funkcija. |
+| Objedinjeni mediji | Korisnik želi kontrolu svih medijskih tabova: osnovni mute/otvaranje i napredne kontrole prema otkrivenim mogućnostima sajta. Implementiran lokalni panel i standardni DOM adapter; automatizovane provjere prolaze, stvarna Chrome matrica još preostaje. Univerzalna podrška nije garantovana. |
 | Brze veze | Korisnički linkovi za ostale servise |
 | Prenos podataka | Verziran izvoz i uvoz lokalnih podešavanja bez tokena |
 
@@ -56,17 +58,17 @@ Predloženi prostori su **Rad**, **Vijesti** i **Muzika**. Korisnik bira raspore
 - Najmanje potrebne dozvole, dodatne dozvole u trenutku uključivanja funkcije gdje API to podržava.
 - Autorizacioni tokeni i sadržaj pošte ne ulaze u izvoz, logove ili repozitorijum.
 
-Korisnik je prihvatio ovaj stack 21. oktobra 2026. To je donesena tehnička odluka; aplikacija i zavisnosti još nisu inicijalizovani.
+Korisnik je prihvatio ovaj stack 21. oktobra 2026. Istog dana inicijalizovani su WXT 0.21.4, React/ReactDOM 19.3.1, TypeScript 5.9.3 i pnpm 12.14.0; Vite 8.3.4 dolazi kroz WXT. Nativni HTML dialog/select/checkbox koriste se kao UI primitivi, uz Phosphor ikone i sistemski font. Lockfile postoji. Produkcioni lokalni izlaz je `build/chrome-mv3`.
 
 ### Redoslijed početne implementacije
 
 1. WXT osnova koja se učitava kao ekstenzija i zamjenjuje novi Chrome tab.
 2. Izabrani Modularni atelje raspored, light/dark teme i podesivi glass efekat.
-3. Stvarni tabovi, pretraga i ručno grupisanje po originu.
+3. Stvarni tabovi i ručno grupisanje po originu, bez search polja.
 4. Lokalno čuvanje podešavanja i provjera ponovnog otvaranja i više tabova.
 5. Google Calendar, Gmail i muzički servisi kao odvojene integracije prema fazama ispod.
 
-Otvorene provjere Google autorizacije i playera vode se u TAB-02, ali ne blokiraju nezavisnu lokalnu osnovu i rad sa tabovima. Svaka integracija mora ispuniti svoje preduslove prije povezivanja. Prihvatanje stacka i zapis plana u ovom zadatku ne predstavljaju izvršenu inicijalizaciju.
+Otvorene provjere Google autorizacije i playera vode se u TAB-02, ali ne blokiraju nezavisnu lokalnu osnovu i rad sa tabovima. Svaka integracija mora ispuniti svoje preduslove prije povezivanja. Inicijalizacija i implementacioni obim evidentirani su u progresu; provjera učitane ekstenzije ostaje zaseban kriterijum.
 
 ## Faze i kriterijumi završetka
 
@@ -74,11 +76,12 @@ Otvorene provjere Google autorizacije i playera vode se u TAB-02, ali ne blokira
 |---|---|---|---|
 | TAB-01 | Repozitorijum i plan | Lokalni Git i ovaj dokument postoje | ZAVRŠENO |
 | TAB-02 | Specifikacija i tehnička provjera | Istraživanje i pravila postoje, raspored i WXT stack prihvaćeni; preostaju konačan materijal/obim i tehničke provjere integracija | U TOKU |
-| TAB-03 | Osnova ekstenzije i UI | Ekstenzija se lokalno učitava i zamjenjuje novi tab; radi prilagodljiv osnovni raspored i tema | PLANIRANO |
-| TAB-04 | Pretraga i tabovi | Web pretraga, tabovi i bookmarkovi rade; ručno grupisanje po originu je provjereno | PLANIRANO |
-| TAB-05 | Google Calendar | Stvarna autorizacija, prikaz događaja, prazna stanja, greške i odspajanje rade; posebno provjeren unos događaja ako se uključi | PLANIRANO |
+| TAB-03 | Osnova ekstenzije i UI | Ekstenzija se lokalno učitava i zamjenjuje novi tab; radi prilagodljiv osnovni raspored i tema | U TOKU |
+| TAB-04 | Tabovi i grupisanje | Pregled/aktiviranje/zatvaranje i ručno grupisanje po originu; search i bookmark pretraga uklonjeni iz obima | U TOKU |
+| TAB-05 | Google Calendar | Stvarna autorizacija, prikaz događaja, prazna stanja, greške i odspajanje rade; posebno provjeren unos događaja ako se uključi | U TOKU |
 | TAB-06 | Gmail | Stvarna autorizacija, pregled i pretraga rade; definisan postupak Google verifikacije za javno izdanje | PLANIRANO |
 | TAB-07 | Muzika | Spotify i SoundCloud rade za podržani sadržaj; provjereni prijava, ograničenja reprodukcije i životni ciklus playera | PLANIRANO |
+| TAB-07-A | Objedinjena kontrola medijskih tabova | Odobrena implementacija u novom chatu: otkrivanje izvora, izbor taba, mute/unmute i podržane play/pause/volume/seek kontrole, opcione dozvole i jasni fallback prikazi | U TOKU |
 | TAB-08 | Vijesti | Dodavanje RSS izvora, čitanje naslova, greške i lokalno čuvanje članaka rade | PLANIRANO |
 | TAB-09 | X i Instagram | Dokumentovana podrška, cijena i autorizacija; implementirane samo potvrđene mogućnosti | PLANIRANO |
 | TAB-10 | Personalizacija i prenos | Raspored ostaje sačuvan; validirani izvoz i uvoz rade; pristupačnost i tastatura provjereni | PLANIRANO |
@@ -89,9 +92,15 @@ TAB-02 obuhvata ranu provjeru Gmail uslova iako njegova implementacija dolazi ka
 
 ## Predložena prva upotrebljiva verzija
 
-Novi tab, pretraga, brze veze, pregled i grupisanje tabova, lokalno čuvanje rasporeda i kalendar. Gmail, muzika i vijesti slijede kroz zasebne cjeline. X i Instagram zavise od tehničke provjere i dostupnih zvaničnih mogućnosti.
+Novi tab, brze veze, pregled i grupisanje tabova, lokalno čuvanje rasporeda i kalendar. Gmail, muzika i vijesti slijede kroz zasebne cjeline. X i Instagram zavise od tehničke provjere i dostupnih zvaničnih mogućnosti.
 
 ## Dodatne ideje za kasnije
+
+### Odobreni sljedeći korak — TAB-07-A
+
+Korisnik je 21. oktobra 2026. naložio dodavanje playera i početak implementacije u novom chatu. Prvo implementirati lokalni modul „Mediji“ za postojeće tabove, bez vlastitog servera: otkrivanje zvuka na nivou taba, izbor izvora, mute/unmute i otvaranje izvornog taba; zatim standardni HTML audio/video adapter sa stvarno podržanim play/pause, volume i seek kontrolama. Pauzirani otkriveni izvori ostaju dostupni. Dozvole su opcione po sajtu, kontrola ne pokreće drugi player i ne utiče automatski na ostale tabove ili pozive. Detalji i rubna stanja su u `docs/youtube-kontrola.md`.
+
+Ovo je odobren ogranak TAB-07 koji može početi prije Google integracija jer ne zavisi od njih. Ne znači da je cijeli TAB-07 završen. Spotify embed i OAuth PKCE ostaju zasebne mogućnosti bez obaveznog vlastitog backend-a; provjeriti aktuelne uslove, Premium i javne kvote prije zavisne implementacije. X povezivanje nije dio player zadatka. Nema odobrenja za server, plaćene resurse, commit/push ili objavu.
 
 - Pronalaženje duplih tabova uz pregled prije zatvaranja.
 - Čuvanje sesije kao skupa URL-ova i ponovno otvaranje.
@@ -102,7 +111,7 @@ Novi tab, pretraga, brze veze, pregled i grupisanje tabova, lokalno čuvanje ras
 ## Otvorene odluke i ograničenja
 
 - Da li Gmail u prvoj integraciji samo čita i pretražuje ili kasnije dobija radnje nad porukama?
-- Da li kalendar odmah podržava unos ili prvo samo pregled?
+- Kalendar prvo podržava samo pregled primarnog kalendara; unos događaja je kasniji zaseban obim.
 - Koji RSS izvori i jezici ulaze u početnu ponudu?
 - Da li je poseban prozor playera prihvatljiv kao glavni način trajne reprodukcije?
 - X API može imati troškove; puni lični X/Instagram feed nije obećana funkcija.
@@ -133,9 +142,9 @@ Po fazama provjeravati tipove, build, relevantni lint i stvarno ponašanje učit
 
 ## Trenutno stanje i naredni korak
 
-Aktuelno: korisnik je izabrao Modularni atelje (opcija 3 light serije) i prihvatio WXT/React/TypeScript, pnpm i CSS Modules sa varijablama. Glass materijal je novi prijedlog i čeka njegov sud; dark razrada i tehničke provjere ostaju otvorene. [Evidencija progresa](docs/progres.md) prati izvršene korake i preostalo.
+Aktuelno: implementirana je lokalna WXT osnova prema Modularnom ateljeu, sa light/dark/sistemskim temama, opcionim glass efektom i neprozirnom osnovom. Postoje Chrome adapteri za tabove i pregled origin grupisanja; search je naknadno uklonjen, kao i lokalno čuvanje vidljivosti modula i izgleda. Konačan glass materijal nije potvrđen. Typecheck, lint, 13 testova i produkcioni build prolaze; HTTP UI pregled je provjeren na više širina u obje teme. Stvarna provjera učitane ekstenzije još nije potvrđena, pa TAB-03/TAB-04 ostaju U TOKU. Tehničke provjere integracija ostaju otvorene. [Evidencija progresa](docs/progres.md) prati izvršene korake i preostalo.
 
-Git repozitorijum je inicijalizovan na grani `main`. Postoje plan, osnovni `.gitignore`, [UI istraživanje](docs/ui-istrazivanje.md) i [pravila za agenta](AGENTS.md). Nema aplikacionog koda, instaliranih zavisnosti, commita, udaljenog repozitorijuma ili objave.
+Git repozitorijum je na grani `main`, sa početnim commitom `095f865`. Postoje aplikacioni kod, instalirane zavisnosti, lockfile, README i [izvještaj provjere](docs/provjere/izvjestaj.md). Tekuća implementacija nije commitovana. Nema remote-a ili objave. Korisnik je odložio svoje ručne Chrome provjere i naložio početak TAB-05-A. Read-only agenda je implementirana; naredni preduslov za stvarne događaje je Google Cloud OAuth klijent vezan za ID ekstenzije, prema `docs/google-calendar.md`. Provjere tabova i medija ostaju neizvršene.
 
 21. oktobar 2026: nakon izbora trećeg light rasporeda, ugrađenim ImageGen alatom napravljena je [glass varijanta](docs/ui-koncepti/rasporedi-light/modularni-atelje-glass.png), sa izabranom slikom stvarno priloženom kao edit target. Prompt: sačuvati raspored, light/dark izbor i sadržaj; dodati prozirne bijele panele, blag blur, difuznu plavo-ljubičastu pozadinu i čitljiv taman tekst; ispraviti kontradiktoran Gmail tekst. Vizuelno pregledano: raspored je sačuvan i stakleni materijal vidljiv. Nije mjeren kontrast niti implementiran efekat. U razradi smanjiti ugniježđene obrube redova. AGENTS.md usklađen sa izborom rasporeda. TAB-02 ostaje u toku.
 
@@ -144,3 +153,15 @@ Git repozitorijum je inicijalizovan na grani `main`. Postoje plan, osnovni `.git
 21. oktobar 2026: generisana su i prikazana tri nezavisna ImageGen koncepta početnog radnog prostora, sa sintetičkim podacima. Redoslijed prikaza: 1 — [Mirna orbita](docs/ui-koncepti/mirna-orbita.png), 2 — [Dnevni studio](docs/ui-koncepti/dnevni-studio.png), 3 — [Večernji signal](docs/ui-koncepti/vecernji-signal.png). Generisane slike su sačuvane u repozitorijumu; nisu funkcionalni UI. Vizuelno pregledane: osnovna hijerarhija i raspored su prisutni. AI detalji nisu specifikacija: broj tabova nije usklađen sa prikazanim redovima, player prikazuje pause umjesto traženog početnog play stanja, a svijetli koncept miješa skriven sadržaj sa pozivom na povezivanje. Te detalje ispraviti u odabranoj razradi. Čeka se korisnikov izbor; nema implementacije ili provjere integracija. TAB-02 ostaje u toku.
 
 21. oktobar 2026: korisniku odgovara estetika sva tri koncepta; tražio je druge rasporede na bijeloj osnovi i zadržavanje light/dark tema. Usklađeni su AGENTS.md i UI smjernice. Ugrađenim ImageGen alatom generisana su tri zasebna nova rasporeda uz prethodni Dnevni studio kao stvarno priloženu referencu. Redoslijed prikaza nove serije: 1 — [Bočni studio](docs/ui-koncepti/rasporedi-light/bocni-studio.png), 2 — [Otvoreni horizont](docs/ui-koncepti/rasporedi-light/otvoreni-horizont.png), 3 — [Modularni atelje](docs/ui-koncepti/rasporedi-light/modularni-atelje.png). Vizuelno pregledani: svi su light, imaju različitu strukturu i prikaz izbora teme. Broj tabova i početno play stanje su sada usklađeni. Preostala AI nedosljednost: Gmail prikazuje broj poruka i skriven sadržaj, ali i tekst za povezivanje; u implementaciji razdvojiti ta stanja. Ovo nisu funkcionalne integracije. Čeka se izbor rasporeda; dark razrada, prototip i tehničke provjere ostaju otvoreni.
+
+### TAB-07-A — implementacija 21. oktobra 2026.
+
+Implementirani su Mediji panel u desnoj koloni i prostoru Muzika, izbor medijskih tabova iz svih prozora, tab mute/otvaranje, opcioni pristup jednom HTTP/HTTPS hostu i standardni izolovani HTML audio/video adapter. Play/pause, jačina i seek rade kroz izabrani element i dokument; live seek po stvarnim opsezima. Izvor ne reprodukuje Tabora već postojeći tab. Nema servera, računa, stream ekstrakcije ili automatskog upravljanja drugim izvorima.
+
+Status TAB-07-A ostaje U TOKU: implementacioni dio postoji i provjeren je automatizovano, ali kriterijum stvarne učitane Chrome ekstenzije nije potvrđen zbog zaključanog Mac-a. Potrebni su reload paketa i matrica u `docs/provjere/mediji.md`. Spotify/SoundCloud integracija ostaje zaseban TAB-07.
+
+### TAB-05-A — odobren početak 21. oktobra 2026.
+
+Korisnik traži nastavak bez svojih ručnih Chrome provjera. One ostaju evidentirane kao neizvršene. Aktuelni korak je read-only integracija primarnog Google kalendara: današnji događaji, naredni događaj, sastanci, autorizacija i odspajanje. Bez kreiranja događaja ili Gmail pristupa. OAuth klijent vezan za ID ekstenzije je spoljašnji preduslov.
+
+TAB-05-A rezultat: implementirani Chrome Identity i Calendar adapter, današnja agenda, naredni događaj i Meet link, read-only scope, odspajanje, offline/istekla/odbijena autorizacija i greške. 30/30 testova, typecheck, lint bez upozorenja i build prolaze. Oba manifest načina provjerena automatizovano uz sintetički klijent; konačni paket nema OAuth klijenta. Stvaran OAuth i novi UI nisu provjereni u Chrome-u, pa cijela faza ostaje U TOKU. Uputstvo: [Google Calendar](docs/google-calendar.md).

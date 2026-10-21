@@ -1,0 +1,9 @@
+.form { display: grid; gap: var(--space-2); margin: var(--space-4) 0; }
+.form > div, .actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.form input { flex: 1; min-width: 100px; min-height: 40px; border: 1px solid var(--control-border); border-radius: 8px; padding: var(--space-2); background: var(--panel); color: var(--text); }
+.list { list-style: none; padding: 0; }
+.list > li { display: grid; gap: var(--space-2); padding: var(--space-3) 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+.list small, .preview small { display: block; color: var(--muted); }
+.preview { padding: var(--space-3); background: var(--accent-soft); border-radius: 8px; overflow-wrap: anywhere; }
+.preview ul { padding-left: var(--space-4); }
+.preview li { padding: var(--space-2) 0; }

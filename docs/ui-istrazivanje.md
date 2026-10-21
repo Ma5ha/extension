@@ -4,6 +4,15 @@ Datum: 21. oktobar 2026. Obim: istraživanje za prvi vizuelni koncept, ne implem
 
 ## Aktuelna izmjena obima
 
+Korisnik je odobrio svih pet nadogradnji: Chrome folderi/premještanje, sesije, fokus/bilješke, raspored/veličine i bočni panel. Modularni atelje ostaje početni raspored, sada prilagodljiv. Detalji su u [radni-prostor.md](radni-prostor.md). Pretraga ostaje isključena.
+
+
+TAB-10-C zamjenjuje lokalni bookmark widget direktnim Chrome bookmarkovima prema korisnikovoj ispravci. Isti zapisi, opciona bookmarks dozvola, prikaz putanje foldera i promjene preko Chrome događaja. Pretraga ostaje uklonjena. Raniji TAB-10-B opis ispod je istorijski.
+
+
+TAB-10-B: dodat je widget Sačuvani linkovi u desnoj koloni, uz podešavanje vidljivosti. Lokalni bookmarkovi sa ručnim unosom ili izborom otvorenog taba, uređivanjem i potvrdom uklanjanja. Pretraga ostaje uklonjena; nema Chrome bookmarks dozvole.
+
+
 TAB-05-A: agenda sada ima implementiran opcioni read-only primarni Google kalendar, umjesto same prečice. Bez build OAuth konfiguracije prikazuje nepodešeno stanje. Stvarni događaji i nova agenda u Chrome-u nisu potvrđeni. Korisnik je odložio svoje ručne provjere; stanje ostaje jasno evidentirano.
 
 

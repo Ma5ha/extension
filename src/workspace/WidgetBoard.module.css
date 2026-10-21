@@ -1,0 +1,27 @@
+.board { display: grid; grid-template-columns: var(--grid-columns); gap: var(--space-6); align-items: start; }
+.column { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.column:empty { display: none; }
+.column[data-editing='true'] { min-height: 160px; border: 1px dashed var(--control-border); border-radius: var(--radius); padding: var(--space-2); }
+.columnName { color: var(--muted); font-size: 12px; }
+.widget { min-width: 0; }
+.widget[data-height='medium'] > section { min-height: 360px; }
+.widget[data-height='tall'] > section { min-height: 560px; }
+.controls { padding: var(--space-2); border: 1px solid var(--control-border); border-radius: 9px 9px 0 0; background: var(--surface); }
+.controls > div { display: flex; gap: var(--space-1); flex-wrap: wrap; margin-top: var(--space-2); }
+.controls label { min-width: 0; }
+.controls select { max-width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); border-radius: 8px; min-height: 36px; }
+.controls button { min-height: 36px; padding: var(--space-2); }
+.handle { display: inline-block; cursor: grab; overflow-wrap: anywhere; }
+.editor { display: grid; gap: var(--space-3); margin-bottom: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-4); background: var(--panel); }
+.editor p { color: var(--muted); }
+.widths { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.widths label { display: grid; gap: var(--space-2); }
+.srOnly { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
+@media (max-width: 1199px) { .board { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); } .column:last-child { grid-column: 1 / -1; } }
+@media (max-width: 799px) { .board { grid-template-columns: minmax(0, 1fr); } .column:last-child { grid-column: auto; } .widget section { padding: var(--space-4); } }
+
+.widget :global(header) { flex-wrap: wrap; }
+.widget :global(button) { max-width: 100%; }
+
+.board[data-columns='1'] { grid-template-columns: minmax(0, 1fr); }
+.board[data-columns='2'] .column:last-child { grid-column: auto; }

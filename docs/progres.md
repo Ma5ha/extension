@@ -4,6 +4,15 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-10-D/E/F/G i TAB-04-B — ZAVRŠENO u implementacionom i automatizovano provjerenom obimu. Dodate sve odobrene nadogradnje; 45 testova i UI provjere prolaze. Stvarni Chrome/nativni panel nisu potvrđeni; ručne korisničke provjere ostaju odložene. Detalji: [Radni prostor](radni-prostor.md).
+
+
+TAB-10-C — ZAVRŠENO u implementacionom i automatizovano provjerenom obimu: widget direktno koristi Chrome bookmarkove umjesto odvojene lokalne liste. Opciona dozvola, folderi, Chrome create/update/remove i osvježavanje preko događaja. 36/36 testova, typecheck/lint/build prolaze; stvarni Chrome pregled ostaje neizvršen.
+
+
+TAB-10-B — ZAVRŠENO u implementacionom i automatizovano provjerenom obimu: dodat bookmark widget. Novi UI nije ručno pregledan u Chrome-u, prema prethodno odloženim korisničkim provjerama. Korisnik traži bookmark widget. Obim: lokalni sačuvani linkovi, dodavanje ručno ili izborom otvorenog taba, uređivanje, uklanjanje i sinhronizacija između Tabora tabova. Bez Chrome bookmarks integracije i bez vraćanja pretrage. Koraci: model/adapter, widget, vidljivost u podešavanjima, provjere.
+
+
 TAB-05-A — U TOKU: korisnik je naložio preskakanje svojih ručnih provjera i početak Google Calendar integracije. Postojeće Chrome provjere ostaju neizvršene i ne blokiraju ovaj korak. Plan: read-only primarni kalendar, opcioni Chrome identity/host pristup, dnevna agenda, naredni događaj, sigurne veze, odspajanje, testovi i build. OAuth klijent još nije konfigurisan; stvarna autorizacija zavisi od Google Cloud konfiguracije.
 
 
@@ -59,6 +68,12 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 | TAB-03-A | WXT osnova, raspored i teme | U TOKU | Implementirano i HTTP pregled provjeren; učitavanje u Chrome preostaje. |
 | TAB-03-B | Stil i organizacija koda | ZAVRŠENO | AGENTS.md prilagođen WXT projektu, bez Nx-a. |
 | TAB-03-D | Uklanjanje pretrage i pregledniji UI | ZAVRŠENO | Bez search/bookmark dozvola i prečice; pregledane light/dark teme i 320 px bez preliva. |
+| TAB-10-D | Chrome bookmark folderi i premještanje | ZAVRŠENO | Izbor/svijanje foldera, premještanje originalnog zapisa i potvrđeno grupno otvaranje; model/API i sintetički UI provjereni. |
+| TAB-04-B | Sačuvane sesije | ZAVRŠENO | Snimak web tabova, pregled/obnova i djelimičan rezultat; bez zatvaranja trenutnih tabova. |
+| TAB-10-E | Fokus i bilješke | ZAVRŠENO | Tri dnevna zadatka i lokalne bilješke, provjeren reload i dijeljenje sa panelom. |
+| TAB-10-F | Raspored i veličine widgeta | ZAVRŠENO | Prevlačenje/tastatura, kolone/redoslijed, širine i min. visine; čuvanje i validacija provjereni. |
+| TAB-10-G | Bočni panel | ZAVRŠENO | Native entrypoint/action/background implementirani, manifest i sintetički UI provjereni; stvarni Chrome panel nije ručno potvrđen. |
+| TAB-10-B | Lokalni bookmark widget | ZAVRŠENO | Dodavanje/izmjena/uklanjanje i lokalno čuvanje, 35/35 testova i build prolaze; Chrome UI pregled nije izvršen. |
 | TAB-03-C | Vidljiv lokalni paket i učitavanje | U TOKU | build/chrome-mv3 sadrži manifest; korisniku dat tačan put nakon greške izbora foldera. |
 | TAB-04-A | Tabovi i origin grupisanje | U TOKU | Implementirani adapteri i UI, 13 testova prolazi; stvarne dozvole i radnje preostaju. |
 
@@ -75,7 +90,7 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 | TAB-07 | Muzika | PLANIRANO | Spotify/SoundCloud i provjera trajanja reprodukcije kroz više tabova. |
 | TAB-08 | Vijesti | PLANIRANO | RSS izvori, naslovi i lokalno čuvanje članaka. |
 | TAB-09 | X i Instagram | PLANIRANO | Potvrditi podršku, troškove i dozvole prije implementacije. |
-| TAB-10 | Personalizacija i prenos | PLANIRANO | Osnovni izbor teme/vidljivosti implementiran u TAB-03; premještanje, izvoz/uvoz i puna provjera preostaju. |
+| TAB-10 | Personalizacija i prenos | U TOKU | Osnovni izbor teme/vidljivosti implementiran u TAB-03; premještanje, izvoz/uvoz i puna provjera preostaju. |
 | TAB-11 | Priprema javnog izdanja | PLANIRANO | Privatnost, dozvole, provjere i paket za prodavnicu. |
 | TAB-12 | Objavljivanje | PLANIRANO | Zaseban nalog i predaja u prodavnicu, tek poslije pripreme. |
 
@@ -148,3 +163,45 @@ TAB-05-A implementacioni korak je završen u ovom obimu, a cijeli TAB-05 ostaje 
 ### 21. oktobar 2026. — Git komit implementacije
 
 Na korisnikov nalog pripremljen komit postojećih izmjena TAB-03/TAB-04, TAB-05-A i TAB-07-A, zajedno sa dokumentacijom i QA artefaktima. Ponovljene provjere: typecheck, lint, 30/30 testova, produkcioni build i git diff --check prolaze. Stvarne Chrome i Google OAuth provjere ostaju neizvršene; statusi faza se ne mijenjaju. Push i objava nisu dio naloga.
+
+### 21. oktobar 2026. — TAB-10-B: implementacija
+
+Dodati model/adapterski sloj, hook i bookmark widget sa ručnim unosom, izborom otvorenog HTTP/HTTPS taba, uređivanjem i potvrdom uklanjanja. Svaki zapis ima svoj storage ključ, tako da paralelna dodavanja različitih linkova ne prepisuju kompletnu listu. Widget je u desnoj koloni; podešavanje vidljivosti podrazumijevano uključeno i kompatibilno sa starim podešavanjima. Nema novih dozvola, mrežnog učitavanja ikonica, Chrome bookmark stabla ni search polja. Prvi krug: typecheck/lint/30 postojećih testova/build prolaze. Dodato 5 ciljanih testova za validaciju, konkurentne upise, oštećene zapise, storage greške i pretplatu; konačna provjera slijedi.
+
+### 21. oktobar 2026. — TAB-10-B: rezultat i provjere
+
+Konačno: `corepack pnpm typecheck`, `corepack pnpm lint` (bez upozorenja), `corepack pnpm test` (35/35), `corepack pnpm build` i `git diff --check` prolaze. Lokalni paket obnovljen u `build/chrome-mv3`. Validacija blokira izvršive protokole i URL kredencijale; oštećeni i nepovezani storage zapisi se preskaču. Relevantni fajlovi: `src/bookmarks/*`, App, SettingsPanel, settings adapter, README, plan i UI smjernice. Nema novih dozvola ili zavisnosti. TAB-10-B završen u implementacionom i automatizovano provjerenom obimu; novi UI/sinhronizacija u stvarnom Chrome-u nisu ručno potvrđeni. Cijeli TAB-10 ostaje U TOKU zbog rasporeda i izvoza/uvoza. Postojeće Google OAuth podešavanje ostaje naredni spoljašnji preduslov; nema commit/push/objave.
+
+### 21. oktobar 2026. — TAB-10-C: Chrome bookmarkovi
+
+U TOKU. Korisnik je izričito ispravio obim: želi iste bookmarkove kao Chrome. Zamijeniti lokalni adapter Chrome bookmarks API-jem, dodati opcionu dozvolu, prikaz foldera i događaje za sinhronizaciju; postojeće lokalne zapise ne brisati niti automatski kopirati. Pretraga ostaje isključena.
+
+### 21. oktobar 2026. — TAB-10-C: rezultat
+
+Lokalni storage adapter zamijenjen Chrome bookmarks API-jem; opciona dozvola traži se na Poveži. Čita kompletno stablo, prikazuje putanje foldera i upravljane zapise, uređuje po originalnom ID-ju i kreira u Chrome podrazumijevanom folderu. Neizvršivi HTTP/HTTPS linkovi su klikabilni, ostali zapisi ostaju vidljivi bez navigacije. Potvrda uklanjanja kaže da se mijenja Chrome. Praćeni created/changed/removed/moved/reordered/import i permission događaji, uz cleanup. Stari lokalni zapisi nisu automatski brisani niti prekopirani. README, SettingsPanel, UI smjernice i plan usklađeni; pretraga ostaje isključena.
+
+Prvi typecheck novih testova otkrio nedostajuću syncing osobinu sintetičkog podatka; ispravljeno. Konačno: typecheck, lint bez upozorenja, 36/36 testova, build i git diff --check prolaze. API kontrakti provjereni prema https://developer.chrome.com/docs/extensions/reference/api/bookmarks. Stvarni korisnički bookmarkovi nisu čitani/mijenjani tokom provjera; testovi koriste mock. UI i dozvola u učitanoj ekstenziji nisu ručno potvrđeni. Nema commit/push/objave.
+
+### 21. oktobar 2026. — TAB-10-D/E/F/G i TAB-04-B: početak
+
+Korisnik je odobrio svih pet prijedloga: Chrome bookmark folderi/premještanje/otvaranje foldera; lokalne sesije; bilješke i tri dnevna zadatka; raspored i veličine widgeta; pravi Chrome side panel. Status U TOKU. Koraci: proširiti bookmark model/adapter, lokalni storage i sesije, fokus widget, raspored sa tastaturnim alternativama i čuvanjem, sidepanel entrypoint/background/action; provjere modela/API-ja, typecheck/lint/build i automatski UI pregled gdje je dostupan. Zadržati isti Chrome bookmark skup, bez pretrage, naloga, servera ili automatske reprodukcije. Ručne korisničke provjere ostaju odložene.
+
+### 21. oktobar 2026. — TAB-10-D/E/F/G i TAB-04-B: implementacioni korak
+
+Dodati sesije sa filtriranim snimkom web URL-ova i pinningom, pregled/obnova bez zatvaranja i preskakanje postojećih adresa. Fokus ima nezavisne storage ključeve za tri dnevna zadatka i eksplicitno čuvanu bilješku. Bookmark widget ima izbor/svijanje foldera i izbor cilja pri uređivanju, otvaranje web linkova uz potvrdu i djelimični rezultat. WidgetBoard pamti kolone, redoslijed, širine kolona i najmanju visinu kartica, sa drag ručkom i tastaturnim alternativama. Dodati sidepanel HTML/React entrypoint i action/background; pravi manifest side_panel pokazuje na zapakovani HTML. Prvi build/typecheck/lint prolaze. Prošireni testovi i automatski UI pregled slijede.
+
+### 21. oktobar 2026. — automatizovani UI pregled nadogradnji
+
+45/45 model/API testova, typecheck/lint i build prolaze. Playwright HTTP pregled sa sintetičkim Chrome API-jima potvrđuje čuvanje bilješke i zadatka, sesiju i preskakanje postojećih URL-ova, promjenu bookmark foldera po ID-ju, potvrđeno otvaranje foldera, raspored nakon reload-a i zajedničke bilješke između newtab i sidepanel stranica. Obje teme na 1440/1024/320 px bez horizontalnog preliva; pregledani light desktop, dark mobilni i sidepanel snimci. Stvarna Chrome autorizacija i nativno otvaranje panela nisu ovim HTTP testom potvrđeni.
+
+UI alat je prvo tražio neinstaliranu Chromium verziju; korišćen već dostupan headless binary bez preuzimanja. Prvobitni storage fixture vraćao null umjesto undefined za nedostajuće ključeve i resetovao podešavanja; fixture usklađen sa Chrome-om. Uz to poboljšano optimistično prikazivanje i serijalizacija upisa podešavanja i eksplicitni pristupačni nazivi kontrola rasporeda. Proširena provjera prevlačenja, širina i praznih kolona slijedi.
+
+### 21. oktobar 2026. — konačni rezultat svih pet nadogradnji
+
+Native drag provjera između vidljivih kolona prolazi nakon korišćenja ref-a za sinhrono stanje drag događaja. Provjereni i kontrola širine tastaturom, uklanjanje prazne kolone, čuvanje redoslijeda/visine, sesije, bookmark folderi i zajedničke bilješke. QA skripta prolazi; `docs/provjere/workspace/results.json` i 7 slika imaju samo sintetičke podatke. Pregledani desktop light, mobilni dark i sidepanel snimci. Nema pageerror poruka, nema horizontalnog preliva na 1440/1024/320 px ili u sidepanel 360 px. Reduced-motion postavka aktivna; ne tvrdi se puna accessibility ili zoom provjera.
+
+Relevantni moduli: `src/bookmarks`, `src/sessions`, `src/focus`, `src/local`, `src/workspace`, `src/sidepanel`, sidepanel/background entrypoints, App/settings i manifest. Nema novih zavisnosti. Produkcioni paket ima newtab i sidepanel, background/action i samo storage/sidePanel kao obavezne dozvole; tabs/tabGroups/scripting/identity/bookmarks ostaju opcioni. Preostalo: stvarni Chrome tokovi, Google Cloud konfiguracija, izvoz/uvoz i ostale faze plana. Nema commit/push/objave.
+
+### 21. oktobar 2026. — lokalni commit nadogradnji
+
+Korisnik je izričito naložio commit. Obim obuhvata Chrome bookmarkove i foldere, sesije, fokus/bilješke, raspored widgeta i bočni panel, povezane testove, dokumentaciju i sintetičke QA snimke. Pregledani Git status, diff i svi novi fajlovi; diff --check prolazi, pretraga obrazaca privatnih ključeva i tokena nije pronašla podudaranja. Build i zavisnosti ostaju ignorisani. Prethodne provjere: 45 testova, typecheck/lint/build i sintetički UI pregled prolaze. Commit se pravi lokalno; njegov ishod i identifikator provjeravaju se u Git istoriji. Push nije zatražen.

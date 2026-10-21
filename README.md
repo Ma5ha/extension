@@ -33,9 +33,9 @@ corepack pnpm test
 - Ručni pregled grupisanja po `URL.origin`: najmanje dva podobna taba; preskaču se zakačeni, već grupisani, interni/nepodržani i pojedinačni tabovi. Ponovna provjera prije primjene ne uključuje naknadno otvorene tabove. Rezultat razlikuje uspjeh, preskakanje i neuspjeh. Grupisanje nema radnju zatvaranja ili Undo.
 - Podešavanja se čuvaju po polju u `chrome.storage.local` i osvježavaju kroz storage događaje u ostalim novim tabovima. Istovremene promjene istog polja imaju pravilo posljednjeg upisa. HTTP pregled koristi localStorage samo za pregled izgleda.
 
-`storage` čuva podešavanja i uključenost kalendara. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search i bookmarks dozvole nisu dio paketa. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
+`storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
 
-Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Premještanje modula, izvoz/uvoz i integracije ostaju prema planu. Trenutna personalizacija uključuje vidljivost modula, bez proizvoljnog mijenjanja njihovog redoslijeda.
+Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Raspored podržava premještanje, redoslijed, širine kolona i najmanje visine widgeta; izvoz/uvoz i ostale integracije ostaju prema planu.
 
 ## Organizacija
 
@@ -50,3 +50,13 @@ Izvori pregledani pri inicijalizaciji: [WXT instalacija](https://wxt.dev/guide/i
 ## Google Calendar
 
 Implementirana je opciona read-only agenda primarnog Google kalendara. Za aktiviranje je potreban Google Cloud Chrome Extension OAuth client ID pri build-u; bez konfiguracije prikazuje se jasno nepodešeno stanje. Podešavanje i granice: [Google Calendar](docs/google-calendar.md). Nema čuvanja tokena/događaja u lokalnim podešavanjima. Stvarna autorizacija još nije potvrđena.
+
+## Sačuvani linkovi — Chrome bookmarkovi
+
+Widget koristi iste bookmarkove kao Chrome, uključujući njihove foldere. Dugme „Poveži Chrome bookmarkove“ traži opcionu bookmarks dozvolu. Dodavanje kreira Chrome bookmark u izabranom folderu ili podrazumijevanom folderu Ostali bookmarkovi; uređivanje i uklanjanje mijenjaju originalni zapis. Promjene iz Chrome-a i drugih Tabora tabova osvježavaju widget kroz bookmarks događaje. Upravljani bookmarkovi se ne mogu mijenjati. Linkovi koji nisu HTTP/HTTPS ostaju prikazani, ali se ne otvaraju kroz widget. Pretraga ostaje uklonjena.
+
+Stara odvojena Tabora lista više se ne čita niti mijenja; prethodni lokalni zapisi nisu automatski obrisani ili prekopirani. Widget nema sopstvenu kopiju Chrome bookmarka. Sinhronizacija između uređaja zavisi od Chrome podešavanja.
+
+## Sesije, fokus, raspored i bočni panel
+
+Dodati sačuvane sesije web tabova, bilješke i tri dnevna zadatka, bolja organizacija Chrome foldera, režim uređivanja rasporeda i pravi Chrome bočni panel preko Tabora toolbar ikone. Sesije ne zatvaraju trenutne tabove; otvaranje ima pregled i izvještaj. Podaci ostaju lokalni. Detalji, ograničenja i provjere: [Radni prostor](docs/radni-prostor.md).

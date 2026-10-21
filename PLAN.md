@@ -84,7 +84,7 @@ Otvorene provjere Google autorizacije i playera vode se u TAB-02, ali ne blokira
 | TAB-07-A | Objedinjena kontrola medijskih tabova | Odobrena implementacija u novom chatu: otkrivanje izvora, izbor taba, mute/unmute i podržane play/pause/volume/seek kontrole, opcione dozvole i jasni fallback prikazi | U TOKU |
 | TAB-08 | Vijesti | Dodavanje RSS izvora, čitanje naslova, greške i lokalno čuvanje članaka rade | PLANIRANO |
 | TAB-09 | X i Instagram | Dokumentovana podrška, cijena i autorizacija; implementirane samo potvrđene mogućnosti | PLANIRANO |
-| TAB-10 | Personalizacija i prenos | Raspored ostaje sačuvan; validirani izvoz i uvoz rade; pristupačnost i tastatura provjereni | PLANIRANO |
+| TAB-10 | Personalizacija i prenos | Raspored ostaje sačuvan; validirani izvoz i uvoz rade; pristupačnost i tastatura provjereni | U TOKU |
 | TAB-11 | Priprema javnog izdanja | Pregled dozvola i privatnosti, potrebne Google provjere, provjera paketa i materijali za prodavnicu | PLANIRANO |
 | TAB-12 | Objavljivanje | Posebno odobrena i predata verzija; status pregleda i objave evidentiran | PLANIRANO |
 
@@ -165,3 +165,27 @@ Status TAB-07-A ostaje U TOKU: implementacioni dio postoji i provjeren je automa
 Korisnik traži nastavak bez svojih ručnih Chrome provjera. One ostaju evidentirane kao neizvršene. Aktuelni korak je read-only integracija primarnog Google kalendara: današnji događaji, naredni događaj, sastanci, autorizacija i odspajanje. Bez kreiranja događaja ili Gmail pristupa. OAuth klijent vezan za ID ekstenzije je spoljašnji preduslov.
 
 TAB-05-A rezultat: implementirani Chrome Identity i Calendar adapter, današnja agenda, naredni događaj i Meet link, read-only scope, odspajanje, offline/istekla/odbijena autorizacija i greške. 30/30 testova, typecheck, lint bez upozorenja i build prolaze. Oba manifest načina provjerena automatizovano uz sintetički klijent; konačni paket nema OAuth klijenta. Stvaran OAuth i novi UI nisu provjereni u Chrome-u, pa cijela faza ostaje U TOKU. Uputstvo: [Google Calendar](docs/google-calendar.md).
+
+### TAB-10-B — Bookmark widget
+
+Odobreno: lokalna lista sačuvanih linkova u radnom prostoru. Dodavanje URL/naziv ili izbor otvorenog taba, uređivanje/uklanjanje, trajno lokalno čuvanje, sinhronizacija između Tabora stranica i podešavanje vidljivosti. Ne mijenja Chrome bookmark stablo i ne vraća pretragu. Status: ZAVRŠENO u implementacionom i automatizovano provjerenom obimu. Typecheck, lint bez upozorenja, 35/35 testova, build i diff provjera prolaze. Novi UI nije ručno potvrđen u Chrome-u; korisničke ručne provjere ostaju odložene. Cijeli TAB-10 ostaje U TOKU.
+
+### TAB-10-C — isti bookmarkovi kao Chrome
+
+Prethodni lokalni obim TAB-10-B zamijenjen prema korisnikovoj ispravci: widget direktno čita i mijenja Chrome bookmarkove uz opcionu bookmarks dozvolu. Lokalna lista se više ne koristi. Nema automatskog prebacivanja/brisanja starih lokalnih zapisa. Status: ZAVRŠENO u implementacionom i automatizovano provjerenom obimu; 36/36 testova, typecheck/lint/build i diff provjera prolaze. Stvarni Chrome tok ostaje ručno nepotvrđen.
+
+### Odobrene nadogradnje poslije istraživanja — 21. oktobar 2026.
+
+- TAB-10-D: Chrome folderi, sklopivi prikaz, izbor ciljnog foldera, premještanje i potvrđeno otvaranje svih web linkova foldera.
+- TAB-04-B: lokalne imenovane sesije tabova, pregled prije otvaranja, bez zatvaranja trenutnih tabova, prikaz djelimičnih rezultata.
+- TAB-10-E: lokalne bilješke i do tri dnevna zadatka sa označavanjem završenosti.
+- TAB-10-F: čuvanje kolone, redoslijeda i veličine widgeta; eksplicitan režim uređivanja, prevlačenje i tastaturne kontrole. Modularni atelje ostaje početni raspored.
+- TAB-10-G: Chrome bočni panel za iste bookmarkove i medijske kontrole, uz dijeljenje lokalnih podataka i podešavanja.
+
+Svi navedeni zadaci su implementirani i provjereni automatizovano; stvarni Chrome tokovi i nativni sidepanel ostaju nepotvrđeni. Ovo odobrenje ne obuhvata server, pretragu, društvene integracije, commit/push ili objavu.
+
+### Rezultat nadogradnji — 21. oktobar 2026.
+
+TAB-10-D/E/F/G i TAB-04-B su ZAVRŠENI u implementacionom i automatizovano provjerenom obimu: Chrome folderi/odabir/premještanje/otvaranje; lokalne sesije sa pregledom; bilješke i tri dnevna zadatka; raspored/širine kolona/minimalne visine; pravi sidepanel entrypoint, action i background. Testovi: 45/45, typecheck, lint bez upozorenja, produkcioni build. Automatski HTTP UI pregled sa sintetičkim Chrome API-jima prolazi u obje teme na 1440/1024/320 i sidepanel 360 px, uključujući prevlačenje, tastaturu, čuvanje i zajedničke podatke. Nije potvrda stvarnih Chrome dozvola ili nativnog panela. Detalji: [Radni prostor](docs/radni-prostor.md).
+
+Cijeli TAB-04/TAB-10 ostaju U TOKU: odložene Chrome provjere, izvoz/uvoz i preostali kriterijumi nisu proglašeni završenim. Google OAuth klijent ostaje preduslov stvarnog kalendara. Nema novih naloga, servera, pretrage, commita/pusha ili objave.

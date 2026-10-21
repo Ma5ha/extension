@@ -1,3 +1,4 @@
+import { defaultLayout, parseLayout, type Layout } from '../workspace/layout';
 import { isExtension } from './chrome';
 
 export interface Settings {
@@ -7,10 +8,14 @@ export interface Settings {
   agenda: boolean;
   gmail: boolean;
   music: boolean;
+  bookmarks: boolean;
+  sessions: boolean;
+  focus: boolean;
+  layout: Layout;
 }
-export const defaults: Settings = { version: 1, theme: 'light', glass: 0, agenda: true, gmail: true, music: true };
+export const defaults: Settings = { version: 1, theme: 'light', glass: 0, agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, layout: defaultLayout };
 const key = 'tabora.settings.v1';
-const fields = ['version', 'theme', 'glass', 'agenda', 'gmail', 'music'] as const;
+const fields = ['version', 'theme', 'glass', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'layout'] as const;
 export function parseSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== 'object') return defaults;
   const s = raw as Partial<Settings>;
@@ -22,6 +27,10 @@ export function parseSettings(raw: unknown): Settings {
     agenda: typeof s.agenda === 'boolean' ? s.agenda : true,
     gmail: typeof s.gmail === 'boolean' ? s.gmail : true,
     music: typeof s.music === 'boolean' ? s.music : true,
+    bookmarks: typeof s.bookmarks === 'boolean' ? s.bookmarks : true,
+    sessions: typeof s.sessions === 'boolean' ? s.sessions : true,
+    focus: typeof s.focus === 'boolean' ? s.focus : true,
+    layout: parseLayout(s.layout),
   };
 }
 export async function loadSettings(): Promise<Settings> {

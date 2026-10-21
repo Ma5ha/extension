@@ -1,0 +1,18 @@
+{
+  "synthetic": true,
+  "tests": [
+    "notes and daily task persistence",
+    "session save and duplicate-aware restore",
+    "real-ID bookmark move using synthetic Chrome API",
+    "folder open confirmation",
+    "layout column/height/order persistence",
+    "native drag and keyboard width controls",
+    "empty-column removal",
+    "responsive grid light/dark 1440/1024/320",
+    "editing at 320",
+    "sidepanel route and cross-page note sync",
+    "sidepanel open handler",
+    "no page errors"
+  ],
+  "errors": []
+}

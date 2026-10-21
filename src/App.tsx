@@ -1,4 +1,4 @@
-import { useCallback, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { GearSix, Moon, Sun, Newspaper, ArrowUpRight, SquaresFour } from '@phosphor-icons/react';
 import { executeGroups, getTabs, isExtension, requestAccess } from './adapters/chrome';
 import { planGroups, type GroupPlan } from './domain/tabs';
@@ -8,8 +8,13 @@ import { Dialog } from './components/Dialog';
 import { TabsPanel } from './components/TabsPanel';
 import { GmailPanel } from './components/ServicePanels';
 import { AgendaPanel } from './calendar/AgendaPanel';
+import { BookmarkPanel } from './bookmarks/BookmarkPanel';
 import { MediaPanel } from './media/MediaPanel';
 import { SettingsPanel } from './components/SettingsPanel';
+import { WidgetBoard } from './workspace/WidgetBoard';
+import { SessionsPanel } from './sessions/SessionsPanel';
+import { FocusPanel } from './focus/FocusPanel';
+import { openSidePanel } from './sidepanel/open';
 import { GroupPreview } from './components/GroupPreview';
 import styles from './App.module.css';
 
@@ -21,6 +26,9 @@ export function App() {
   const [space, setSpace] = useState('Rad');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [preview, setPreview] = useState<GroupPlan | null>(null);
+  const [editingLayout, setEditingLayout] = useState(false);
+  const [windowId, setWindowId] = useState<number | null>(null);
+  useEffect(() => { if (isExtension) void chrome.windows.getCurrent().then(w => setWindowId(w.id ?? null)).catch(() => setWindowId(null)); }, []);
   const [busy, setBusy] = useState(false);
   async function previewGroups() {
     try {
@@ -43,16 +51,20 @@ export function App() {
     <a className={styles.skip} href="#main">Pređi na sadržaj</a>
     <header className={styles.topbar}><a className={styles.brand} href="#" onClick={e => { e.preventDefault(); setSpace('Rad'); }} aria-label="Tabora, radni prostor">tabora<span className={styles.brandDot}>.</span></a>
       <nav aria-label="Glavna navigacija">{['Rad', 'Vijesti', 'Muzika'].map(item => <button key={item} aria-current={space === item ? 'page' : undefined} onClick={() => setSpace(item)}>{item}</button>)}</nav>
-      <div className={styles.headerActions}><button disabled={!ready} aria-label="Svijetla tema" aria-pressed={settings.theme === 'light'} onClick={() => void update({ theme: 'light' })}><Sun size={20} /></button><button disabled={!ready} aria-label="Tamna tema" aria-pressed={settings.theme === 'dark'} onClick={() => void update({ theme: 'dark' })}><Moon size={20} /></button><button disabled={!ready} aria-label="Podešavanja" onClick={() => setSettingsOpen(true)}><GearSix size={22} /></button></div>
+      <div className={styles.headerActions}><button disabled={windowId === null} title="Otvori bočni panel" aria-label="Otvori bočni panel" onClick={() => { if (windowId !== null) void openSidePanel(windowId).catch(() => report('Bočni panel nije otvoren. Pokušaj preko Tabora ikone u Chrome alatnoj traci.')); }}>◧</button><button disabled={!ready} aria-label="Svijetla tema" aria-pressed={settings.theme === 'light'} onClick={() => void update({ theme: 'light' })}><Sun size={20} /></button><button disabled={!ready} aria-label="Tamna tema" aria-pressed={settings.theme === 'dark'} onClick={() => void update({ theme: 'dark' })}><Moon size={20} /></button><button disabled={!ready} aria-label="Podešavanja" onClick={() => setSettingsOpen(true)}><GearSix size={22} /></button></div>
     </header>
     <main id="main">
-      <div className={styles.workspaceHeading}><div><p className={styles.eyebrow}>TVOJ LIČNI PROSTOR</p><h1>{space === 'Rad' ? 'Sve na svom mjestu.' : space === 'Vijesti' ? 'Nova perspektiva.' : 'Tvoj ritam.'}</h1></div>{space === 'Rad' && <button disabled={!ready} onClick={() => setSettingsOpen(true)}><SquaresFour size={18} />Uredi module</button>}</div>
+      <div className={styles.workspaceHeading}><div><p className={styles.eyebrow}>TVOJ LIČNI PROSTOR</p><h1>{space === 'Rad' ? 'Sve na svom mjestu.' : space === 'Vijesti' ? 'Nova perspektiva.' : 'Tvoj ritam.'}</h1></div>{space === 'Rad' && <button disabled={!ready} aria-pressed={editingLayout} onClick={() => setEditingLayout(value => !value)}><SquaresFour size={18} />{editingLayout ? 'Završi uređivanje' : 'Uredi raspored'}</button>}</div>
       {message && <div className={styles.notice} role="status"><span>{message}</span><button onClick={() => setMessage('')} aria-label="Skloni obavještenje">U redu</button></div>}
-      {space === 'Rad' && <div className={styles.workspace} data-agenda={settings.agenda} data-aside={settings.gmail || settings.music}>
-        {settings.agenda && <AgendaPanel />}
-        <TabsPanel tabs={tabs.tabs} state={tabs.state} enable={() => void tabs.enable()} refresh={() => void tabs.refresh()} group={() => void previewGroups()} report={report} />
-        {(settings.gmail || settings.music) && <aside className={styles.sidePanels} aria-label="Pošta i muzika">{settings.gmail && <GmailPanel />}{settings.music && <MediaPanel />}</aside>}
-      </div>}
+      {space === 'Rad' && <WidgetBoard layout={settings.layout} update={layout => update({ layout })} editing={editingLayout} widgets={{
+        agenda: settings.agenda ? <AgendaPanel /> : undefined,
+        focus: settings.focus ? <FocusPanel /> : undefined,
+        tabs: <TabsPanel tabs={tabs.tabs} state={tabs.state} enable={() => void tabs.enable()} refresh={() => void tabs.refresh()} group={() => void previewGroups()} report={report} />,
+        sessions: settings.sessions ? <SessionsPanel canSave={tabs.state === 'ready'} enable={() => void tabs.enable()} /> : undefined,
+        bookmarks: settings.bookmarks ? <BookmarkPanel tabs={tabs.tabs} /> : undefined,
+        gmail: settings.gmail ? <GmailPanel /> : undefined,
+        music: settings.music ? <MediaPanel /> : undefined,
+      }} />}
       {space === 'Vijesti' && <section className={`${styles.panel} ${styles.futureSpace}`}><Newspaper size={40} weight="light" /><h2>Vijesti, po tvom izboru.</h2><p>RSS izvori još nisu implementirani. Ovdje će biti naslovi iz izvora koje izabereš.</p><a href="https://news.google.com/" target="_blank" rel="noreferrer">Otvori Google News<ArrowUpRight size={16} /></a></section>}
       {space === 'Muzika' && <div className={styles.musicSpace}><MediaPanel /></div>}
     </main><footer className={styles.appFooter}><span>Tabora · Tvoj prostor, svaki novi tab.</span><span>{isExtension ? 'Lokalno u tvom browseru' : 'Pregled interfejsa · Chrome API nije dostupan'}</span></footer>

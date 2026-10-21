@@ -1,0 +1,21 @@
+.form { display: grid; gap: var(--space-3); padding: var(--space-4) 0; }
+.form label { display: grid; gap: var(--space-2); color: var(--muted); font-size: 12px; min-width: 0; }
+.form input, .form select { width: 100%; min-width: 0; min-height: 40px; padding: var(--space-2); border: 1px solid var(--control-border); border-radius: 9px; background: var(--panel); color: var(--text); }
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.list { padding: 0; margin: var(--space-3) 0 0; list-style: none; }
+.list li { border-top: 1px solid var(--border); }
+.row { display: flex; align-items: center; gap: var(--space-1); min-width: 0; padding: var(--space-2) 0; }
+.row > a { display: flex; gap: var(--space-2); align-items: center; flex: 1; min-width: 0; min-height: 44px; color: var(--text); text-decoration: none; }
+.row > a:hover strong { text-decoration: underline; }
+.row span { display: grid; gap: var(--space-1); min-width: 0; overflow-wrap: anywhere; }
+.row strong { font-size: 13px; }
+.row small { color: var(--muted); }
+.row button { width: 36px; min-height: 36px; padding: var(--space-2); flex-shrink: 0; }
+.empty { display: grid; justify-items: start; gap: var(--space-3); padding-top: var(--space-4); color: var(--muted); }
+.confirm { display: grid; gap: var(--space-2); padding-bottom: var(--space-3); overflow-wrap: anywhere; }
+.error { margin-top: var(--space-3); }
+
+.folder { margin-top: var(--space-4); border-top: 1px solid var(--border); padding-top: var(--space-3); }
+.folder summary { cursor: pointer; padding: var(--space-2) 0; min-height: 40px; overflow-wrap: anywhere; font-weight: 600; }
+.folderSelect { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+.folderSelect select { width: 100%; min-width: 0; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); border-radius: 8px; padding: var(--space-2); }

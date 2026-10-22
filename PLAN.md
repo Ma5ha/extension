@@ -297,3 +297,17 @@ TAB-01-H naknadna evidencija u narednoj sesiji — ZAVRŠENO: be1d145 je poslat 
 ### 22. oktobar 2026. — TAB-01-I: slanje novog playera i SourcePicker-a
 
 U TOKU. Korisnik je izričito odobrio commit/push pripremljenog TAB-07-E paketa na origin/main. Pregledano svih sedam fajlova, uključujući novi SourcePicker i njegove stilove; diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze; nakon njih mijenjana je samo dokumentacija. HTTP shell pregledan u obje teme; stvarni aktivni izvori, tastaturna/uža/zoom matrica i sistemski PiP ostaju otvoreni. Nema novih testova, QA skripti, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a. Slijede commit, običan push i potvrda udaljenog HEAD-a; ishod u završnom odgovoru bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-07-F: objedinjene kontrole bez izbora elementa
+
+U TOKU. Korisnik traži dodatno spajanje kontrola i uklanjanje biranja vrste taba. Tumačenje: ukloniti Player u tabu (audio/video element), zadržati promjenu izvornog Chrome taba. Koraci: ukloniti UI izbora elementa; spojiti jačinu/mute/open/video/mini-player/prozor u alatnu traku; typecheck/lint/build i raspoloživi ručni pregled. Bez novih testova ili commit/push-a.
+
+TAB-07-F rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. MediaContent uklanja Player u tabu i mediaItemKey vezu iz UI-ja. Postojeći controller koristi svoj podrazumijevani prvi element; izbor Chrome izvora ostaje. Jedna fleksibilna traka sadrži jačinu, mute/open, podržani video PiP, mini-player i Document PiP; uklonjen je zaseban disclosure Prikaz playera. Ikone imaju aria-label/title, mute/video prikazuju aria-pressed. Manja favicon površina i razmaci, prelamanje kontrola čuva mete 36px. Nema novih dozvola, biblioteka, testova ili QA skripti.
+
+Typecheck/lint/build i git diff --check prolaze. Ručno pregledan HTTP shell u obje teme i dostupnost imenovanih mini-player/prozor kontrola. Aktivna traka sa stvarnim izvorom, više elemenata, PiP, uske širine/zoom i kompletna tastatura/reduced motion ostaju neprovjereni. Sljedeći korak Reload build/chrome-mv3 i pregled stvarnog izvora. Nema commita/push-a.
+
+TAB-01-I naknadna evidencija u narednoj sesiji — ZAVRŠENO: prethodni d850f10 poslat na origin/main, udaljeni HEAD potvrđen u završnom odgovoru.
+
+### 22. oktobar 2026. — TAB-01-J: slanje objedinjenih kontrola
+
+U TOKU. Korisnik je odobrio commit/push TAB-07-F paketa i potvrdio da uklanjanje znači izbor Video/Audio elementa i okvira, ne izvornog Chrome taba. Pregledana četiri izmijenjena fajla; diff --check prolazi. Typecheck/lint/build istog koda prethodno prolaze, nakon provjera mijenjana je samo dokumentacija. HTTP shell pregledan u obje teme; stvarni izvor/PiP i ostala ručna matrica ostaju otvoreni. Bez novih testova, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a; slijede commit, običan push na origin/main i provjera udaljenog HEAD-a. Ishod ide u završni odgovor bez dodatnog dokumentacionog commita.

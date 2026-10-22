@@ -4,9 +4,9 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
-TAB-01-D — U TOKU: korisnikov nalog za commit i push TAB-03-F. Prepreka pokretanju komandi riješena korišćenjem stvarne putanje sa završnim razmakom; slijede provjere, commit, push i potvrda udaljenog HEAD-a.
+TAB-01-D — ZAVRŠENO: commit `6953a84` sa TAB-03-F doradom poslat je na origin/main; lokalni i udaljeni HEAD su potvrđeno jednaki, radno stablo nakon slanja čisto. Terminal radi uz stvarnu putanju foldera sa završnim razmakom. Završna evidencija ide u prateći dokumentacioni commit.
 
-TAB-03-F — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: stvarne Chrome ikonice uz tabove/grupe/bookmarkove i lokalni Inter font. Potrebna `favicon` dozvola dodata bez novih host dozvola. 50/50 testova, typecheck/lint/build i prošireni browser QA prolaze. Lokalna dorada još nije commitovana.
+TAB-03-F — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: stvarne Chrome ikonice uz tabove/grupe/bookmarkove i lokalni Inter font. Potrebna `favicon` dozvola dodata bez novih host dozvola. 50/50 testova, typecheck/lint/build i prošireni browser QA prolaze. Dorada je commitovana i poslata na origin/main kao `6953a84` u TAB-01-D.
 
 TAB-01-C — ZAVRŠENO: Radna konzola sa sidebarom i bez searcha komitovana je kao `72c479c` i poslata na `origin/main`. Udaljeni HEAD potvrđen komandom `git ls-remote`; radno stablo nakon slanja je čisto. Završna evidencija slijedi u dokumentacionom commitu istog naloga.
 
@@ -77,7 +77,7 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 | TAB-02-REV | Ponovni izbor vizuelnog pravca | ZAVRŠENO | Korisnik izabrao tačan priloženi prikaz Radne konzole i naložio implementaciju. |
 | TAB-03-E | Radna konzola prema izabranoj slici | ZAVRŠENO | Implementacija i sintetički browser/visual QA prolaze; granice u design-qa.md. |
 | TAB-03-F | Stvarne ikonice i Inter font | ZAVRŠENO | Chrome favicon izvor, fallback/recovery, Inter lokalno sa OFL; 50 testova i sintetički browser QA prolaze. |
-| TAB-01-D | Commit i push ikonica i fonta | U TOKU | Pregled TAB-03-F, provjere, commit i push na postojeći origin/main. |
+| TAB-01-D | Commit i push ikonica i fonta | ZAVRŠENO | Commit 6953a84 na origin/main, udaljeni HEAD potvrđen; završna evidencija u pratećem commitu. |
 | TAB-01-C | Commit i push Radne konzole | ZAVRŠENO | Kod, dokumentacija i sintetički QA artefakti u commitu `72c479c`, push na origin/main potvrđen. |
 | TAB-01-B | Prvi push na GitHub | ZAVRŠENO | Udaljeni main jednak lokalnom HEAD-u `6b6f5a4`; podešen upstream `origin/main`. |
 | TAB-01-A | Dodavanje Git origin-a | ZAVRŠENO | Fetch/push URL odgovara korisnikovom nalogu; bez push-a ili objave. |
@@ -288,3 +288,7 @@ U TOKU. Nalog korisnika je commit i push pripremljenih izmjena. Prethodni pokuš
 ### 22. oktobar 2026. — TAB-01-D: provjere i priprema commita
 
 Ponovo izvršeni `corepack pnpm typecheck`, `corepack pnpm lint`, `corepack pnpm test` (50/50 u 10 fajlova) i `corepack pnpm build`: sve prolazi. Pregled izmjena nije pronašao prepreke za commit: favicon ostaje lokalni Chrome izvor, Inter hash odgovara evidenciji i OFL licenca ulazi u paket; QA materijali su sintetički i bez privatnog profila. `git diff --check` prolazi. Raniji TAB-03-F browser QA ostaje evidentirani rezultat istog UI koda; stvarni Chrome cache i integracioni kriterijumi ostaju otvoreni. Slijede commit i običan push na origin/main.
+
+### 22. oktobar 2026. — TAB-01-D: potvrđen rezultat
+
+ZAVRŠENO. Napravljen i običnim pushom poslat commit `6953a84` — `feat: add Chrome favicons and bundled Inter font` (41 fajl: kod, testovi, lokalni font/licenca, dokumentacija i sintetički QA materijali). `git diff --cached --check` prolazi. `git rev-parse HEAD` i `git ls-remote --heads origin refs/heads/main` vratili su `6953a84254c10713e3ccf977a5b819de499f4877`; main je poravnat sa origin/main i radno stablo nakon slanja čisto. Ponovljene provjere: typecheck, lint, 50/50 testova i produkcioni build prolaze. Ova završna evidencija komituje se i šalje istim korisnikovim nalogom. Korisnikov naredni korak je Reload ekstenzije; stvarni Chrome favicon cache, Google/player i ostali ranije navedeni kriterijumi ostaju otvoreni.

@@ -4,6 +4,10 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-H — U TOKU: pripremljen i pregledan paket kartica/ikona/klizača za odobreni commit/push; ishod u završnom odgovoru.
+
+TAB-07-D — U TOKU (preostala ručna matrica): kartice, akcione ikone i tematski klizači/scrollbar implementirani; typecheck/lint/build prolaze. HTTP kartica i Enter pregledani u obje teme; aktivni izvor i ostala matrica čekaju.
+
 TAB-01-G — U TOKU: pregledan kompaktni player, odobren commit/push; ishod u završnom odgovoru.
 
 TAB-07-C — U TOKU (preostala ručna matrica): kompaktna selekt kartica i grupisane kontrole implementirane; typecheck/lint/build prolaze, HTTP pregled obje teme izvršen.
@@ -375,3 +379,17 @@ TAB-01-F naknadna evidencija u narednoj sesiji — ZAVRŠENO: prethodni commit 2
 ### 22. oktobar 2026. — TAB-01-G: slanje kompaktnog playera
 
 U TOKU. Korisnik je odobrio commit i push TAB-07-C dorade na origin/main. Pregledano pet izmijenjenih fajlova: MediaContent, panel/floating stilovi, plan i progres; git diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze, ručno pregledani HTTP panel i disclosure u obje teme. Nema naknadnih promjena koda, novih testova, zavisnosti ili dozvola. Stvarni aktivni izvor/PiP i preostala ručna matrica ostaju otvoreni. Izvještaj je pripremljen prije slanja; slijede commit, običan push i provjera udaljenog HEAD-a, čiji ishod ide u završni odgovor bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-07-D: kartice kontrola i prilagođeni klizači
+
+U TOKU. Korisnik traži izraženiji kartični izbor, ikonice uz mute/open i ljepše klizače/scrollbar. Tumačenje: kartica izvora i Prikaz playera, grupisane akcije, CSS stil nativnih range i scrollbar kontrola. Koraci: prikaz i semantički tokeni; typecheck/lint/build; ručni pregled u raspoloživom obimu. Bez novih dozvola, biblioteka, testova ili commit/push-a.
+
+TAB-07-D rezultat — implementacija ZAVRŠENA, ručna matrica djelimična. Izvor dobija karticu sa jasnim obrubom, hover/focus stanjem i caret ikonom; Prikaz playera je sklopiva kartica sa ikonama. Mute/unmute i otvaranje taba imaju odgovarajuće ikone u zajedničkoj površini, premotavanje koristi rotacione ikone. Globalni nativni range klizači imaju prilagođenu traku/thumb, media progres i jačina procentualnu ispunu; globalni scrollbar koristi tematske tokene. Nema JS scroll zamjene ili nove biblioteke; tastatura i forced-colors alternativa sačuvani.
+
+Typecheck, lint i produkcioni build prolaze; git diff --check prolazi. Ručno u Chrome HTTP prikazu pregledani light/dark kartica Prikaz playera i otvaranje Enter tasterom. Aktivni izvor, nove akcione ikone i media klizači, scrollbar pri prelivu, uske širine/zoom i forced-colors/reduced-motion nisu izvršno potvrđeni. Paket spreman za Reload i pregled sa stvarnim izvorom. Bez novih testova/QA skripti ili commit/push-a.
+
+TAB-01-G naknadna evidencija u narednoj sesiji — ZAVRŠENO: prethodni commit e53c763 poslat je na origin/main i udaljeni HEAD potvrđen u završnom odgovoru; ovaj zapis ne odobrava nove Git radnje.
+
+### 22. oktobar 2026. — TAB-01-H: slanje kartica i klizača
+
+U TOKU. Korisnik je odobrio commit/push TAB-07-D paketa na origin/main. Pregledano svih pet izmijenjenih fajlova i diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze; poslije provjera mijenjana je samo evidencija. Ručno pregledana kartica u obje teme i Enter otvaranje. Aktivni izvor/klizači/scrollbar pri prelivu i ostala ručna matrica ostaju otvoreni. Bez novih testova, zavisnosti, dozvola ili privatnih podataka. Izvještaj pripremljen prije slanja; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod ide u završni odgovor bez dodatnog dokumentacionog commita.

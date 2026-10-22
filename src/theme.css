@@ -74,3 +74,21 @@ svg { flex-shrink: 0; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
 button, a, summary { transition: background-color var(--motion-fast) ease, color var(--motion-fast) ease, border-color var(--motion-fast) ease; }
+
+/* Native scrolling and sliders retain keyboard, touch and assistive technology support. */
+:root { --scroll-thumb: #8291a3; --range-track: #c8d2de; }
+:root[data-theme='dark'] { --scroll-thumb: #697b91; --range-track: #4b5a6e; }
+* { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); background-clip: padding-box; border: 3px solid transparent; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { border-width: 2px; }
+::-webkit-scrollbar-corner { background: transparent; }
+input[type='range'] { appearance: none; background: transparent; cursor: pointer; border-radius: 8px; padding: 0; }
+input[type='range']::-webkit-slider-runnable-track { height: 5px; border-radius: 999px; background: linear-gradient(to right, var(--accent) 0 var(--range-fill, 0%), var(--range-track) var(--range-fill, 0%) 100%); }
+input[type='range']::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; margin-top: -4.5px; border: 2px solid var(--panel); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+input[type='range']::-moz-range-track { height: 5px; border-radius: 999px; background: var(--range-track); }
+input[type='range']::-moz-range-progress { height: 5px; border-radius: 999px; background: var(--accent); }
+input[type='range']::-moz-range-thumb { width: 10px; height: 10px; border: 2px solid var(--panel); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+input[type='range']:disabled { cursor: default; opacity: .5; }
+@media (forced-colors: active) { * { scrollbar-color: auto; } input[type='range'] { appearance: auto; } input[type='range']::-webkit-slider-thumb { appearance: auto; box-shadow: none; } }

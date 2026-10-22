@@ -75,12 +75,13 @@ export function App() {
         <button disabled={windowId === null} title="Otvori bočni panel" aria-label="Otvori bočni panel" onClick={() => { if (windowId !== null) void openSidePanel(windowId).catch(() => report('Bočni panel nije otvoren. Pokušaj preko Tabora ikone u Chrome alatnoj traci.')); }}><SidebarSimple size={20} /></button>
       </div><p>Lokalno u tvom browseru</p><small>Tabora · Tvoj prostor, svaki novi tab.</small></div>
     </aside>
-    <main id="main" className={styles.main}>
+    <main id="main" tabIndex={-1} className={styles.main}>
       <div className={styles.workspaceGrid} data-inspector={inspector}>
         <div className={styles.center}>
           <header className={styles.workspaceHeading}><div><h1>{title}</h1><p className={styles.workspaceDate}>{today}<span> · {timeZone}</span></p></div>
             {space === 'Rad' && <div className={styles.workspaceActions}>{custom && <button disabled={!ready} aria-pressed={editingLayout} onClick={() => setEditingLayout(value => !value)}>{editingLayout ? 'Završi uređivanje' : 'Uredi raspored'}</button>}<button className={styles.primary} disabled={tabs.state !== 'ready' || busy} onClick={() => void previewGroups()}><Stack size={18} aria-hidden="true" />Grupiši tabove</button></div>}
           </header>
+          <div className={styles.sectionScroll} role="region" aria-label="Sadržaj radnog prostora" tabIndex={0}>
           {message && <div className={styles.notice} role="status"><span>{message}</span><button onClick={() => setMessage('')} aria-label="Skloni obavještenje">U redu</button></div>}
           {space === 'Rad' && (custom ? <WidgetBoard layout={settings.layout} update={layout => update({ layout })} editing={editingLayout} widgets={{
             agenda: settings.agenda ? <AgendaPanel /> : undefined,
@@ -99,8 +100,9 @@ export function App() {
           {space === 'Bilješke' && <div className={styles.destination}><FocusPanel /></div>}
           {space === 'Vijesti' && <section className={`${styles.panel} ${styles.futureSpace}`}><Newspaper size={36} weight="light" /><h2>Vijesti, po tvom izboru.</h2><p>RSS izvori još nisu dostupni. Do tada možeš otvoriti Google News.</p><a href="https://news.google.com/" target="_blank" rel="noreferrer">Otvori Google News<ArrowUpRight size={16} /></a></section>}
           {space === 'Muzika' && <div className={styles.destination}><MediaPanel /></div>}
+          </div>
         </div>
-        {inspector && <aside className={styles.inspector} aria-label="Dnevni alati">
+        {inspector && <aside className={styles.inspector} aria-label="Dnevni alati" tabIndex={0}>
           {settings.focus && <FocusPanel compact />}
           {settings.agenda && <AgendaPanel compact />}
           {settings.gmail && <GmailPanel compact />}

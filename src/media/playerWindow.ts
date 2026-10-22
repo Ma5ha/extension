@@ -20,11 +20,12 @@ export function preparePlayerWindow(popup: Window): () => void {
     target.documentElement.lang = document.documentElement.lang;
     target.documentElement.dir = document.documentElement.dir;
     target.documentElement.dataset.theme = document.documentElement.dataset.theme || 'light';
+    for (const property of ['--glass-opacity', '--material-blur']) target.documentElement.style.setProperty(property, document.documentElement.style.getPropertyValue(property));
     target.body.style.margin = '0';
     target.body.style.minWidth = '0';
   };
   sync();
   const observer = new MutationObserver(sync);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'lang', 'dir'] });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'lang', 'dir', 'style'] });
   return () => observer.disconnect();
 }

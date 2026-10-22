@@ -22,6 +22,10 @@ export function useSettings(report: (message: string) => void) {
     media.addEventListener('change', sync);
     return () => media.removeEventListener('change', sync);
   }, [settings.theme]);
+  useEffect(() => {
+    document.documentElement.style.setProperty('--glass-opacity', String(1 - settings.glass / 100));
+    document.documentElement.style.setProperty('--material-blur', `${settings.blur}px`);
+  }, [settings.glass, settings.blur]);
   async function update(patch: Partial<Settings>) {
     pending.current++;
     setSettings(previous => parseSettings({ ...previous, ...patch }));

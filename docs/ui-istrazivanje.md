@@ -237,3 +237,7 @@ Izvor više nije native select: SourcePicker je nativni disclosure sa listom dug
 ## 16. TAB-03-H — scroll i atmosfera
 
 Prema najnovijem korisnikovom nalogu, konzola prelazi sa page scroll-a na dvije nezavisne scroll regije, uz stalnu navigaciju i zaglavlje. Na užem prozoru regije su vertikalno podijeljene. Nativni overflow zadržava touch/wheel/tastaturu, bez biblioteke i novih scrollova unutar svake kartice. Lokalni SVG orbitalnih linija i jednokratan ulaz zamjenjuju ideju stalnog dekorativnog kretanja; reduced-motion gasi animacije. Ovo mijenja raniju opštu preporuku u ovom dokumentu za konkretni odabrani console raspored.
+
+## 17. TAB-10-H — materijal
+
+Korisnik traži prljaviju bijelu osnovu i više kontrole nad staklom: light tokeni sada su topla sivobijela osnova, prozirnost stvarnih 0–70%, a blur pozadine nezavisnih 0–32px. Blur se primjenjuje na pozadinu materijala kroz backdrop-filter, ne na tekst; pri neprozirnosti 0% nema vidljiv efekat. Izbori su lokalni i u obje teme, bez mrežnih asseta.

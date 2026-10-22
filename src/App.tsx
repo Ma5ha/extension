@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { GearSix, Moon, Sun, Newspaper, ArrowUpRight, Browser, BookmarkSimple, Stack, NotePencil, Headphones, SidebarSimple } from '@phosphor-icons/react';
 import { executeGroups, getTabs, isExtension, requestAccess } from './adapters/chrome';
 import { planGroups, type GroupPlan } from './domain/tabs';
@@ -63,7 +63,7 @@ export function App() {
   const title = space === 'Rad' ? 'Radni prostor' : space === 'Muzika' ? 'Mediji' : space === 'Bookmarkovi' ? 'Bookmarks' : space;
   const today = new Intl.DateTimeFormat('sr-Latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return <MediaProvider active={settings.music || space === 'Muzika'}><div className={styles.app} data-glass={settings.glass > 0} style={{ '--glass-opacity': 1 - settings.glass / 250 } as CSSProperties}>
+  return <MediaProvider active={settings.music || space === 'Muzika'}><div className={styles.app}>
     <a className={styles.skip} href="#main">Pređi na sadržaj</a>
     <aside className={styles.sidebar} aria-label="Tabora navigacija">
       <a className={styles.brand} href="#main" onClick={event => { event.preventDefault(); setSpace('Rad'); }} aria-label="Tabora, radni prostor">tabora<span className={styles.brandDot}>.</span></a>

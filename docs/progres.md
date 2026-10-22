@@ -4,6 +4,10 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-L — U TOKU: pregledan materijal/light paket za odobreni commit/push; ishod u završnom odgovoru.
+
+TAB-10-H — U TOKU (preostala ručna matrica): toplija light pozadina, stvarna prozirnost do 70% i blur do 32px implementirani. Typecheck/lint/build i ručni HTTP light/dark/čuvanje/Reload pregled prolaze.
+
 TAB-01-K — U TOKU: pregledan paket scroll konzole za odobreni commit/push; ishod u završnom odgovoru.
 
 TAB-03-H — U TOKU (preostala ručna matrica): nezavisne scroll regije, elegantnije kartice i lokalna SVG pozadina implementirani. Typecheck/lint/build, desktop i 390px light/dark te fokusirani Page Down pregled prolaze.
@@ -447,3 +451,17 @@ TAB-01-J naknadna evidencija u narednoj sesiji — ZAVRŠENO: 1e2fd3c poslat je 
 ### 22. oktobar 2026. — TAB-01-K: slanje scroll konzole
 
 U TOKU. Korisnik je odobrio commit/push TAB-03-H paketa na origin/main. Pregledano sedam pripremljenih fajlova: App raspored/stilovi, theme tokeni, lokalni SVG i tri dokumentaciona fajla; diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze, nakon njih mijenjana je samo evidencija. Ručni desktop i 390px light/dark pregled i nezavisan scroll/Page Down potvrđeni; stvarni browser zoom/reduced-motion i integracione granice ostaju otvoreni. Bez novih testova, QA skripti, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod ide u završni odgovor bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-10-H: prozirnost i blur materijala
+
+U TOKU. Korisnik traži prljaviju light pozadinu, veći stvarni raspon transparentnosti i podesivi blur iza materijala. Koraci: topliji light tokeni; postojeći 0–70 glass raspon postaje stvarna prozirnost 0–70% umjesto 0–28%; nezavisni blur 0–32px, validacija/čuvanje i zajednička primjena; typecheck/lint/build i ručni pregled. Bez novih testova/QA skripti ili commit/push-a.
+
+TAB-10-H rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Light gradient i sidebar su topliji/prljavo bijeli. Glass ostaje kompatibilan 0–70 broj u postojećim podacima, ali CSS sada koristi stvarnu prozirnost 0–70% (ranije 0–28%); 0 daje zaista neprozirnu površinu. Novi blur 0–32px validira se i čuva kao nezavisni ključ sa podrazumijevanim 0. useSettings sinhronizuje CSS varijable na root za glavni/bočni prikaz; Document PiP prati te prezentacione varijable. Kartice/sidebar koriste backdrop-filter, tekst nije zamućen; forced-colors daje neprozirni Canvas. SettingsPanel ima Materijal grupu sa dva imenovana klizača i objašnjenjem.
+
+Typecheck/lint/build i git diff --check prolaze. Ručno u Chrome HTTP prikazu: Home/End tastaturom na novim range kontrolama, 70%/32px maksimum, light/dark vizuelni pregled, Reload i ponovno otvaranje podešavanja potvrđuju sačuvane vrijednosti 70/32. Stvarni chrome.storage višestruki tabovi, nativni PiP, uske širine/zoom, mjerenje kontrasta i performansi blura na slabijem uređaju nisu potvrđeni; ranije integracione granice ostaju. Nisu pisani testovi/QA skripte niti dodate zavisnosti/dozvole. Build spreman za Reload. Naredni korak pregled sa stvarnim sadržajem. Nema commita/push-a.
+
+TAB-01-K naknadna evidencija u narednoj sesiji — ZAVRŠENO: 0207ab6 poslat na origin/main, udaljeni HEAD potvrđen u prethodnom završnom odgovoru.
+
+### 22. oktobar 2026. — TAB-01-L: slanje materijala i light pozadine
+
+U TOKU. Korisnik je izričito odobrio commit/push TAB-10-H paketa na origin/main. Pregledano svih deset izmijenjenih fajlova: material UI, validacija/čuvanje, CSS/root i PiP sinhronizacija, light tokeni i dokumentacija; diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze, poslije njih mijenjana je samo evidencija. Ručno potvrđeni light/dark, tastaturna promjena 70%/32px i čuvanje nakon Reload-a na HTTP prikazu. Stvarna ekstenzija/više tabova/PiP i puna ručna matrica ostaju otvoreni. Bez novih testova, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod u završnom odgovoru bez dodatnog dokumentacionog commita.

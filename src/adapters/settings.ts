@@ -5,6 +5,7 @@ export interface Settings {
   version: 1;
   theme: 'light' | 'dark' | 'system';
   glass: number;
+  blur: number;
   layoutMode: 'console' | 'custom';
   agenda: boolean;
   gmail: boolean;
@@ -14,9 +15,9 @@ export interface Settings {
   focus: boolean;
   layout: Layout;
 }
-export const defaults: Settings = { version: 1, theme: 'light', glass: 0, layoutMode: 'console', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, layout: defaultLayout };
+export const defaults: Settings = { version: 1, theme: 'light', glass: 0, blur: 0, layoutMode: 'console', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, layout: defaultLayout };
 const key = 'tabora.settings.v1';
-const fields = ['version', 'theme', 'glass', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'layout'] as const;
+const fields = ['version', 'theme', 'glass', 'blur', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'layout'] as const;
 export function parseSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== 'object') return defaults;
   const s = raw as Partial<Settings>;
@@ -25,6 +26,7 @@ export function parseSettings(raw: unknown): Settings {
     version: 1,
     theme: s.theme === 'dark' || s.theme === 'system' ? s.theme : 'light',
     glass: typeof s.glass === 'number' && Number.isFinite(s.glass) ? Math.min(70, Math.max(0, s.glass)) : 0,
+    blur: typeof s.blur === 'number' && Number.isFinite(s.blur) ? Math.min(32, Math.max(0, s.blur)) : 0,
     layoutMode: s.layoutMode === 'custom' ? 'custom' : 'console',
     agenda: typeof s.agenda === 'boolean' ? s.agenda : true,
     gmail: typeof s.gmail === 'boolean' ? s.gmail : true,

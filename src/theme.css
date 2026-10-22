@@ -8,13 +8,14 @@
 
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --page-gradient: linear-gradient(125deg, #f7fafc 0%, #edf3f8 52%, #f3f1f8 100%);
+  --background: #e8e6e1;
+  --page-gradient: linear-gradient(125deg, #e9e7e2 0%, #e3e6e6 52%, #e9e5e2 100%);
   --card-opacity: .88;
   --orbit-opacity: .14;
   --card-padding: 20px;
   --motion-fast: 160ms;
-  --sidebar: #f5f8fa;
+  --sidebar: #eeede9;
+  --sidebar-rgb: 238 237 233;
   --on-accent: #ffffff;
   --panel-rgb: 255 255 255;
   --panel: #fff;
@@ -43,6 +44,7 @@
   --card-opacity: .9;
   --orbit-opacity: .1;
   --sidebar: #141920;
+  --sidebar-rgb: 20 25 32;
   --on-accent: #101216;
   --panel-rgb: 25 29 36;
   --panel: #191d24;

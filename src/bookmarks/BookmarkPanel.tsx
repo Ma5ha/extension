@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { BookmarkSimple, Plus, PencilSimple, Trash, ArrowUpRight } from '@phosphor-icons/react';
 import type { Tab } from '../domain/tabs';
 import { useBookmarks } from './useBookmarks';
+import { SiteIcon } from '../components/SiteIcon';
 import { bookmarkHref, normalizeUrl, type Bookmark } from './model';
 import styles from '../App.module.css';
 import css from './BookmarkPanel.module.css';
@@ -52,7 +53,7 @@ export function BookmarkPanel({ tabs }: { tabs: Tab[] }) {
     {status === 'ready' && filtered.length === 0 && bookmarks.length > 0 && <p className={styles.meta}>U ovom folderu nema linkova.</p>}
     {groups.map(group => <details key={group.id} className={css.folder} open><summary>{group.name} · {group.items.length}</summary><button disabled={busy} onClick={() => setOpening({ name: group.name, items: group.items })}>Otvori linkove foldera</button>
     <ul className={css.list}>{group.items.map(b => <li key={b.id}>
-      <div className={css.row}><a href={bookmarkHref(b.url)} target="_blank" rel="noreferrer" title={b.url}><span><strong>{b.title}</strong><small>{b.folder || b.url}</small></span><ArrowUpRight size={16} /></a><button aria-label={`Uredi link: ${b.title}`} disabled={busy || b.editable === false} onClick={() => edit(b)}><PencilSimple size={16} /></button><button aria-label={`Ukloni link: ${b.title}`} disabled={busy || b.editable === false} onClick={() => { setPending(b); setEditing(null); }}><Trash size={16} /></button></div>
+      <div className={css.row}><a href={bookmarkHref(b.url)} target="_blank" rel="noreferrer" title={b.url}><SiteIcon url={b.url} size={20} /><span><strong>{b.title}</strong><small>{b.folder || b.url}</small></span><ArrowUpRight size={16} /></a><button aria-label={`Uredi link: ${b.title}`} disabled={busy || b.editable === false} onClick={() => edit(b)}><PencilSimple size={16} /></button><button aria-label={`Ukloni link: ${b.title}`} disabled={busy || b.editable === false} onClick={() => { setPending(b); setEditing(null); }}><Trash size={16} /></button></div>
       {pending?.id === b.id && <div className={css.confirm}><p>Ukloniti „{b.title}“ iz Chrome bookmarka?</p><div className={css.actions}><button disabled={busy} onClick={() => { void remove(b).then(() => setPending(null)); }}>Ukloni</button><button disabled={busy} onClick={() => setPending(null)}>Odustani</button></div></div>}
     </li>)}</ul></details>)}
     {opening && <div className={css.confirm}><h3>{opening.name}</h3><p>Otvoriće se do {opening.items.filter(b => bookmarkHref(b.url)).length} web tabova. Duplikati u folderu i nepodržane adrese biće preskočeni.</p><div className={css.actions}><button disabled={busy} onClick={() => void openGroup(opening.items).then(message => { setOpenedMessage(message); setOpening(null); })}>Otvori tabove</button><button disabled={busy} onClick={() => setOpening(null)}>Odustani</button></div></div>}

@@ -11,7 +11,7 @@ export default defineConfig({
     name: 'Tabora',
     description: 'Tvoj prostor, svaki novi tab. Pregled i organizacija tabova.',
     minimum_chrome_version: '120',
-    permissions: ['storage', 'sidePanel'],
+    permissions: ['storage', 'sidePanel', 'favicon'],
     action: { default_title: 'Otvori Taboru u bočnom panelu' },
     optional_host_permissions: ['https://*/*', 'http://*/*'],
     optional_permissions: ['tabs', 'tabGroups', 'scripting', 'identity', 'bookmarks'],

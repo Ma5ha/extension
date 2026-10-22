@@ -40,4 +40,8 @@ Fokusirana poređenja: `docs/provjere/konzola/comparison-content-v2.png` (tabovi
 
 Granice: nije provjerena korisnikova stvarna instalacija ekstenzije, Chrome autorizacija, Google OAuth, aktivan player, puni accessibility audit ili stvarni browser zoom. HTTP pregled ne pristupa stvarnim Chrome tabovima i bookmarkovima. Razvojne integracije i otvorene faze nisu proglašene završenim ovim UI korakom.
 
+## TAB-03-F — odobrena dorada ikonica i fonta
+
+Korisnik je naknadno naložio stvarne ikonice aplikacija i ljepši font. Aktuelni pregled je `docs/provjere/ikonice-font/reference-state-light-1280.png`, uz dark1440/320 i bookmark sidepanel360 snimke. Inter i favicon slike su namjerna dorada prethodne reference; raspored, sidebar i gustina sadržaja su sačuvani. Prvi dark pregled je pokazao slabo vidljiv crni logo; dodata mala svijetla podloga i novi snimci pregledani. Nema novih P0/P1/P2 nalaza u toj doradi. Prošireni sintetički UI QA prolazi; detalji i ograničenja su u `docs/provjere/ikonice-font/izvjestaj.md`.
+
 final result: passed

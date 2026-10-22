@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { executeGroups } from './chrome';
+import { executeGroups, getTabs } from './chrome';
 import { planGroups, type Tab } from '../domain/tabs';
 
 const tab = (id: number, host = 'a', patch: Partial<Tab> = {}): Tab => ({ id, title: `Tab ${id}`, url: `https://${host}.test/${id}`, windowId: 1, pinned: false, groupId: -1, active: false, ...patch });
@@ -28,5 +28,14 @@ describe('Chrome grouping boundary', () => {
     vi.stubGlobal('chrome', { tabs: { query, group } });
     expect(await executeGroups(planGroups(live, 1))).toEqual({ grouped: 0, groups: 0, failed: 0, changed: 2, unnamed: 0 });
     expect(group).not.toHaveBeenCalled();
+  });
+});
+
+describe('Chrome tab icon boundary', () => {
+  it('retains actual tab favicon metadata and tolerates icons still loading', async () => {
+    vi.stubGlobal('chrome', { windows: { getCurrent: vi.fn().mockResolvedValue({ id: 1 }) }, tabs: { query: vi.fn().mockResolvedValue([tab(1, 'a', { favIconUrl: 'https://a.test/icon.png' }), tab(2)]) } });
+    const result = await getTabs();
+    expect(result.tabs[0]?.favIconUrl).toBe('https://a.test/icon.png');
+    expect(result.tabs[1]?.favIconUrl).toBeUndefined();
   });
 });

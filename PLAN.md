@@ -215,3 +215,13 @@ TAB-03-E završni rezultat — ZAVRŠENO u implementacionom i sintetički provje
 U TOKU. Na izričit korisnikov nalog komituje se i šalje pregledana Radna konzola sa sidebar navigacijom, bez searcha, uz testove, dokumentaciju i sintetičke QA artefakte. Odredište je postojeći origin/main. Kriterijum završetka: postojeći kod i artefakti u Git istoriji, uspješan push i jednakost lokalnog/udaljenog HEAD-a. Prethodne implementacione provjere prolaze; razvojni i integracioni obim se ne proširuje.
 
 TAB-01-C završni rezultat — ZAVRŠENO: commit `72c479c` (`feat: redesign workspace with sidebar console`) kreiran i uspješno poslat na origin/main. Lokalni i udaljeni HEAD provjereni su kao `72c479cf73913892c8dfb70304de7b5cd0a2d11b`, radno stablo čisto nakon slanja. Završna evidencija ide u prateći dokumentacioni commit. Korisnikov nalog za commit/push je ispunjen; stvarne Chrome/integracione provjere i preostale razvojne faze ostaju otvorene prema planu.
+
+### 22. oktobar 2026. — TAB-03-F: ikonice i Inter
+
+U TOKU. Odobreni obim: stvarne ikonice uz web tabove/grupe i Chrome bookmarkove gdje su dostupne, fallback pri nedostupnosti, lokalno pakovan Inter font. Koristi se Chrome favicon API uz njegovu potrebnu `favicon` dozvolu, bez eksternog favicon servisa ili novih host dozvola. Postojeći sidebar i odsustvo searcha ostaju. Potrebne su provjere uspješnog/neuspješnog učitavanja, promjene izvora ikone, učitanog fonta i obje teme/užih širina; stvarni Chrome rezultat ostaje zasebna granica ako nije dostupan.
+
+TAB-03-F rezultat — ZAVRŠENO u implementacionom i sintetički provjerenom obimu. Web tabovi/grupe i Chrome bookmarkovi koriste lokalni favicon prikaz uz rezervu i oporavak nakon promjene izvora; font je lokalni Inter Variable 4.1 sa OFL licencom. Dodata je potrebna favicon dozvola, bez novih host dozvola ili font/favicon CDN-a. Typecheck/lint/50 testova/build i prošireni UI QA prolaze. Rezultat je lokalna necommitovana dorada; sljedeći korisnikov korak je Reload ekstenzije. Preostali stvarni Chrome/Google/player i drugi razvojni kriterijumi ostaju otvoreni.
+
+### 22. oktobar 2026. — TAB-01-D: commit i push ikonica i fonta
+
+U TOKU. Korisnik je izričito naložio commit i push, zatim otklanjanje prepreke izvršavanju. Stvarna putanja projekta ima završni razmak (`extension `); eksplicitna radna putanja omogućava komande bez preimenovanja foldera. Obim je postojeća TAB-03-F dorada: favicon prikaz, lokalni Inter, testovi, dokumentacija i sintetički QA materijali. Koraci: pregled izmjena i odgovarajuće provjere; lokalni commit; običan push na postojeći origin/main; potvrda udaljenog HEAD-a i završna evidencija. Početni HEAD je f647f12 na main.

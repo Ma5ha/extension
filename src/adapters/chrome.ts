@@ -20,6 +20,7 @@ export async function getTabs(): Promise<{ tabs: Tab[]; windowId: number }> {
     tabs: tabs.filter(t => t.id !== undefined).map(t => ({
       id: t.id!, windowId: t.windowId, title: t.title || 'Bez naslova',
       url: t.pendingUrl || t.url || '', pinned: t.pinned, groupId: t.groupId, active: t.active,
+      ...(t.favIconUrl ? { favIconUrl: t.favIconUrl } : {}),
     })),
   };
 }

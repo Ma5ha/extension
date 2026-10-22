@@ -29,10 +29,10 @@ export function TabsPanel({ tabs, state, enable, refresh, group, report, compact
     {state === 'ready' && groups.map(({ origin, tabs: groupTabs }) => <section className={styles.originGroup} key={origin}>
       <button className={styles.originHeader} title={origin} aria-expanded={!collapsed.has(origin)} onClick={() => setCollapsed(previous => {
         const next = new Set(previous); if (next.has(origin)) next.delete(origin); else next.add(origin); return next;
-      })}><CaretDown size={14} className={collapsed.has(origin) ? styles.rotated : ''} aria-hidden="true" /><span className={styles.siteIcon}><SiteIcon url={origin} /></span><strong>{originLabel(origin)}</strong><span className={styles.count}>{groupTabs.length}</span></button>
+      })}><CaretDown size={14} className={collapsed.has(origin) ? styles.rotated : ''} aria-hidden="true" /><span className={styles.siteIcon}><SiteIcon url={groupTabs[0]?.url ?? origin} favIconUrl={groupTabs[0]?.favIconUrl} /></span><strong>{originLabel(origin)}</strong><span className={styles.count}>{groupTabs.length}</span></button>
       {!collapsed.has(origin) && <ul className={styles.tabList}>{groupTabs.map(tab => <li key={tab.id}>
         <button className={styles.tabLink} title={`${tab.title}\n${tab.url}`} onClick={() => { void activateTab(tab).catch(() => { report('Tab više nije dostupan. Lista je osvježena.'); refresh(); }); }}>
-          <span className={styles.tabFavicon}><SiteIcon url={tab.url} size={20} /></span><span className={styles.tabText}><strong>{tab.title}</strong><small>{shortAddress(tab.url)}</small></span>{tab.pinned && <PushPin size={13} aria-label="Zakačen tab" />}{tab.groupId !== -1 && <Stack size={13} aria-label="Već grupisan tab" />}
+          <span className={styles.tabFavicon}><SiteIcon url={tab.url} favIconUrl={tab.favIconUrl} size={20} /></span><span className={styles.tabText}><strong>{tab.title}</strong><small>{shortAddress(tab.url)}</small></span>{tab.pinned && <PushPin size={13} aria-label="Zakačen tab" />}{tab.groupId !== -1 && <Stack size={13} aria-label="Već grupisan tab" />}
         </button><button aria-label={`Zatvori tab: ${tab.title}`} title="Zatvori tab" onClick={() => { void chrome.tabs.remove(tab.id).catch(() => report('Tab nije zatvoren. Osvježi listu i pokušaj ponovo.')); }}><X size={16} /></button>
       </li>)}</ul>}
     </section>)}

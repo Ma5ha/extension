@@ -6,6 +6,7 @@ export interface Tab {
   pinned: boolean;
   groupId: number;
   active: boolean;
+  favIconUrl?: string;
 }
 
 export interface OriginGroup { origin: string; tabs: Tab[] }

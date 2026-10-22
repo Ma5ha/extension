@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "tests": [
+    "selected screenshot layout",
+    "local Chrome favicon endpoint",
+    "icon decode error fallback and source-change recovery",
+    "retry when returning to a failed icon URL",
+    "bookmark and sidepanel icons",
+    "bundled Inter loaded",
+    "no external icon/font requests",
+    "six working navigation destinations",
+    "no search",
+    "collapse/expand tab groups",
+    "tab activation and close",
+    "group preview and Escape",
+    "sidepanel open handler",
+    "notes/task persistence and cross-page sync",
+    "session creation and duplicate-aware restore",
+    "bookmark folder move and confirmed open",
+    "light/dark at 1440/1280/1024/768/320",
+    "custom layout survives new console mode",
+    "drag and keyboard width controls",
+    "custom editing fits 320px",
+    "notes draft survives dialog close",
+    "sidepanel 360px",
+    "no page errors"
+  ],
+  "errors": []
+}

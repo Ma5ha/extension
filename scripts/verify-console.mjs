@@ -1,15 +1,27 @@
-/* global process, console, window, document, localStorage, innerWidth, URL */
+/* global process, console, window, document, localStorage, innerWidth, URL, getComputedStyle */
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 const { chromium } = await import(process.env.TABORA_PLAYWRIGHT_PATH || 'playwright');
 const root = path.resolve('build/chrome-mv3');
+let missingIconRequests = 0;
 const server = createServer(async (req, res) => {
   try {
-    const file = path.resolve(root, '.' + new URL(req.url, 'http://localhost').pathname);
+    const requestUrl = new URL(req.url, 'http://localhost');
+    if (requestUrl.pathname === '/_favicon/') {
+      const pageUrl = new URL(requestUrl.searchParams.get('pageUrl'));
+      res.setHeader('Content-Type', 'image/x-icon');
+      res.setHeader('Cache-Control', 'no-store');
+      if (pageUrl.searchParams.has('iconMissing')) missingIconRequests++;
+      const filename = pageUrl.hostname === 'github.com' ? 'github.ico' : pageUrl.hostname.endsWith('figma.com') ? 'figma.ico' : null;
+      // A 200 response with an undecodable image exercises image-error fallback without a network failure.
+      res.end(filename && !pageUrl.searchParams.has('iconMissing') ? await readFile(path.resolve('docs/provjere/ikonice-font/fixtures', filename)) : 'No cached icon');
+      return;
+    }
+    const file = path.resolve(root, '.' + requestUrl.pathname);
     if (!file.startsWith(root + path.sep)) throw Error('path');
-    res.setHeader('Content-Type', file.endsWith('.js') ? 'application/javascript' : file.endsWith('.css') ? 'text/css' : 'text/html');
+    res.setHeader('Content-Type', file.endsWith('.js') ? 'application/javascript' : file.endsWith('.css') ? 'text/css' : file.endsWith('.woff2') ? 'font/woff2' : 'text/html');
     res.end(await readFile(file));
   } catch { res.statusCode = 404; res.end(); }
 });
@@ -48,7 +60,7 @@ await context.addInitScript(() => {
   seed('tabora.session.v1.qa-research', { id: 'qa-research', name: 'Istraživanje – ekstenzije', created: Date.now() - 4 * 86400000, tabs: tabs.slice(0, 5).map(({ title, url, pinned }) => ({ title, url, pinned })) });
   const created = []; window.fixtureCreated = created;
   const fixture = {
-    runtime: { id: 'tabora-fixture', getManifest: () => ({}), getURL: p => 'chrome-extension://tabora-fixture/' + p },
+    runtime: { id: 'tabora-fixture', getManifest: () => ({ permissions: ['storage', 'sidePanel', 'favicon'] }), getURL: p => p.includes('_favicon') ? window.location.origin + '/_favicon/' : 'chrome-extension://tabora-fixture/' + p },
     storage: { onChanged: changed, local: {
       get: async keys => Object.fromEntries((keys === null ? Object.keys(localStorage).filter(k => k.startsWith('mockchrome:')).map(k => k.slice(11)) : typeof keys === 'string' ? [keys] : keys).map(k => [k, (localStorage.getItem('mockchrome:' + k) === null ? undefined : JSON.parse(localStorage.getItem('mockchrome:' + k)))])),
       set: async entries => { for (const [key,value] of Object.entries(entries)) { localStorage.setItem('mockchrome:' + key, JSON.stringify(value)); changed.emit({ [key]: { newValue: value } }, 'local'); } },
@@ -67,6 +79,7 @@ await context.addInitScript(() => {
     },
     tabs: { ...Object.fromEntries(['onCreated','onRemoved','onUpdated','onMoved','onAttached','onDetached','onActivated'].map(k => [k,event()])), query: async () => tabs, get: async id => tabs.find(t => t.id === id), update: async (id, details) => { window.fixtureActivated = id; return { id, ...details }; }, remove: async id => { const index = tabs.findIndex(t => t.id === id); if (index >= 0) tabs.splice(index, 1); fixture.tabs.onRemoved.emit(id); }, group: async () => 1, create: async details => { created.push(details); return { id: 10 + created.length, ...details }; } },
   };
+  window.fixtureNavigateTab = (id, url) => { const tab = tabs.find(t => t.id === id); tab.url = url; fixture.tabs.onUpdated.emit(id, { url }, tab); };
   window.chrome = Object.assign(window.chrome || {}, fixture);
   window.addEventListener('storage', e => { if (e.key?.startsWith('mockchrome:')) changed.emit({ [e.key.slice(11)]: {} }, 'local'); if (e.key === treeKey) bookmarkEvents.onChanged.emit(); });
 });
@@ -75,11 +88,34 @@ page.setDefaultTimeout(10000);
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-const out = path.resolve('docs/provjere/konzola');
+const out = path.resolve(process.env.TABORA_QA_OUTPUT || 'docs/provjere/konzola');
+const externalRequests = [];
+context.on('request', request => { if (!request.url().startsWith(origin + '/') && !request.url().startsWith('data:')) externalRequests.push(request.url()); });
 await mkdir(out, { recursive: true });
 try {
   await page.goto(origin + '/newtab.html');
   await page.getByRole('heading', { name: 'Otvoreni tabovi 8', exact: true }).waitFor();
+  await page.evaluate(() => document.fonts.ready);
+  assert.ok(await page.evaluate(() => document.fonts.check('14px Inter', 'ČĆŠĐŽ čćšđž')), 'bundled Inter font loaded');
+  assert.ok(await page.evaluate(() => getComputedStyle(document.body).fontFamily.includes('Inter')), 'Inter is applied');
+  const firstTab = page.getByRole('button', { name: /^tabora\/tabora · GitHub/ });
+  await firstTab.locator('img[data-site-icon="image"]').waitFor();
+  await firstTab.locator('img').evaluate(img => img.decode());
+  assert.ok(await firstTab.locator('img').evaluate(img => img.naturalWidth > 0), 'actual tab icon loaded from local endpoint');
+  await page.evaluate(() => window.fixtureNavigateTab(1, 'https://github.com/tabora/tabora?iconMissing=1'));
+  await firstTab.locator('[data-site-icon="fallback"]').waitFor();
+  const firstMissingAttempts = missingIconRequests;
+  await page.evaluate(() => window.fixtureNavigateTab(1, 'https://github.com/tabora/tabora'));
+  await firstTab.locator('img').evaluate(img => img.decode());
+  await page.evaluate(() => window.fixtureNavigateTab(1, 'https://github.com/tabora/tabora?iconMissing=1'));
+  await firstTab.locator('[data-site-icon="fallback"]').waitFor();
+  assert.ok(missingIconRequests > firstMissingAttempts, 'returning to a failed source retries the icon');
+  await page.evaluate(() => window.fixtureNavigateTab(1, 'https://github.com/tabora/tabora?iconRecovered=1'));
+  await firstTab.locator('img[data-site-icon="image"]').waitFor();
+  await firstTab.locator('img').evaluate(img => img.decode());
+  assert.ok(await firstTab.locator('img').evaluate(img => img.naturalWidth > 0), 'icon recovers when source changes');
+  await page.evaluate(() => window.fixtureNavigateTab(1, 'https://github.com/tabora/tabora'));
+  await firstTab.locator('img').evaluate(img => img.decode());
   assert.equal(await page.getByRole('navigation', { name: 'Glavna navigacija' }).getByRole('button').count(), 6);
   assert.equal(await page.getByRole('searchbox').count(), 0);
   await page.getByText('Sintetička bilješka za provjeru.', { exact: true }).waitFor();
@@ -125,11 +161,14 @@ try {
   await page.getByRole('button', { name: 'Otvori sesiju', exact: true }).click();
   await page.getByText(/Otvoreno: 0. Već otvoreno: 8. Neuspjelo: 0./).waitFor();
   await page.getByRole('navigation', { name: 'Glavna navigacija' }).getByRole('button', { name: 'Bookmarkovi', exact: true }).click();
+  await page.getByRole('link', { name: /Dokumentacija/ }).locator('[data-site-icon="fallback"]').waitFor();
   await page.getByRole('button', { name: 'Uredi link: Dokumentacija' }).click();
   await page.getByLabel('Naziv', { exact: true }).fill('Izmijenjena dokumentacija');
+  await page.getByLabel('Web adresa', { exact: true }).fill('https://github.com/tabora/documentation');
   await page.getByLabel('Sačuvaj u folder').selectOption('22');
   await page.getByRole('button', { name: 'Sačuvaj', exact: true }).click();
   await page.getByRole('link', { name: /Izmijenjena dokumentacija/ }).waitFor();
+  await page.getByRole('link', { name: /Izmijenjena dokumentacija/ }).locator('img').evaluate(img => img.decode());
   await page.getByRole('button', { name: 'Otvori linkove foldera' }).click();
   await page.getByRole('button', { name: 'Otvori tabove', exact: true }).click();
   await page.getByText('Otvoreno: 1. Preskočeno: 0. Neuspjelo: 0.').waitFor();
@@ -171,6 +210,8 @@ try {
   side.on('pageerror', error => errors.push(error.message));
   await side.setViewportSize({ width: 360, height: 900 });
   await side.goto(origin + '/sidepanel.html');
+  await side.getByRole('link', { name: /Izmijenjena dokumentacija/ }).locator('img').evaluate(img => img.decode());
+  await side.screenshot({ path: path.join(out, 'bookmarks-sidepanel-360.png'), fullPage: true });
   await side.getByRole('button', { name: 'Bilješke', exact: true }).click();
   assert.equal(await side.getByRole('textbox', { name: 'Bilješke', exact: true }).inputValue(), 'Nova sintetička bilješka.');
   await side.getByRole('textbox', { name: 'Bilješke', exact: true }).fill('Promjena iz bočnog panela.');
@@ -181,8 +222,9 @@ try {
   await side.screenshot({ path: path.join(out, 'sidepanel-360.png'), fullPage: true });
   assert.ok(await side.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'side panel fits');
   assert.deepEqual(errors, []);
-  await writeFile(path.join(out, 'results.json'), JSON.stringify({ synthetic: true, tests: ['selected screenshot layout', 'six working navigation destinations', 'no search', 'collapse/expand tab groups', 'tab activation and close', 'group preview and Escape', 'sidepanel open handler', 'notes/task persistence and cross-page sync', 'session creation and duplicate-aware restore', 'bookmark folder move and confirmed open', 'light/dark at 1440/1280/1024/768/320', 'custom layout survives new console mode', 'drag and keyboard width controls', 'custom editing fits 320px', 'notes draft survives dialog close', 'sidepanel 360px', 'no page errors'], errors }, null, 2));
-  console.log('Console UI verification passed. Synthetic screenshots: docs/provjere/konzola');
+  assert.deepEqual(externalRequests, [], 'no remote favicon/font requests');
+  await writeFile(path.join(out, 'results.json'), JSON.stringify({ synthetic: true, tests: ['selected screenshot layout', 'local Chrome favicon endpoint', 'icon decode error fallback and source-change recovery', 'retry when returning to a failed icon URL', 'bookmark and sidepanel icons', 'bundled Inter loaded', 'no external icon/font requests', 'six working navigation destinations', 'no search', 'collapse/expand tab groups', 'tab activation and close', 'group preview and Escape', 'sidepanel open handler', 'notes/task persistence and cross-page sync', 'session creation and duplicate-aware restore', 'bookmark folder move and confirmed open', 'light/dark at 1440/1280/1024/768/320', 'custom layout survives new console mode', 'drag and keyboard width controls', 'custom editing fits 320px', 'notes draft survives dialog close', 'sidepanel 360px', 'no page errors'], errors }, null, 2));
+  console.log('Console UI verification passed. Synthetic screenshots: ' + out);
 } catch (error) {
   await page.screenshot({ path: path.join(out, 'failure.png'), fullPage: true });
   console.error('Page errors:', errors);

@@ -4,6 +4,10 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-D — U TOKU: korisnikov nalog za commit i push TAB-03-F. Prepreka pokretanju komandi riješena korišćenjem stvarne putanje sa završnim razmakom; slijede provjere, commit, push i potvrda udaljenog HEAD-a.
+
+TAB-03-F — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: stvarne Chrome ikonice uz tabove/grupe/bookmarkove i lokalni Inter font. Potrebna `favicon` dozvola dodata bez novih host dozvola. 50/50 testova, typecheck/lint/build i prošireni browser QA prolaze. Lokalna dorada još nije commitovana.
+
 TAB-01-C — ZAVRŠENO: Radna konzola sa sidebarom i bez searcha komitovana je kao `72c479c` i poslata na `origin/main`. Udaljeni HEAD potvrđen komandom `git ls-remote`; radno stablo nakon slanja je čisto. Završna evidencija slijedi u dokumentacionom commitu istog naloga.
 
 TAB-03-E — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: Radna konzola prema korisnikovoj slici. Bočna navigacija, tabovi/sesije u sredini, dnevni alati desno; prethodni prilagodljivi raspored ostaje sačuvan. 46/46 testova, typecheck/lint/build i novi browser QA prolaze. [Vizuelna provjera](../design-qa.md). Stvarne Chrome/Google provjere ostaju otvorene.
@@ -72,6 +76,8 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 |---|---|---|---|
 | TAB-02-REV | Ponovni izbor vizuelnog pravca | ZAVRŠENO | Korisnik izabrao tačan priloženi prikaz Radne konzole i naložio implementaciju. |
 | TAB-03-E | Radna konzola prema izabranoj slici | ZAVRŠENO | Implementacija i sintetički browser/visual QA prolaze; granice u design-qa.md. |
+| TAB-03-F | Stvarne ikonice i Inter font | ZAVRŠENO | Chrome favicon izvor, fallback/recovery, Inter lokalno sa OFL; 50 testova i sintetički browser QA prolaze. |
+| TAB-01-D | Commit i push ikonica i fonta | U TOKU | Pregled TAB-03-F, provjere, commit i push na postojeći origin/main. |
 | TAB-01-C | Commit i push Radne konzole | ZAVRŠENO | Kod, dokumentacija i sintetički QA artefakti u commitu `72c479c`, push na origin/main potvrđen. |
 | TAB-01-B | Prvi push na GitHub | ZAVRŠENO | Udaljeni main jednak lokalnom HEAD-u `6b6f5a4`; podešen upstream `origin/main`. |
 | TAB-01-A | Dodavanje Git origin-a | ZAVRŠENO | Fetch/push URL odgovara korisnikovom nalogu; bez push-a ili objave. |
@@ -260,3 +266,25 @@ Status U TOKU. Korisnik je izričito naložio commit i push svih pripremljenih i
 ### 22. oktobar 2026. — TAB-01-C: potvrđen rezultat
 
 ZAVRŠENO. Napravljen commit `72c479c` — `feat: redesign workspace with sidebar console` (45 fajlova: UI, podržavajući kod, testovi, dokumentacija, izabrana referenca i sintetički QA snimci). `git diff --cached --check` prolazi. Običan `git push origin main` uspio; `git ls-remote --heads origin refs/heads/main` i lokalni HEAD vratili su isti hash `72c479cf73913892c8dfb70304de7b5cd0a2d11b`. Nakon slanja Git status pokazuje čisto stablo i main poravnat sa origin/main. Ova završna evidencija komituje se i šalje istim nalogom. Preostali stvarni Chrome/Google/player i drugi razvojni preduslovi ostaju evidentirani; nema izdavanja ekstenzije u prodavnici.
+
+### 22. oktobar 2026. — TAB-03-F: ikonice aplikacija i tipografija, početak
+
+U TOKU. Korisnik traži stvarnu ikonicu aplikacije/sajta uz linkove i ljepši font. Pregledani Git stanje (čisto), projektne upute, plan/progres/UI smjernice i postojeći tab/bookmark/icon/font kod. Koraci: Chrome lokalni favicon endpoint za tabove i bookmarkove uz rezervnu ikonicu; font Inter lokalno sa OFL licencom; ciljane provjere ikonica, fonta i rasporeda, typecheck/lint/test/build. Provjerena zvanična Chrome favicon/tabs i WXT dokumentacija; favicon API zahtijeva permission `favicon`, bez dodatnih host dozvola ili web-accessible izlaganja. Nova dozvola služi izričito traženoj funkciji. Pretraga ostaje uklonjena i sidebar sačuvan. Git commit/push nisu dio ovog novog naloga.
+
+### 22. oktobar 2026. — TAB-03-F: rezultat
+
+ZAVRŠENO u implementacionom i sintetički provjerenom obimu. Novi `src/domain/favicon.ts` pravi lokalne Chrome favicon URL-ove, blokira nepodržane protokole/kredencijale i verzionira izvor pri promjeni favIconUrl-a. SiteIcon prikazuje stvarnu sliku sa fiksnim dimenzijama/lazy učitavanjem, ili postojeću rezervnu ikonicu; greška ne ostaje zalijepljena za novi izvor. Tab adapter zadržava metadata ikone, grupe koriste stvarnu stranicu, bookmarkovi i Gmail prečica koriste isti prikaz. Dark podloga za ikonice sprječava gubitak crnih logotipa na tamnoj površini. Potrebna permission favicon je u manifestu; nema novih host dozvola, eksternog favicon servisa ili izlaganja content skriptama.
+
+Inter Variable 4.1 (352.240 bajtova, originalni WOFF2) preuzet je sa zvaničnog rsms/inter taga, lokalno pakovan i primijenjen kroz theme.css u novom tabu i bočnom panelu. Licenca SIL OFL 1.1 je u public/licenses/Inter-OFL.txt i u paketu; izvor/hash u src/assets/fonts/README.md. Nema novih paketnih zavisnosti ili runtime font zahtjeva ka mreži.
+
+Provjere: typecheck, lint, 50/50 testova (4 nova za favicon/metapodatke) i build prolaze. Prošireni browser QA potvrđuje dekodiranu ikonicu taba i bookmarka, fallback pri praznom kešu, ponovno učitavanje nakon promjene izvora, ikonicu u sidepanel-u, učitan Inter i odsustvo eksternih favicon/font zahtjeva. Prvi pokušaj testa bookmark fallbacka očitao je DOM prije image error događaja; test usklađen da sačeka stanje. Poslije dark vizuelnog pregleda dodata svijetla podloga za stvarne ikonice. Završni pregled otkrio je zadržavanje greške pri povratku na ranije neuspjeli URL; stanje učitavanja vezano je za trenutni izvor. Dodata browser provjera A → B → A i završni typecheck/lint/50 testova/build/QA ponovo prolaze. Obje teme 1440/1280/1024/768/320px i sidepanel360px bez preliva, bez pageerror/console error poruka. Prikazi koriste samo sintetičke podatke i lokalno sačuvane javne GitHub/Figma testne ikonice. Izvještaj: docs/provjere/ikonice-font/izvjestaj.md.
+
+Naredni korak korisnika je Reload ekstenzije za novi manifest/paket. Stvarni korisnikov Chrome cache/profile i puni accessibility/zoom nisu provjeravani; nedostupna ikonica ostaje sa rezervnim prikazom. Sidebar i odsustvo searcha sačuvani. Nema novog commita/push-a po ovom nalogu.
+
+### 22. oktobar 2026. — TAB-01-D: početak
+
+U TOKU. Nalog korisnika je commit i push pripremljenih izmjena. Prethodni pokušaj nije pokrenuo komande jer putanja iz konteksta nema završni razmak stvarnog foldera `extension `. Potvrđeno da terminal radi sa eksplicitnom stvarnom putanjom; folder nije preimenovan. Pregledani projektne upute, plan/progres/UI istraživanje, Git status i relevantni fajlovi. Main prati origin/main, početni HEAD f647f12. Obim: postojeći favicon/Inter kod, testovi, licenca, dokumentacija i sintetički QA artefakti. Slijede typecheck/lint/test/build, pregled spremnog commita, običan push i potvrda udaljenog HEAD-a.
+
+### 22. oktobar 2026. — TAB-01-D: provjere i priprema commita
+
+Ponovo izvršeni `corepack pnpm typecheck`, `corepack pnpm lint`, `corepack pnpm test` (50/50 u 10 fajlova) i `corepack pnpm build`: sve prolazi. Pregled izmjena nije pronašao prepreke za commit: favicon ostaje lokalni Chrome izvor, Inter hash odgovara evidenciji i OFL licenca ulazi u paket; QA materijali su sintetički i bez privatnog profila. `git diff --check` prolazi. Raniji TAB-03-F browser QA ostaje evidentirani rezultat istog UI koda; stvarni Chrome cache i integracioni kriterijumi ostaju otvoreni. Slijede commit i običan push na origin/main.

@@ -1,0 +1,2 @@
+.icon { display: block; flex: 0 0 auto; object-fit: contain; border-radius: 3px; }
+:global(:root[data-theme='dark']) .icon { background: #f5f7fa; padding: 2px; border-radius: 4px; }

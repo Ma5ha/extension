@@ -22,7 +22,7 @@ Ovo je projektni `AGENTS.md`, ne konfiguracija zasebnog pokrenutog agenta. Važi
 Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mirna orbita“: Rauno za interakcije, Linear za hijerarhiju, Paco za pretragu. Reference služe principima; ne kopiraj brend, autorske assete ili kompletan tuđi interfejs.
 
 - Prednost imaju čitljivost, brzina, fokus i korisnikova kontrola.
-- Neutralne površine, jasan nivo aktivnog elementa, jedan umjeren akcenat.
+- Neutralne površine, jasan nivo aktivnog elementa, jedan umjeren akcenat. Od TAB-03-F primarni font je lokalno pakovan Inter Variable; tabovi i bookmarkovi koriste stvarne Chrome favicon slike sa rezervnim ikonama. Ne vraćati eksterni font/favicon CDN.
 - Bez dekorativnih stalnih animacija, prekomjernog neona i stakla koje otežava čitanje.
 - Tabora je alat: tabovi i preglednost imaju prednost nad velikim satom i ukrasima.
 - Početni tokeni i dimenzije su u istraživanju; koristi semantičke tokene, bez nasumičnih vrijednosti po komponentama.

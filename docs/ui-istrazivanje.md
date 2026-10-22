@@ -4,6 +4,8 @@ Datum: 21. oktobar 2026. Obim: istraživanje za prvi vizuelni koncept, ne implem
 
 ## Aktuelna izmjena obima
 
+TAB-03-F, 22. oktobar 2026: prema korisnikovoj doradi, primarni font je lokalni Inter Variable 4.1. Tabovi i bookmarkovi prikazuju stvarnu Chrome favicon sliku gdje je dostupna, sa lokalnim fallback ikonama; dark podloga poboljšava čitljivost. Ovo zamjenjuje raniji izbor samo sistemskog fonta/monohromatskih servisnih ikona. Sidebar i odsustvo pretrage ostaju.
+
 TAB-03-E, 22. oktobar 2026: izabrana i implementirana Radna konzola (`ui-koncepti/radna-konzola-odabrano.jpg`). Jedna bočna navigacija; tabovi i sačuvane sesije u centru; zadaci, bilješke i sažeti servisi desno. Ovo je aktuelni vizuelni pravac, a stariji Modularni atelje ostaje dostupna prilagodljiva opcija. Sintetički UI/visual QA prolazi; stvarni Chrome/Google tokovi ostaju zasebni. Detalji u `../design-qa.md`.
 
 22. oktobar 2026, TAB-02-REV: korisnik ponovo otvara izbor rasporeda i vizuelnog pravca. Modularni atelje više nije obavezni raspored za nove koncepte. Istražuju se tri alternative; light/dark i odsustvo pretrage ostaju. Stari izbori i QA slike služe istorijskom kontekstu; novi koncepti nisu implementacija.

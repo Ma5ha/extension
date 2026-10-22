@@ -33,7 +33,7 @@ corepack pnpm test
 - Ručni pregled grupisanja po `URL.origin`: najmanje dva podobna taba; preskaču se zakačeni, već grupisani, interni/nepodržani i pojedinačni tabovi. Ponovna provjera prije primjene ne uključuje naknadno otvorene tabove. Rezultat razlikuje uspjeh, preskakanje i neuspjeh. Grupisanje nema radnju zatvaranja ili Undo.
 - Podešavanja se čuvaju po polju u `chrome.storage.local` i osvježavaju kroz storage događaje u ostalim novim tabovima. Istovremene promjene istog polja imaju pravilo posljednjeg upisa. HTTP pregled koristi localStorage samo za pregled izgleda.
 
-`storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
+`storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel; `favicon` omogućava stvarne ikonice sajtova iz Chrome-ovog lokalnog favicon prikaza. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
 
 Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Podešavanja nude osnovnu Radnu konzolu ili prethodni prilagodljivi režim. Sačuvani raspored widgeta ostaje netaknut; prilagodljivi režim podržava premještanje, redoslijed, širine kolona i najmanje visine widgeta; izvoz/uvoz i ostale integracije ostaju prema planu.
 
@@ -63,6 +63,14 @@ Dodati sačuvane sesije web tabova, bilješke i tri dnevna zadatka, bolja organi
 
 ## Izabrani izgled — Radna konzola
 
-Referenca: [izabrani koncept](docs/ui-koncepti/radna-konzola-odabrano.jpg). Konzola prikazuje stvarne lokalne podatke; primjeri sa reference nisu ugrađeni u aplikaciju. Formulari za novu sesiju i uređivanje bilješke otvaraju se na zahtjev. Ikone se lokalno pakuju iz Phosphor biblioteke, bez slanja URL-ova eksternom favicon servisu.
+Referenca: [izabrani koncept](docs/ui-koncepti/radna-konzola-odabrano.jpg). Konzola prikazuje stvarne lokalne podatke; primjeri sa reference nisu ugrađeni u aplikaciju. Formulari za novu sesiju i uređivanje bilješke otvaraju se na zahtjev. Tabovi i Chrome bookmarkovi prikazuju stvarne ikonice kroz Chrome favicon API, bez slanja URL-ova eksternom favicon servisu. Ako slika nije dostupna, koristi se lokalna Phosphor ikonica; nakon promjene izvora ponovo se pokušava učitavanje. U dark temi ikonica ima svijetlu podlogu radi čitljivosti.
 
 Sintetički pregled novog rasporeda pokreće `scripts/verify-console.mjs` sa istim `TABORA_PLAYWRIGHT_PATH` i `TABORA_CHROMIUM_PATH` opcijama kao postojeća QA skripta. Ne čita korisnikov browser profil.
+
+## Ikonice i font — TAB-03-F
+
+Koristi se Chrome-ov `/_favicon/` endpoint uz potrebnu `favicon` dozvolu. Za grupu tabova uzima se prva stvarna stranica, a svaki tab i bookmark imaju sopstveni izvor. `favIconUrl` iz Chrome-a služi samo za osvježavanje lokalne slike kada se ikonica promijeni; udaljena adresa ikonice se ne učitava direktno. Interne, neispravne i adrese sa kredencijalima koriste rezervnu ikonicu. Nisu dodate nove host dozvole ili web-accessible resources. [Chrome dokumentacija](https://developer.chrome.com/docs/extensions/how-to/ui/favicons).
+
+Font je lokalno pakovan Inter Variable 4.1, sa podrškom za latinična slova i promenljive debljine. Nema runtime font CDN-a. OFL licenca ide u `build/chrome-mv3/licenses/Inter-OFL.txt`; porijeklo i hash su u `src/assets/fonts/README.md`. [Inter](https://rsms.me/inter/).
+
+Provjera sa `TABORA_QA_OUTPUT=docs/provjere/ikonice-font` čuva novi pregled odvojeno od prethodnog; detalji i granice u [izvještaju](docs/provjere/ikonice-font/izvjestaj.md).

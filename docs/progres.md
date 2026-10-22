@@ -4,6 +4,12 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-M — U TOKU: pregledani sat i transparentne kontrole za odobreni commit/push; ishod u završnom odgovoru.
+
+TAB-10-I — U TOKU (preostala ručna matrica): lokalni sat/datum/zona i pregled dana implementirani, uključenost i custom raspored podržani. Typecheck/lint/build i HTTP light/dark prikaz prolaze.
+
+TAB-03-I — U TOKU (preostala ručna matrica): prozirne tematske input/button površine implementirane; typecheck/lint/build i HTTP Settings light/dark pregled prolaze.
+
 TAB-01-L — U TOKU: pregledan materijal/light paket za odobreni commit/push; ishod u završnom odgovoru.
 
 TAB-10-H — U TOKU (preostala ručna matrica): toplija light pozadina, stvarna prozirnost do 70% i blur do 32px implementirani. Typecheck/lint/build i ručni HTTP light/dark/čuvanje/Reload pregled prolaze.
@@ -465,3 +471,25 @@ TAB-01-K naknadna evidencija u narednoj sesiji — ZAVRŠENO: 0207ab6 poslat na 
 ### 22. oktobar 2026. — TAB-01-L: slanje materijala i light pozadine
 
 U TOKU. Korisnik je izričito odobrio commit/push TAB-10-H paketa na origin/main. Pregledano svih deset izmijenjenih fajlova: material UI, validacija/čuvanje, CSS/root i PiP sinhronizacija, light tokeni i dokumentacija; diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze, poslije njih mijenjana je samo evidencija. Ručno potvrđeni light/dark, tastaturna promjena 70%/32px i čuvanje nakon Reload-a na HTTP prikazu. Stvarna ekstenzija/više tabova/PiP i puna ručna matrica ostaju otvoreni. Bez novih testova, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod u završnom odgovoru bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-03-I: transparentne kontrole
+
+U TOKU. Korisnik traži inpute i dugmad prilagođene pozadini/materijalu umjesto neprozirne bijele. Koraci: zajednički semantički fill/hover/focus tokeni; uklanjanje panel ispune iz form kontrola svih modula, očuvanje primarnih/izabranih stanja; typecheck/lint/build i ručni light/dark pregled. Bez novih testova/QA skripti ili commit/push-a.
+
+TAB-03-I rezultat — implementacija ZAVRŠENA, ručna matrica djelimična. theme.css uvodi zajedničke control-fill/hover/focus tokene izvedene iz light/dark ink boje i prozirne secondary površine; obična dugmad više nemaju panel bijelu ispunu. Bookmark/sessions/focus/media/settings/layout/floating select i tekstualne forme koriste iste tokene umjesto panel ispune. Primarni/izabrani stilovi i fokus ostaju; native option lista i floating/modal/menu površine ostaju neprozirne radi čitanja preklopljenog sadržaja. Range/checkbox/radio nisu prebrisani tekstualnim input pravilima.
+
+Typecheck/lint/build i git diff --check prolaze. Ručno u Chrome HTTP prikazu pregledani Settings select/button stilovi u dark/light sa aktivnim materijalom 70%/32px i fokus selecta pri promjeni teme. Puna matrica formulara, stvarni Chrome podaci, narrow/zoom/forced-colors/reduced-motion i mjerenje kontrasta nisu izvršeni. Nema novih testova/QA skripti, zavisnosti ili dozvola. Build spreman za Reload; sljedeći korak pregled stvarnih formi u ekstenziji. Nema commita/push-a.
+
+TAB-01-L naknadna evidencija u narednoj sesiji — ZAVRŠENO: 3ab7ec7 poslat na origin/main i udaljeni HEAD potvrđen u prethodnom završnom odgovoru.
+
+### 22. oktobar 2026. — TAB-10-I: sat i pregled dana
+
+U TOKU. Korisnik traži lijep kompaktan sat kao widget i slične korisne detalje. Obim: lokalni digitalni sat sa datumom/zonom, ISO sedmica i odbrojavanje do subote, diskretan godišnji progres; uključivanje u podešavanjima i premještanje u custom rasporedu. Sat je u desnim dnevnim alatima, tabovi ostaju prioritet. Koraci: čisti datum model i komponenta sa osvježavanjem po minuti/vidljivosti; integracija/čuvanje; typecheck/lint/build i ručni pregled. Prethodne necommitovane transparentne kontrole ostaju sačuvane. Bez novih testova/QA skripti, servisa, dozvola ili commit/push-a.
+
+TAB-10-I rezultat — implementacija ZAVRŠENA, ručna matrica djelimična. Novi src/clock model i ClockPanel/CSS prikazuju 24h vrijeme, lokalni datum i IANA zonu, ISO sedmicu, dane do subote/vikend i godišnji progress. Timer se poravnava na minutu, pauzira kada je dokument skriven i sinhronizuje pri visibilitychange, uz cleanup. Nema mreže/autorizacije, sekundnog pulsiranja ili automatskih obavještenja. Settings clock je nezavisan validiran lokalni boolean; widget je u desnim alatima i u custom layout registru sa postojećim premještanjem. Postojeći raspored se parsiranjem dopunjava bez brisanja prethodnih položaja.
+
+Typecheck/lint/build prolaze; poslije korekcije kapitalizacije datuma build ponovo prolazi, diff --check prolazi. Ručno Chrome HTTP light/dark pregled clock widgeta potvrđuje vrijeme/datum/zonu i 43. sedmicu/dan 295 od 365 za 22. oktobar; checkbox Sat i dan vidljiv u podešavanjima. Isključivanje/ponovno otvaranje, custom drag/resize, granice godine/DST, narrow/zoom/reduced-motion i stvarna chrome.storage sinhronizacija nisu izvršno provjereni. Bez novih testova/QA skripti, zavisnosti ili dozvola. Ranije transparentne kontrole ostaju u istom necommitovanom stablu. Build spreman za Reload; sljedeći korak pregled učitane ekstenzije. Nema commita/push-a.
+
+### 22. oktobar 2026. — TAB-01-M: slanje sata i transparentnih kontrola
+
+U TOKU. Korisnik je odobrio commit/push pripremljenih TAB-03-I i TAB-10-I izmjena na origin/main. Pregledan paket od 17 fajlova: clock model/komponenta/stilovi, settings i layout integracija, tematske transparentne forme i dokumentacija; diff --check prolazi. Prethodni typecheck/lint/build prolaze, završni build uključuje korekciju velikih slova datuma. HTTP pregled obje teme i Settings izvršen uz ranije zapisane granice. Nema novih testova/QA skripti, dozvola, zavisnosti ili privatnih podataka. Izvještaj pripremljen prije push-a; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod u završnom odgovoru bez dodatnog dokumentacionog commita.

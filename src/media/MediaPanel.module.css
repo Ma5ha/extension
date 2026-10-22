@@ -2,7 +2,7 @@
 .panel header { margin-bottom: 0; }
 .panel p { font-size: 12px; }
 .panel label { display: flex; flex-direction: column; gap: var(--space-2); font-size: 12px; }
-.panel select { width: 100%; min-width: 0; min-height: 40px; color: var(--text); background: var(--panel); border: 1px solid var(--control-border); border-radius: 8px; padding: var(--space-2); }
+.panel select { width: 100%; min-width: 0; min-height: 40px; color: var(--text); background: var(--control-fill); border: 1px solid var(--control-border); border-radius: 8px; padding: var(--space-2); }
 .panel input { width: 100%; min-width: 0; min-height: 36px; accent-color: var(--accent); }
 .panel button { white-space: normal; }
 .compact h2 { font-size: 18px; }

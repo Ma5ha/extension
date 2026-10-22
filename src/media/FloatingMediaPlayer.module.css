@@ -11,6 +11,6 @@
 .placement { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 12px; color: var(--muted); }
 .placement summary { cursor: pointer; min-height: 32px; padding: 8px 0; }
 .placement label { display: grid; gap: 6px; margin-top: 8px; }
-.placement select { width: 100%; min-width: 0; color: var(--text); background: var(--panel); border: 1px solid var(--control-border); border-radius: 8px; padding: 8px; }
+.placement select { width: 100%; min-width: 0; color: var(--text); background: var(--control-fill); border: 1px solid var(--control-border); border-radius: 8px; padding: 8px; }
 
 .content > section { padding: var(--space-2); border: 0; box-shadow: none; }

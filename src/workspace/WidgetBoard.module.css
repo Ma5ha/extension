@@ -9,7 +9,7 @@
 .controls { padding: var(--space-2); border: 1px solid var(--control-border); border-radius: 9px 9px 0 0; background: var(--surface); }
 .controls > div { display: flex; gap: var(--space-1); flex-wrap: wrap; margin-top: var(--space-2); }
 .controls label { min-width: 0; }
-.controls select { max-width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); border-radius: 8px; min-height: 36px; }
+.controls select { max-width: 100%; background: var(--control-fill); color: var(--text); border: 1px solid var(--control-border); border-radius: 8px; min-height: 36px; }
 .controls button { min-height: 36px; padding: var(--space-2); }
 .handle { display: inline-block; cursor: grab; overflow-wrap: anywhere; }
 .editor { display: grid; gap: var(--space-3); margin-bottom: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-4); background: var(--panel); }

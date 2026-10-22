@@ -13,11 +13,12 @@ export interface Settings {
   bookmarks: boolean;
   sessions: boolean;
   focus: boolean;
+  clock: boolean;
   layout: Layout;
 }
-export const defaults: Settings = { version: 1, theme: 'light', glass: 0, blur: 0, layoutMode: 'console', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, layout: defaultLayout };
+export const defaults: Settings = { version: 1, theme: 'light', glass: 0, blur: 0, layoutMode: 'console', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, clock: true, layout: defaultLayout };
 const key = 'tabora.settings.v1';
-const fields = ['version', 'theme', 'glass', 'blur', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'layout'] as const;
+const fields = ['version', 'theme', 'glass', 'blur', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'clock', 'layout'] as const;
 export function parseSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== 'object') return defaults;
   const s = raw as Partial<Settings>;
@@ -34,6 +35,7 @@ export function parseSettings(raw: unknown): Settings {
     bookmarks: typeof s.bookmarks === 'boolean' ? s.bookmarks : true,
     sessions: typeof s.sessions === 'boolean' ? s.sessions : true,
     focus: typeof s.focus === 'boolean' ? s.focus : true,
+    clock: typeof s.clock === 'boolean' ? s.clock : true,
     layout: parseLayout(s.layout),
   };
 }

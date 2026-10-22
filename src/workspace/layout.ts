@@ -1,10 +1,10 @@
-export const widgetIds = ['agenda', 'focus', 'tabs', 'sessions', 'bookmarks', 'gmail', 'music'] as const;
+export const widgetIds = ['agenda', 'focus', 'tabs', 'sessions', 'bookmarks', 'gmail', 'music', 'clock'] as const;
 export type WidgetId = typeof widgetIds[number];
 export type Column = 'left' | 'center' | 'right';
 export type WidgetHeight = 'auto' | 'medium' | 'tall';
 export interface Placement { id: WidgetId; column: Column; height: WidgetHeight; }
 export interface Layout { items: Placement[]; widths: Record<Column, number>; }
-export const widgetNames: Record<WidgetId, string> = { agenda: 'Agenda', focus: 'Fokus i bilješke', tabs: 'Otvoreni tabovi', sessions: 'Sačuvane sesije', bookmarks: 'Chrome bookmarkovi', gmail: 'Gmail', music: 'Mediji' };
+export const widgetNames: Record<WidgetId, string> = { agenda: 'Agenda', focus: 'Fokus i bilješke', tabs: 'Otvoreni tabovi', sessions: 'Sačuvane sesije', bookmarks: 'Chrome bookmarkovi', gmail: 'Gmail', music: 'Mediji', clock: 'Sat i dan' };
 export const defaultLayout: Layout = {
   items: widgetIds.map(id => ({ id, column: id === 'agenda' || id === 'focus' ? 'left' : id === 'tabs' || id === 'sessions' ? 'center' : 'right', height: 'auto' })),
   widths: { left: .84, center: 2.1, right: 1.03 },

@@ -7,6 +7,7 @@ import { useTabs } from './hooks/useTabs';
 import { Dialog } from './components/Dialog';
 import { TabsPanel } from './components/TabsPanel';
 import { GmailPanel } from './components/ServicePanels';
+import { ClockPanel } from './clock/ClockPanel';
 import { AgendaPanel } from './calendar/AgendaPanel';
 import { BookmarkPanel } from './bookmarks/BookmarkPanel';
 import { MediaPanel } from './media/MediaPanel';
@@ -59,7 +60,7 @@ export function App() {
     finally { setBusy(false); await tabs.refresh(); }
   }
   const custom = settings.layoutMode === 'custom';
-  const inspector = space === 'Rad' && !custom && (settings.focus || settings.agenda || settings.gmail || settings.music);
+  const inspector = space === 'Rad' && !custom && (settings.clock || settings.focus || settings.agenda || settings.gmail || settings.music);
   const title = space === 'Rad' ? 'Radni prostor' : space === 'Muzika' ? 'Mediji' : space === 'Bookmarkovi' ? 'Bookmarks' : space;
   const today = new Intl.DateTimeFormat('sr-Latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -84,6 +85,7 @@ export function App() {
           <div className={styles.sectionScroll} role="region" aria-label="Sadržaj radnog prostora" tabIndex={0}>
           {message && <div className={styles.notice} role="status"><span>{message}</span><button onClick={() => setMessage('')} aria-label="Skloni obavještenje">U redu</button></div>}
           {space === 'Rad' && (custom ? <WidgetBoard layout={settings.layout} update={layout => update({ layout })} editing={editingLayout} widgets={{
+            clock: settings.clock ? <ClockPanel /> : undefined,
             agenda: settings.agenda ? <AgendaPanel /> : undefined,
             focus: settings.focus ? <FocusPanel /> : undefined,
             tabs: <TabsPanel tabs={tabs.tabs} state={tabs.state} enable={() => void tabs.enable()} refresh={() => void tabs.refresh()} group={() => void previewGroups()} report={report} compact />,
@@ -103,6 +105,7 @@ export function App() {
           </div>
         </div>
         {inspector && <aside className={styles.inspector} aria-label="Dnevni alati" tabIndex={0}>
+          {settings.clock && <ClockPanel />}
           {settings.focus && <FocusPanel compact />}
           {settings.agenda && <AgendaPanel compact />}
           {settings.gmail && <GmailPanel compact />}

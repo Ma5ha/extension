@@ -78,7 +78,7 @@
 .dialog h3 { margin-top: 16px; }
 .settings { display: flex; flex-direction: column; gap: 20px; }
 .settings > label { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; font-weight: 550; }
-.settings select { padding: 8px; border: 1px solid var(--control-border); border-radius: 8px; background: var(--panel); color: var(--text); }
+.settings select { padding: 8px; border: 1px solid var(--control-border); border-radius: 8px; background: var(--control-fill); color: var(--text); }
 .settings input[type='range'] { width: 100%; min-height: 36px; accent-color: var(--accent); }
 .settings p, .groupPreview p { color: var(--muted); font-size: 13px; }
 .settings output { color: var(--muted); font-size: 12px; }

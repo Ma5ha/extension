@@ -1,0 +1,16 @@
+.clock { overflow: hidden; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.header h2 { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 550; letter-spacing: 0; color: var(--muted); }
+.header > span { font-size: 11px; color: var(--muted); }
+.time { display: block; margin-top: var(--space-4); font-size: clamp(40px, 4vw, 58px); font-weight: 450; line-height: 1.1; letter-spacing: -2.5px; font-variant-numeric: tabular-nums; }
+.date { margin-top: var(--space-2); font-size: 13px; }
+.date::first-letter { text-transform: uppercase; }
+.zone { display: flex; align-items: center; gap: var(--space-1); margin-top: var(--space-1); font-size: 10px; color: var(--muted); overflow-wrap: anywhere; }
+.details { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-3); border-top: 1px solid var(--border); margin-top: var(--space-4); padding-top: var(--space-3); }
+.details span { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 10px; color: var(--muted); }
+.year { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-3); color: var(--muted); font-size: 10px; }
+.year span { flex-shrink: 0; }
+.year progress { appearance: none; width: 100%; min-width: 0; height: 3px; border: 0; border-radius: 8px; overflow: hidden; background: var(--surface); color: var(--accent); }
+.year progress::-webkit-progress-bar { background: var(--surface); }
+.year progress::-webkit-progress-value { background: var(--accent); border-radius: 8px; }
+.year progress::-moz-progress-bar { background: var(--accent); }

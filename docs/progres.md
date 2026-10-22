@@ -4,6 +4,8 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-C — ZAVRŠENO: Radna konzola sa sidebarom i bez searcha komitovana je kao `72c479c` i poslata na `origin/main`. Udaljeni HEAD potvrđen komandom `git ls-remote`; radno stablo nakon slanja je čisto. Završna evidencija slijedi u dokumentacionom commitu istog naloga.
+
 TAB-03-E — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: Radna konzola prema korisnikovoj slici. Bočna navigacija, tabovi/sesije u sredini, dnevni alati desno; prethodni prilagodljivi raspored ostaje sačuvan. 46/46 testova, typecheck/lint/build i novi browser QA prolaze. [Vizuelna provjera](../design-qa.md). Stvarne Chrome/Google provjere ostaju otvorene.
 
 TAB-01-B — ZAVRŠENO: sva tri postojeća commita poslata na GitHub `main`; HEAD `6b6f5a4` potvrđen preko `git ls-remote`, upstream `origin/main`. Lokalni dokumentacioni zapisi ostaju necommitovani.
@@ -28,7 +30,7 @@ TAB-03-D — ZAVRŠENO: pretraga je uklonjena, pojednostavljen raspored i teksto
 
 Izabrani raspored je Modularni atelje, treći koncept light serije. Prihvaćena osnova: WXT + React + TypeScript, Vite/MV3, pnpm i CSS Modules sa CSS varijablama. Light i dark ostaju obavezni; glass je prikazan, a njegov konačan intenzitet/materijal još nije izabran.
 
-Implementacija TAB-03-A/TAB-04-A postoji: WXT osnova, izabrani raspored/teme, Chrome adapteri, pregled grupisanja i lokalna podešavanja; pretraga je naknadno uklonjena. Typecheck, lint, 13 testova i produkcioni build prolaze. HTTP UI pregled provjeren na više širina u obje teme; stvarno učitavanje i rad Chrome API-ja još nisu potvrđeni. Lokalni paket je u `build/chrome-mv3`. Početni commit je `095f865`; prethodna implementacija je commitovana (posljednji postojeći commit `6b6f5a4`), dok je nova Radna konzola lokalno izmijenjena bez commita; `origin` je `https://github.com/Ma5ha/extension.git`; objava nije izvršena. Aktuelna izmjena: korisnik je preskočio svoje ručne provjere i odobrio TAB-05-A. Sljedeći preduslov za stvarni Calendar pristup je Google OAuth konfiguracija.
+Implementacija TAB-03-A/TAB-04-A postoji: WXT osnova, izabrani raspored/teme, Chrome adapteri, pregled grupisanja i lokalna podešavanja; pretraga je naknadno uklonjena. Typecheck, lint, 13 testova i produkcioni build prolaze. HTTP UI pregled provjeren na više širina u obje teme; stvarno učitavanje i rad Chrome API-ja još nisu potvrđeni. Lokalni paket je u `build/chrome-mv3`. Početni commit je `095f865`; prethodna implementacija je commitovana (posljednji postojeći commit `6b6f5a4`), dok je nova Radna konzola komitovana i poslata kao `72c479c`; `origin` je `https://github.com/Ma5ha/extension.git`; objava nije izvršena. Aktuelna izmjena: korisnik je preskočio svoje ručne provjere i odobrio TAB-05-A. Sljedeći preduslov za stvarni Calendar pristup je Google OAuth konfiguracija.
 
 ## Istorija rada
 
@@ -70,6 +72,7 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 |---|---|---|---|
 | TAB-02-REV | Ponovni izbor vizuelnog pravca | ZAVRŠENO | Korisnik izabrao tačan priloženi prikaz Radne konzole i naložio implementaciju. |
 | TAB-03-E | Radna konzola prema izabranoj slici | ZAVRŠENO | Implementacija i sintetički browser/visual QA prolaze; granice u design-qa.md. |
+| TAB-01-C | Commit i push Radne konzole | ZAVRŠENO | Kod, dokumentacija i sintetički QA artefakti u commitu `72c479c`, push na origin/main potvrđen. |
 | TAB-01-B | Prvi push na GitHub | ZAVRŠENO | Udaljeni main jednak lokalnom HEAD-u `6b6f5a4`; podešen upstream `origin/main`. |
 | TAB-01-A | Dodavanje Git origin-a | ZAVRŠENO | Fetch/push URL odgovara korisnikovom nalogu; bez push-a ili objave. |
 | TAB-02-DOC | Prihvaćeni stack, upute i evidencija | ZAVRŠENO | Dokumenti usklađeni; lokalne veze i format provjereni. Bez instalacije u tom koraku. |
@@ -253,3 +256,7 @@ Lokalni HTTP pregled je na http://localhost:4175/newtab.html; ne daje pristup Ch
 ### 22. oktobar 2026. — TAB-01-C: commit i push Radne konzole, početak
 
 Status U TOKU. Korisnik je izričito naložio commit i push svih pripremljenih izmjena. Pregledan cjelokupan skup od 45 izmijenjenih/novih fajlova: bočna navigacija i Radna konzola bez pretrage, kompaktni paneli, očuvanje starog rasporeda, testovi, dokumentacija, izabrana referenca i sintetički QA snimci. Nema build/zavisnosti/kredencijal fajlova; ciljane provjere tajni bez podudaranja. Grana `main` i udaljeni `origin/main` prije rada su na `6b6f5a4`. Prethodne izvršene provjere istog koda: typecheck, lint, 46/46 testova, build i sintetički UI/visual QA prolaze. Koraci: commit provjerenog paketa; običan push na origin/main; provjera udaljenog HEAD-a; završna evidencija. Stvarni Chrome/Google preduslovi ostaju otvoreni.
+
+### 22. oktobar 2026. — TAB-01-C: potvrđen rezultat
+
+ZAVRŠENO. Napravljen commit `72c479c` — `feat: redesign workspace with sidebar console` (45 fajlova: UI, podržavajući kod, testovi, dokumentacija, izabrana referenca i sintetički QA snimci). `git diff --cached --check` prolazi. Običan `git push origin main` uspio; `git ls-remote --heads origin refs/heads/main` i lokalni HEAD vratili su isti hash `72c479cf73913892c8dfb70304de7b5cd0a2d11b`. Nakon slanja Git status pokazuje čisto stablo i main poravnat sa origin/main. Ova završna evidencija komituje se i šalje istim nalogom. Preostali stvarni Chrome/Google/player i drugi razvojni preduslovi ostaju evidentirani; nema izdavanja ekstenzije u prodavnici.

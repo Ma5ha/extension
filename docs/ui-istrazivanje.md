@@ -4,6 +4,10 @@ Datum: 21. oktobar 2026. Obim: istraživanje za prvi vizuelni koncept, ne implem
 
 ## Aktuelna izmjena obima
 
+TAB-03-E, 22. oktobar 2026: izabrana i implementirana Radna konzola (`ui-koncepti/radna-konzola-odabrano.jpg`). Jedna bočna navigacija; tabovi i sačuvane sesije u centru; zadaci, bilješke i sažeti servisi desno. Ovo je aktuelni vizuelni pravac, a stariji Modularni atelje ostaje dostupna prilagodljiva opcija. Sintetički UI/visual QA prolazi; stvarni Chrome/Google tokovi ostaju zasebni. Detalji u `../design-qa.md`.
+
+22. oktobar 2026, TAB-02-REV: korisnik ponovo otvara izbor rasporeda i vizuelnog pravca. Modularni atelje više nije obavezni raspored za nove koncepte. Istražuju se tri alternative; light/dark i odsustvo pretrage ostaju. Stari izbori i QA slike služe istorijskom kontekstu; novi koncepti nisu implementacija.
+
 Korisnik je odobrio svih pet nadogradnji: Chrome folderi/premještanje, sesije, fokus/bilješke, raspored/veličine i bočni panel. Modularni atelje ostaje početni raspored, sada prilagodljiv. Detalji su u [radni-prostor.md](radni-prostor.md). Pretraga ostaje isključena.
 
 

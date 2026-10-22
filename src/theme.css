@@ -1,6 +1,8 @@
 :root {
   color-scheme: light;
-  --background: #f4f6f8;
+  --background: #ffffff;
+  --sidebar: #f5f8fa;
+  --on-accent: #ffffff;
   --panel-rgb: 255 255 255;
   --panel: #fff;
   --surface: #edf2f7;
@@ -8,7 +10,7 @@
   --muted: #526174;
   --accent: #155c91;
   --accent-soft: #e8f2fb;
-  --border: #dce3eb;
+  --border: #e9edf2;
   --control-border: #7b899a;
   --shadow: 0 4px 24px rgb(24 32 42 / 3%);
   --radius: 14px;
@@ -21,6 +23,8 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --background: #101216;
+  --sidebar: #141920;
+  --on-accent: #101216;
   --panel-rgb: 25 29 36;
   --panel: #191d24;
   --surface: #242b35;

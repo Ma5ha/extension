@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Headphones } from '@phosphor-icons/react';
+import { ArrowsClockwise, Headphones } from '@phosphor-icons/react';
 import { allowSite, control, openSource } from './adapter';
 import { sitePattern, type MediaCommand } from './model';
 import { useMedia } from './useMedia';
 import styles from '../App.module.css';
 import media from './MediaPanel.module.css';
 
-export function MediaPanel() {
+export function MediaPanel({ compact = false }: { compact?: boolean }) {
   const { sources, candidates, state, refresh, enable } = useMedia();
   const [selected, setSelected] = useState('');
   const [element, setElement] = useState('');
@@ -23,15 +23,15 @@ export function MediaPanel() {
     finally { setBusy(false); await refresh(); }
   }
   function command(value: MediaCommand) { if (source && item) void perform(() => control(source, item, value)); }
-  return <section className={`${styles.panel} ${media.panel}`} aria-label="Mediji">
-    <header className={styles.panelHeader}><h2><Headphones size={22} />Mediji</h2><button disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}>Osvježi</button></header>
-    <p className={styles.meta}>Daljinska kontrola postojećih tabova. Bez automatskog puštanja.</p>
-    {state === 'preview' && <p>Kontrole su dostupne u učitanoj Chrome ekstenziji.</p>}
+  return <section className={`${styles.panel} ${media.panel} ${compact ? media.compact : ''}`} aria-label="Mediji">
+    <header className={styles.panelHeader}><h2><Headphones size={22} />Mediji</h2><button className={compact ? media.iconButton : undefined} aria-label={compact ? 'Osvježi izvore' : undefined} title={compact ? 'Osvježi izvore' : undefined} disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}>{compact ? <ArrowsClockwise size={17} /> : 'Osvježi'}</button></header>
+    {!compact && <p className={styles.meta}>Daljinska kontrola postojećih tabova. Bez automatskog puštanja.</p>}
+    {state === 'preview' && <div className={compact ? media.empty : undefined}><p>{compact ? 'Nema aktivnog izvora.' : 'Kontrole su dostupne u učitanoj Chrome ekstenziji.'}</p>{compact && <small>Kontrole su dostupne u Chrome ekstenziji.</small>}</div>}
     {state === 'loading' && <p role="status">Tražim izvore…</p>}
     {state === 'permission' && <><p>Dozvoli pregled naslova i adresa tabova da izabereš izvor.</p><button disabled={busy} onClick={() => void perform(enable)}>Omogući pregled tabova</button></>}
     {state === 'error' && <p role="status">Lista nije dostupna. Pokušaj osvježavanje.</p>}
-    {state === 'ready' && !source && <p>Nema otkrivenih izvora. Pokreni medij u drugom tabu, pa osvježi. Pauzirani izvori se otkrivaju na sajtovima kojima odobriš pristup.</p>}
-    {state === 'ready' && candidates.length > 0 && <label>Dodaj pauzirani izvor sa sajta<select disabled={busy} value="" onChange={e => { const tab = candidates.find(t => String(t.id) === e.target.value); if (tab) void perform(async () => { if (!await allowSite(tab.url)) setMessage('Pristup nije odobren.'); }); }}><option value="">Izaberi tab i odobri pristup…</option>{candidates.map(t => <option key={t.id} value={t.id}>{t.title || 'Bez naslova'}</option>)}</select></label>}
+    {state === 'ready' && !source && <div className={compact ? media.empty : undefined}><p>{compact ? 'Nema aktivnog izvora.' : 'Nema otkrivenih izvora. Pokreni medij u drugom tabu, pa osvježi. Pauzirani izvori se otkrivaju na sajtovima kojima odobriš pristup.'}</p>{compact && <small>Pokreni medij u drugom tabu, pa osvježi.</small>}</div>}
+    {state === 'ready' && candidates.length > 0 && <details open={!compact} className={media.details}><summary>Izvori i dozvole</summary><label>Dodaj pauzirani izvor sa sajta<select disabled={busy} value="" onChange={e => { const tab = candidates.find(t => String(t.id) === e.target.value); if (tab) void perform(async () => { if (!await allowSite(tab.url)) setMessage('Pristup nije odobren.'); }); }}><option value="">Izaberi tab i odobri pristup…</option>{candidates.map(t => <option key={t.id} value={t.id}>{t.title || 'Bez naslova'}</option>)}</select></label></details>}
     {source && <>
       <label>Izvor<select value={String(source.tab.id)} onChange={e => { setSelected(e.target.value); setElement(''); setMessage(''); }}>{sources.map(s => <option key={s.tab.id} value={s.tab.id}>{s.tab.title || 'Tab bez naslova'}</option>)}</select></label>
       <p className={styles.meta}>{source.tab.mutedInfo?.muted ? 'Tab je utišan' : source.tab.audible ? 'Tab proizvodi zvuk' : 'Zvuk nije prijavljen'} · ovo nije play/pause stanje.</p>
@@ -53,6 +53,6 @@ export function MediaPanel() {
       </>}
     </>}
     {message && <p role="status">{message}</p>}
-    <p className={styles.meta}>Kontrole utiču samo na izabrani izvor. Podrška zavisi od sajta; drugi tabovi i pozivi se ne pauziraju.</p>
+    <details open={!compact} className={media.help}><summary>O kontrolama medija</summary><p className={styles.meta}>Kontrole utiču samo na izabrani izvor. Podrška zavisi od sajta; drugi tabovi i pozivi se ne pauziraju. Bez automatskog puštanja.</p></details>
   </section>;
 }

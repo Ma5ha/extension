@@ -10,6 +10,13 @@ describe('settings boundary', () => {
     expect(parseSettings({ theme: 'dark', glass: 500, agenda: false })).toEqual({ ...defaults, theme: 'dark', glass: 70, agenda: false });
     expect(parseSettings({ glass: -10 }).glass).toBe(0);
   });
+  it('opens the new console without discarding a previously saved custom layout', () => {
+    const layout = { ...defaults.layout, widths: { left: 1, center: 2.4, right: 1.2 } };
+    expect(parseSettings({ layout }).layoutMode).toBe('console');
+    expect(parseSettings({ layout }).layout).toEqual(layout);
+    expect(parseSettings({ layoutMode: 'custom', layout }).layoutMode).toBe('custom');
+    expect(parseSettings({ layoutMode: 'unknown' }).layoutMode).toBe('console');
+  });
   it('persists independent fields without overwriting parallel updates', async () => {
     const values = new Map<string, string>();
     vi.stubGlobal('localStorage', { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => values.set(key, value) });

@@ -1,9 +1,12 @@
 import type { Settings } from '../adapters/settings';
 import styles from '../App.module.css';
 
-export function SettingsPanel({ settings, update }: { settings: Settings; update: (patch: Partial<Settings>) => Promise<void> }) {
+export function SettingsPanel({ settings, update, editLayout }: { settings: Settings; update: (patch: Partial<Settings>) => Promise<void>; editLayout?: () => void }) {
   return <div className={styles.settings}>
     <label>Izgled<select value={settings.theme} onChange={e => void update({ theme: e.target.value as Settings['theme'] })}><option value="light">Svijetla tema</option><option value="dark">Tamna tema</option><option value="system">Prema sistemu</option></select></label>
+    <label>Raspored<select value={settings.layoutMode} onChange={event => void update({ layoutMode: event.target.value as Settings['layoutMode'] })}><option value="console">Radna konzola</option><option value="custom">Prilagođeni widgeti</option></select></label>
+    {editLayout && <button onClick={editLayout}>Uredi prilagođeni raspored</button>}
+    <p>Radna konzola čuva tabove i sesije u sredini, a dnevne alate desno. Prethodni raspored widgeta ostaje sačuvan u prilagođenom režimu.</p>
     <label>Glass materijal <output>{settings.glass === 0 ? 'Neprozirno' : `${settings.glass}%`}</output><input aria-label="Intenzitet glass materijala" type="range" min="0" max="70" step="10" value={settings.glass} onChange={e => void update({ glass: Number(e.target.value) })} /></label>
     <p>Opcioni efekat. Vrijednost 0 čuva neprozirne površine.</p>
     <fieldset><legend>Moduli radnog prostora</legend>{(['agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus'] as const).map(key => <label className={styles.checkbox} key={key}><input type="checkbox" checked={settings[key]} onChange={e => void update({ [key]: e.target.checked })} />{{ agenda: 'Agenda', gmail: 'Gmail', music: 'Mediji', bookmarks: 'Sačuvani linkovi', sessions: 'Sačuvane sesije', focus: 'Fokus i bilješke' }[key]}</label>)}</fieldset>

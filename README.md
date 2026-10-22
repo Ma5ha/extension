@@ -27,7 +27,7 @@ corepack pnpm test
 
 ## Lokalni obim
 
-- Modularni atelje: agenda lijevo, tabovi u sredini, Gmail/muzika desno; dvije i jedna kolona na užim širinama.
+- Radna konzola: bočna navigacija; tabovi i sačuvane sesije u sredini; dnevni zadaci, bilješke, kalendar, Gmail i mediji u desnom panelu. Bookmarkovi, sesije i bilješke imaju svoje prikaze u navigaciji. Na užem prozoru dnevni alati prelaze ispod glavnog sadržaja.
 - Svijetla, tamna i sistemska tema; opcioni glass (0 je neprozirna osnova).
 - Pregled, aktiviranje, zatvaranje i grupisanje tabova trenutnog prozora. Pretraga je uklonjena na zahtjev korisnika.
 - Ručni pregled grupisanja po `URL.origin`: najmanje dva podobna taba; preskaču se zakačeni, već grupisani, interni/nepodržani i pojedinačni tabovi. Ponovna provjera prije primjene ne uključuje naknadno otvorene tabove. Rezultat razlikuje uspjeh, preskakanje i neuspjeh. Grupisanje nema radnju zatvaranja ili Undo.
@@ -35,7 +35,7 @@ corepack pnpm test
 
 `storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
 
-Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Raspored podržava premještanje, redoslijed, širine kolona i najmanje visine widgeta; izvoz/uvoz i ostale integracije ostaju prema planu.
+Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Podešavanja nude osnovnu Radnu konzolu ili prethodni prilagodljivi režim. Sačuvani raspored widgeta ostaje netaknut; prilagodljivi režim podržava premještanje, redoslijed, širine kolona i najmanje visine widgeta; izvoz/uvoz i ostale integracije ostaju prema planu.
 
 ## Organizacija
 
@@ -60,3 +60,9 @@ Stara odvojena Tabora lista više se ne čita niti mijenja; prethodni lokalni za
 ## Sesije, fokus, raspored i bočni panel
 
 Dodati sačuvane sesije web tabova, bilješke i tri dnevna zadatka, bolja organizacija Chrome foldera, režim uređivanja rasporeda i pravi Chrome bočni panel preko Tabora toolbar ikone. Sesije ne zatvaraju trenutne tabove; otvaranje ima pregled i izvještaj. Podaci ostaju lokalni. Detalji, ograničenja i provjere: [Radni prostor](docs/radni-prostor.md).
+
+## Izabrani izgled — Radna konzola
+
+Referenca: [izabrani koncept](docs/ui-koncepti/radna-konzola-odabrano.jpg). Konzola prikazuje stvarne lokalne podatke; primjeri sa reference nisu ugrađeni u aplikaciju. Formulari za novu sesiju i uređivanje bilješke otvaraju se na zahtjev. Ikone se lokalno pakuju iz Phosphor biblioteke, bez slanja URL-ova eksternom favicon servisu.
+
+Sintetički pregled novog rasporeda pokreće `scripts/verify-console.mjs` sa istim `TABORA_PLAYWRIGHT_PATH` i `TABORA_CHROMIUM_PATH` opcijama kao postojeća QA skripta. Ne čita korisnikov browser profil.

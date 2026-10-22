@@ -22,6 +22,8 @@ Bilješka je običan tekst do 20.000 znakova, čuva se eksplicitnim dugmetom i d
 
 ## Raspored — TAB-10-F
 
+Od 22. oktobra 2026. osnovni prikaz je Radna konzola (TAB-03-E). Podešavanja nude režim Prilagođeni widgeti u kojem prethodno sačuvani raspored i kontrole opisane ispod ostaju dostupni. Novo polje `layoutMode` ne briše niti mijenja stari `layout`; stari korisnički podaci ostaju sačuvani.
+
 Uredi raspored uključuje kontrole; Završi uređivanje ih sakriva. Widget se prevlači ručkom na drugu kolonu ili ispred drugog widgeta. Iste radnje dostupne su kroz izbor Lijevo/Sredina/Desno i dugmad gore/dolje. Širine su podesive po koloni; visina je prirodna ili najmanje 360/560 px, a sadržaj može povećati karticu. Nema skraćivanja sadržaja ili obaveznih unutrašnjih skrolova. Prazne kolone se uklanjaju iz prikaza van režima uređivanja.
 
 Raspored se čuva lokalno i prenosi na ostale Tabora stranice. Upisi podešavanja se serijalizuju, prikaz se osvježava odmah, greška čuvanja ima obavještenje. Neispravan raspored se normalizuje bez gubitka poznatih widgeta. Vrati početni raspored vraća Modularni atelje. Vidljivost modula ostaje u Podešavanjima. Na užim ekranima raspored prelazi u dvije/jednu kolonu i čuva DOM redoslijed.

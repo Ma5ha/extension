@@ -27,11 +27,11 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 - Tabora je alat: tabovi i preglednost imaju prednost nad velikim satom i ukrasima.
 - Početni tokeni i dimenzije su u istraživanju; koristi semantičke tokene, bez nasumičnih vrijednosti po komponentama.
 - Prema korisnikovoj izmjeni, bijela/light tema je osnovna za nove koncepte. Obavezno zadrži ručni izbor light/dark; sistemska tema može ostati dodatna opcija. Provjeri obje teme sa istim funkcijama i rasporedom.
-- Korisnik je izabrao treći raspored nove light serije: `docs/ui-koncepti/rasporedi-light/modularni-atelje.png` (agenda lijevo, tabovi u sredini, Gmail i muzika desno). Sačuvaj taj raspored; trenutno se istražuje njegova glass verzija. Izbor glass materijala još nije potvrđen. Ne traži ponovo izbor rasporeda koji je već napravljen.
+- Istorijski izbor 21. oktobra bio je Modularni atelje (`docs/ui-koncepti/rasporedi-light/modularni-atelje.png`) i istražena je glass varijanta. Korisnik je 22. oktobra izričito ponovo otvorio raspored i UI jer nije zadovoljan. U TAB-02-REV korisnik je potom izabrao Radnu konzolu i naložio implementaciju: `docs/ui-koncepti/radna-konzola-odabrano.jpg`. Taj prikaz je novi vizuelni cilj (TAB-03-E): bočna navigacija, tabovi i sesije u sredini, dnevni alati desno. Light/dark i odsustvo pretrage ostaju.
 
 ## Struktura i komponente
 
-- Jedna glavna navigacija: Rad, Vijesti, Muzika; podešavanja su odvojena radnja.
+- Jedna glavna bočna navigacija prema Radnoj konzoli: Rad, Bookmarkovi, Sesije i Bilješke, zatim Vijesti i Muzika. Podešavanja su odvojena radnja. Prethodni prilagodljivi widget raspored ostaje dostupan u podešavanjima, a nova konzola je osnovna.
 - Prema posljednjoj instrukciji korisnika nema search polja ni komandne pretrage. Ne vraćaj ih bez novog naloga.
 - Sadržaj određuje format: tabovi su grupe/lista, Gmail lista, kalendar agenda, vijesti naslovi, muzika player.
 - Widgeti imaju dosljedan okvir, naslov, akcije i stanja, uz format prilagođen sadržaju.

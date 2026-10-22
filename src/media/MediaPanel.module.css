@@ -6,3 +6,14 @@
 .panel input { width: 100%; min-height: 40px; accent-color: var(--accent); }
 .panel button { white-space: normal; }
 .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.compact { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.compact h2 { font-size: 18px; }
+.compact .iconButton { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; width: 32px; padding: 6px; border-color: transparent; background: transparent; color: var(--muted); }
+.compact .iconButton:hover { background: var(--surface); color: var(--text); }
+.empty { display: grid; gap: var(--space-2); padding: var(--space-4); border-radius: 9px; background: var(--surface); color: var(--muted); line-height: 1.55; }
+.empty p { margin: 0; }
+.empty small { font-size: 12px; }
+.details summary, .help summary { display: none; }
+.compact .details summary, .compact .help summary { display: list-item; min-height: 32px; color: var(--muted); font-size: 12px; cursor: pointer; }
+.compact .details[open] summary, .compact .help[open] summary { margin-bottom: var(--space-2); }

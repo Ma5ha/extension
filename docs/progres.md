@@ -4,7 +4,7 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
-TAB-01-E — U TOKU: pripremljene TAB-07-B i TAB-02-T izmjene komituju se i šalju na origin/main po nalogu korisnika.
+TAB-01-E — ZAVRŠENO: mini-player i pravilo pisanja testova komitovani su kao `08274a8` i poslati na origin/main. Lokalni/udaljeni HEAD potvrđeni su jednaki; završna evidencija šalje se pratećim dokumentacionim commitom.
 
 TAB-02-T — ZAVRŠENO: pravilo u AGENTS.md i planu odlaže pisanje testova i novih automatizovanih QA skripti za završetak projekta. Postojeći testovi ostaju sačuvani; typecheck/lint/build i ručne provjere ostaju u toku razvoja.
 
@@ -84,7 +84,7 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 | TAB-02-REV | Ponovni izbor vizuelnog pravca | ZAVRŠENO | Korisnik izabrao tačan priloženi prikaz Radne konzole i naložio implementaciju. |
 | TAB-03-E | Radna konzola prema izabranoj slici | ZAVRŠENO | Implementacija i sintetički browser/visual QA prolaze; granice u design-qa.md. |
 | TAB-03-F | Stvarne ikonice i Inter font | ZAVRŠENO | Chrome favicon izvor, fallback/recovery, Inter lokalno sa OFL; 50 testova i sintetički browser QA prolaze. |
-| TAB-01-E | Commit i push mini-playera i uputa | U TOKU | Pregledane pripremljene izmjene; slijede commit, push i potvrda udaljenog HEAD-a. |
+| TAB-01-E | Commit i push mini-playera i uputa | ZAVRŠENO | Commit 08274a8 poslat na origin/main, udaljeni HEAD potvrđen; završna evidencija u pratećem commitu. |
 | TAB-01-D | Commit i push ikonica i fonta | ZAVRŠENO | Commit 6953a84 na origin/main, udaljeni HEAD potvrđen; završna evidencija u pratećem commitu. |
 | TAB-01-C | Commit i push Radne konzole | ZAVRŠENO | Kod, dokumentacija i sintetički QA artefakti u commitu `72c479c`, push na origin/main potvrđen. |
 | TAB-01-B | Prvi push na GitHub | ZAVRŠENO | Udaljeni main jednak lokalnom HEAD-u `6b6f5a4`; podešen upstream `origin/main`. |
@@ -327,3 +327,7 @@ TAB-02-T rezultat — ZAVRŠENO: AGENTS.md sada izričito zabranjuje pisanje nov
 ### 22. oktobar 2026. — TAB-01-E: priprema
 
 U TOKU. Korisnik izričito traži commit i push. Pregledani status, grana main, origin URL, diff i svi novi fajlovi. Paket sadrži mini-player/video PiP/Document PiP kod, dokumentaciju, prethodno napisane testove i sintetičke QA artefakte, te novo pravilo da se dalji testovi pišu na kraju projekta. Nema novih testova u ovom koraku. Prethodne provjere istog koda: typecheck/lint/build, 57/57 testova i oba browser pregleda prolaze; od tada su mijenjane samo upute/plan/progres. Ciljana provjera obrazaca tajni bez podudaranja, diff --check prolazi. Build, zavisnosti i privremeni regresioni materijali ostaju ignorisani. Slijede commit, običan push na origin/main i potvrda udaljenog HEAD-a.
+
+### 22. oktobar 2026. — TAB-01-E: potvrđen rezultat
+
+ZAVRŠENO. Commit `08274a8` — `feat: add floating media controls and optional video PiP` obuhvata 34 fajla: mini-player/PiP implementaciju, dokumentaciju/sintetičke QA artefakte i pravilo da se dalji testovi pišu na kraju projekta. Staging diff --check prolazi, ciljana provjera obrazaca tajni bez podudaranja. Običan push na origin/main uspio je; `git rev-parse HEAD` i `git ls-remote --heads origin refs/heads/main` dali su isti hash `08274a8bcfa307c68344a030f4e84ef6ccd88b84`. Radno stablo nakon slanja čisto i main poravnat sa origin/main. Novi testovi nisu pisani ni pokretani u ovom Git zadatku; prethodno izvršene provjere istog koda ostaju evidentirane. Ova završna evidencija šalje se pratećim dokumentacionim commitom istim korisnikovim nalogom. Reload ekstenzije i stvarni PiP/servisni kriterijumi ostaju naredni korak; nema izdavanja u prodavnici.

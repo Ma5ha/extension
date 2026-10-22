@@ -4,6 +4,7 @@ import { openSource } from './adapter';
 import { sitePattern } from './model';
 import { mediaItemKey } from './useMediaController';
 import { useMediaPlayer } from './MediaContext';
+import { SourcePicker } from './SourcePicker';
 import { SiteIcon } from '../components/SiteIcon';
 import styles from '../App.module.css';
 import media from './MediaPanel.module.css';
@@ -27,10 +28,11 @@ export function MediaContent({ compact = false, detached = false }: { compact?: 
     {state === 'error' && <p role="status">Lista nije dostupna. Pokušaj osvježavanje.</p>}
     {state === 'ready' && !source && <div className={media.empty}><p>Nema aktivnog izvora.</p><small>Pokreni medij u drugom tabu, pa osvježi. Pauzirani izvori se otkrivaju na sajtovima kojima odobriš pristup.</small></div>}
     {source && <>
-      <div className={media.source}><SiteIcon url={source.tab.url || ''} favIconUrl={source.tab.favIconUrl} size={24} /><div className={media.sourceText}>
-        <label className={media.sourcePicker}><span>Izvor · {sources.length}</span><select aria-label="Izvor" title={source.tab.title} value={String(source.tab.id)} disabled={busy} onChange={event => player.selectSource(event.target.value)}>{sources.map(s => <option key={s.tab.id} value={s.tab.id}>{s.tab.title || 'Tab bez naslova'}</option>)}</select></label>
+      <div className={media.nowPlaying}><span className={media.artwork}><SiteIcon url={source.tab.url || ''} favIconUrl={source.tab.favIconUrl} size={32} /></span><div className={media.sourceText}>
         <small>{item && source.status === 'ready' ? item.ended ? 'Završeno' : item.paused ? 'Pauzirano' : 'Reprodukuje se' : 'Kontrola taba'}{source.tab.mutedInfo?.muted ? ' · tab utišan' : item?.muted ? ' · player utišan' : ''}</small>
-      </div><CaretDown className={media.sourceCaret} size={18} aria-hidden="true" /></div>
+        <strong className={media.sourceTitle}>{source.tab.title || 'Medijski izvor'}</strong>
+      </div></div>
+      <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />
       {source.status === 'ready' && item && <>
         {source.items.length > 1 && <label>Player u tabu<select aria-label="Player u tabu" value={mediaItemKey(item)} disabled={busy} onChange={event => player.selectElement(event.target.value)}>{source.items.map((i, index) => <option key={mediaItemKey(i)} value={mediaItemKey(i)}>{i.kind} {index + 1} · okvir {i.frameId}</option>)}</select></label>}
         <div className={media.playback}><div className={media.transport}>

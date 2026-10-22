@@ -1,0 +1,16 @@
+.picker { min-width: 0; border-bottom: 1px solid var(--border); }
+.picker summary { display: flex; align-items: center; gap: var(--space-2); min-height: 40px; padding: var(--space-2) 0; cursor: pointer; color: var(--accent); list-style: none; font-size: 12px; border-radius: 6px; }
+.picker summary::-webkit-details-marker { display: none; }
+.picker summary span { flex: 1; }
+.picker summary small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.picker summary > svg:last-child { transition: transform var(--motion-fast) ease; }
+.picker[open] summary > svg:last-child { transform: rotate(180deg); }
+.choices { margin-bottom: var(--space-2); padding: var(--space-2); border: 1px solid var(--border); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow); }
+.choices > p { padding: var(--space-2); font-size: 11px; color: var(--muted); }
+.choices ul { padding: 0; margin: 0; list-style: none; }
+.choices button { width: 100%; min-height: 60px; justify-content: flex-start; gap: var(--space-3); padding: var(--space-2); border: 1px solid transparent; background: transparent; text-align: left; }
+.choices button[aria-pressed='true'] { background: var(--accent-soft); color: var(--accent); }
+.choices button:hover:not(:disabled) { border-color: var(--control-border); }
+.choices button > span { display: grid; gap: var(--space-1); flex: 1; min-width: 0; }
+.choices strong { font-size: 12px; font-weight: 550; line-height: 1.5; overflow-wrap: anywhere; }
+.choices button small { font-size: 11px; color: var(--muted); }

@@ -4,6 +4,10 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-I — U TOKU: pregledan i pripremljen novi player/SourcePicker za odobreni commit/push; ishod u završnom odgovoru.
+
+TAB-07-E — U TOKU (ručna matrica preostaje): istraženi playeri, odvojena disclosure lista izvora i sadašnji medij implementirani; typecheck/lint/build prolaze. Aktivni izvori čekaju Chrome Reload pregled.
+
 TAB-01-H — U TOKU: pripremljen i pregledan paket kartica/ikona/klizača za odobreni commit/push; ishod u završnom odgovoru.
 
 TAB-07-D — U TOKU (preostala ručna matrica): kartice, akcione ikone i tematski klizači/scrollbar implementirani; typecheck/lint/build prolaze. HTTP kartica i Enter pregledani u obje teme; aktivni izvor i ostala matrica čekaju.
@@ -393,3 +397,17 @@ TAB-01-G naknadna evidencija u narednoj sesiji — ZAVRŠENO: prethodni commit e
 ### 22. oktobar 2026. — TAB-01-H: slanje kartica i klizača
 
 U TOKU. Korisnik je odobrio commit/push TAB-07-D paketa na origin/main. Pregledano svih pet izmijenjenih fajlova i diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze; poslije provjera mijenjana je samo evidencija. Ručno pregledana kartica u obje teme i Enter otvaranje. Aktivni izvor/klizači/scrollbar pri prelivu i ostala ručna matrica ostaju otvoreni. Bez novih testova, zavisnosti, dozvola ili privatnih podataka. Izvještaj pripremljen prije slanja; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod ide u završni odgovor bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-07-E: player prema referencama
+
+U TOKU. Korisnik odbacuje prethodni izgled, posebno select izvora, i traži istraživanje playera prije dorade. Pregledani Spotify Connect dokumentacija, Apple Music web (i screenshot) i Plyr stranica. Pravac: odvojen sadašnji medij i disclosure lista izvora sa favicon/naslovom/sajtom/oznakom izbora; čišća hijerarhija transporta i sekundarnih kontrola. Koraci: izdvojeni SourcePicker, stil playera, typecheck/lint/build i raspoloživi ručni pregled. Bez novih testova/QA skripti, biblioteka, dozvola ili commit/push-a.
+
+TAB-07-E rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Dodati SourcePicker.tsx i CSS module, zamijenjen select izvora u MediaContent, konsolidovani stilovi MediaPanel-a (uklonjeni naslagani override-i). Now-playing naslov/status i favicon odvojeni od disclosure liste izvora; diskretne sekundarne radnje i centralni kontrastni Play/Pause. Postojeće media komande, dozvole, PiP i izbor elementa ostaju. Typecheck/lint/build i git diff --check prolaze. Bez novih testova/QA skripti ili zavisnosti.
+
+Ručno pregledana Apple Music referenca u IAB-u i HTTP shell u obje teme u Chrome-u (IAB localhost ranije nedostupan). HTTP nema stvarne media izvore, pa aktivni SourcePicker i komande nisu ručno potvrđeni; uske širine, zoom, aktivna tastaturna matrica, reduced motion/forced colors i sistemski PiP ostaju otvoreni. Naredni korak: Reload build/chrome-mv3 i pregled liste stvarnih tabova. Nema commita/push-a.
+
+TAB-01-H naknadna evidencija u narednoj sesiji — ZAVRŠENO: be1d145 je poslat na origin/main, udaljeni HEAD potvrđen u završnom odgovoru prethodne sesije.
+
+### 22. oktobar 2026. — TAB-01-I: slanje novog playera i SourcePicker-a
+
+U TOKU. Korisnik je izričito odobrio commit/push pripremljenog TAB-07-E paketa na origin/main. Pregledano svih sedam fajlova, uključujući novi SourcePicker i njegove stilove; diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze; nakon njih mijenjana je samo dokumentacija. HTTP shell pregledan u obje teme; stvarni aktivni izvori, tastaturna/uža/zoom matrica i sistemski PiP ostaju otvoreni. Nema novih testova, QA skripti, zavisnosti ili dozvola. Izvještaj pripremljen prije push-a. Slijede commit, običan push i potvrda udaljenog HEAD-a; ishod u završnom odgovoru bez dodatnog dokumentacionog commita.

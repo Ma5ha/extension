@@ -3,7 +3,7 @@ import { hasAccess, isExtension, requestAccess, subscribeTabs } from '../adapter
 import { inspectSource } from './adapter';
 import type { Source } from './model';
 
-export function useMedia() {
+export function useMedia(active = true, playerWindow: Window | null = null) {
   const [candidates, setCandidates] = useState<chrome.tabs.Tab[]>([]);
   const [sources, setSources] = useState<Source[]>([]);
   const [state, setState] = useState(isExtension ? 'loading' : 'preview');
@@ -27,13 +27,14 @@ export function useMedia() {
     finally { running.current = false; }
   }, []);
   useEffect(() => {
-    if (!isExtension) return;
+    if (!isExtension || !active) return;
     mounted.current = true;
     void refresh();
     const cleanup = subscribeTabs(() => void refresh());
-    const timer = window.setInterval(() => { if (!document.hidden) void refresh(); }, 2500);
-    return () => { mounted.current = false; cleanup(); window.clearInterval(timer); };
-  }, [refresh]);
+    const timerWindow = playerWindow ?? window;
+    const timer = timerWindow.setInterval(() => { if (playerWindow || !document.hidden) void refresh(); }, 2500);
+    return () => { mounted.current = false; cleanup(); timerWindow.clearInterval(timer); };
+  }, [refresh, active, playerWindow]);
   async function enable() { const granted = await requestAccess(['tabs']); await refresh(); if (!granted) throw new Error('denied'); }
   return { sources, candidates, state, refresh, enable };
 }

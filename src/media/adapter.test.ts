@@ -27,3 +27,22 @@ it('targets the original document and rejects navigation before any command', as
   await expect(control(source, item, { type: 'play' })).rejects.toThrow();
   expect(executeScript).not.toHaveBeenCalled();
 });
+
+it('injects PiP before the first await and pins the selected document', async () => {
+  const source = { tab: { id: 1, url: 'https://example.com/video' } } as Source;
+  const item = { id: 'chosen-video', documentId: 'chosen-document' } as Source['items'][number];
+  const get = vi.fn();
+  const executeScript = vi.fn().mockResolvedValue([{ result: { items: [] } }]);
+  vi.stubGlobal('chrome', { tabs: { get }, scripting: { executeScript } });
+  const pending = control(source, item, { type: 'pip-enter' });
+  expect(executeScript).toHaveBeenCalledOnce();
+  expect(get).not.toHaveBeenCalled();
+  expect(executeScript.mock.calls[0]![0]).toMatchObject({ target: { tabId: 1, documentIds: ['chosen-document'] }, args: ['chosen-video', { type: 'pip-enter' }] });
+  await pending;
+});
+it('returns a safe actionable error when the browser rejects PiP', async () => {
+  const source = { tab: { id: 1 } } as Source;
+  const item = { id: 'video', documentId: 'original' } as Source['items'][number];
+  vi.stubGlobal('chrome', { scripting: { executeScript: vi.fn().mockResolvedValue([{ result: { errorCode: 'pip-rejected' } }]) } });
+  await expect(control(source, item, { type: 'pip-enter' })).rejects.toThrow('Otvori izvorni tab');
+});

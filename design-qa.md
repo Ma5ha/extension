@@ -45,3 +45,7 @@ Granice: nije provjerena korisnikova stvarna instalacija ekstenzije, Chrome auto
 Korisnik je naknadno naložio stvarne ikonice aplikacija i ljepši font. Aktuelni pregled je `docs/provjere/ikonice-font/reference-state-light-1280.png`, uz dark1440/320 i bookmark sidepanel360 snimke. Inter i favicon slike su namjerna dorada prethodne reference; raspored, sidebar i gustina sadržaja su sačuvani. Prvi dark pregled je pokazao slabo vidljiv crni logo; dodata mala svijetla podloga i novi snimci pregledani. Nema novih P0/P1/P2 nalaza u toj doradi. Prošireni sintetički UI QA prolazi; detalji i ograničenja su u `docs/provjere/ikonice-font/izvjestaj.md`.
 
 final result: passed
+
+## TAB-07-B — mini-player
+
+Novi light1280, dark320 i izdvojeni kontrolni prozor vizuelno pregledani u docs/provjere/mini-player/. Prikaz zadržava postojeće tokene/Inter font i čitljive light/dark kontrole. Lokalni okvir je pomjerljiv i promjenljiv, sa tastaturom i alternativama bez prevlačenja. Testovi potvrđuju 320px bez horizontalnog preliva; reduced motion uključen. UI tokovi i postojeća konzola/bočni panel prolaze. Dokumentovani HTTP/Chrome fixture i simulacija prozora ne potvrđuju stvarni native PiP, kompatibilnost servisa, puni accessibility ili browser zoom. Final result za ovaj obim: passed.

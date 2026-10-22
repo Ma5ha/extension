@@ -9,6 +9,7 @@ let missingIconRequests = 0;
 const server = createServer(async (req, res) => {
   try {
     const requestUrl = new URL(req.url, 'http://localhost');
+    if (requestUrl.pathname === '/favicon.ico') { res.statusCode = 204; res.end(); return; }
     if (requestUrl.pathname === '/_favicon/') {
       const pageUrl = new URL(requestUrl.searchParams.get('pageUrl'));
       res.setHeader('Content-Type', 'image/x-icon');

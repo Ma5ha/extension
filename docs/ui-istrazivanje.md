@@ -4,6 +4,8 @@ Datum: 21. oktobar 2026. Obim: istraživanje za prvi vizuelni koncept, ne implem
 
 ## Aktuelna izmjena obima
 
+TAB-07-B, 22. oktobar 2026: Mediji dobijaju zajedničke kontrole kroz navigaciju, pomjerljiv mini-player sa promjenom veličine, Document PiP kontrole i opcioni izvorni video PiP. Light/dark, tastatura i 320px reflow provjereni sintetički. Video nije prenesen u Tabora DOM; podrška i stvarni sistemski PiP zavise od izvora/browsera. Detalji: mini-player.md.
+
 TAB-03-F, 22. oktobar 2026: prema korisnikovoj doradi, primarni font je lokalni Inter Variable 4.1. Tabovi i bookmarkovi prikazuju stvarnu Chrome favicon sliku gdje je dostupna, sa lokalnim fallback ikonama; dark podloga poboljšava čitljivost. Ovo zamjenjuje raniji izbor samo sistemskog fonta/monohromatskih servisnih ikona. Sidebar i odsustvo pretrage ostaju.
 
 TAB-03-E, 22. oktobar 2026: izabrana i implementirana Radna konzola (`ui-koncepti/radna-konzola-odabrano.jpg`). Jedna bočna navigacija; tabovi i sačuvane sesije u centru; zadaci, bilješke i sažeti servisi desno. Ovo je aktuelni vizuelni pravac, a stariji Modularni atelje ostaje dostupna prilagodljiva opcija. Sintetički UI/visual QA prolazi; stvarni Chrome/Google tokovi ostaju zasebni. Detalji u `../design-qa.md`.

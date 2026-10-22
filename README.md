@@ -74,3 +74,13 @@ Koristi se Chrome-ov `/_favicon/` endpoint uz potrebnu `favicon` dozvolu. Za gru
 Font je lokalno pakovan Inter Variable 4.1, sa podrškom za latinična slova i promenljive debljine. Nema runtime font CDN-a. OFL licenca ide u `build/chrome-mv3/licenses/Inter-OFL.txt`; porijeklo i hash su u `src/assets/fonts/README.md`. [Inter](https://rsms.me/inter/).
 
 Provjera sa `TABORA_QA_OUTPUT=docs/provjere/ikonice-font` čuva novi pregled odvojeno od prethodnog; detalji i granice u [izvještaju](docs/provjere/ikonice-font/izvjestaj.md).
+
+## Mini-player i video — TAB-07-B
+
+U panelu Mediji izaberi postojeći izvor i po potrebi odobri kontrole samo njegovom sajtu. **Mini-player** izdvaja iste kontrole unutar Tabore; ručicu možeš prevlačiti ili pomjerati strelicama tastature. Donja desna ručica mijenja veličinu, takođe strelicama. „Položaj i veličina“ nudi iste radnje bez prevlačenja. „Vrati u panel“ vraća kontrole; Escape radi dok je fokus u mini-playeru. Izabrani izvor ostaje sačuvan tokom navigacije unutar iste Tabora stranice.
+
+**Izdvoji kontrole** otvara prozor iznad drugih aplikacija gdje Chrome podržava Document Picture-in-Picture. Prozor prati temu i nastavlja osvježavati stanje dok je Tabora u pozadini. Zatvaranje prozora vraća panel, a zatvaranje njegove Tabora stranice zatvara taj prozor. Izvorni tab nastavlja svoju reprodukciju.
+
+**Prikaži video / Sakrij video** koristi Chrome-ov video PiP za izabrani izvor. Video ostaje isti element u izvornom tabu; ne preuzima se stream i ne pokreće se drugi player. Dugme je dostupno samo za učitan i podržan video. Chrome koristi jedan PiP prozor, pa prelazak sa izdvojenih kontrola na video vraća kontrole u lokalni mini-player. Ako browser odbije radnju, otvori izvorni tab i koristi njegove kontrole.
+
+Izvorni tab mora ostati otvoren. Pristup sajtu i njegovim okvirima, dozvola za PiP i sam servis određuju podršku. Nema automatskog puštanja, novih dozvola ili pauziranja drugih izvora.

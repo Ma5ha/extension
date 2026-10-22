@@ -83,6 +83,12 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 - Koristi custom hookove za izdvajanje povezanog React stanja, ponašanja i ponovljive React logike. Obične izračune i transformacije ostavi u čistim funkcijama; hook koristi kada su potrebni React hookovi ili životni ciklus.
 - Custom hookovi takođe treba da imaju jasnu odgovornost. Nemoj samo premjestiti veliku komponentu u jedan veliki hook niti skrivati nepotrebne `useEffect` pozive iza hooka.
 
+## Pisanje testova
+
+- Prema korisnikovom nalogu od 22. oktobra 2026, tokom daljeg razvoja ne piši nove testove, ne proširuj postojeće i ne dodaj nove automatizovane QA/test skripte ili test infrastrukturu.
+- Pisanje testova odloženo je za završnu fazu projekta, kada će se napisati objedinjeno za završene funkcionalnosti.
+- Postojeće testove sačuvaj; mogu se pokrenuti po potrebi. Typecheck, lint, build i odgovarajući ručni pregled ostaju dio provjere izmjena.
+
 ## Radni tok i završetak
 
 1. Utvrdi fazu i stvarno stanje; dokumentuj pretpostavke koje utiču na rješenje.

@@ -48,3 +48,51 @@ describe('isolated media function', () => {
     expect((await mediaDOM('missing', { type: 'pause' })).error).toBeTruthy();
   });
 });
+
+describe('video Picture-in-Picture boundary', () => {
+  function setupPip() {
+    const video = { tagName: 'VIDEO', readyState: 2, videoWidth: 640, disablePictureInPicture: false, paused: true, ended: false, volume: 1, muted: false, currentTime: 10, duration: 120, seekable: { length: 0 }, play: vi.fn(), pause: vi.fn(), requestPictureInPicture: vi.fn().mockResolvedValue({}) };
+    const audio = { ...video, tagName: 'AUDIO', requestPictureInPicture: vi.fn() };
+    const doc = { pictureInPictureEnabled: true, pictureInPictureElement: null as unknown, exitPictureInPicture: vi.fn().mockResolvedValue(undefined), querySelectorAll: (query: string) => query === 'audio,video' ? [video, audio] : [] };
+    vi.stubGlobal('document', doc);
+    return { video, audio, doc };
+  }
+  it('only enters the selected loaded video without playing audio or video', async () => {
+    const { video, audio, doc } = setupPip();
+    const { items } = await mediaDOM();
+    expect(items[0]?.pipAvailable).toBe(true);
+    expect(items[1]?.pipAvailable).toBe(false);
+    expect((await mediaDOM(items[1]!.id, { type: 'pip-enter' })).errorCode).toBe('pip-unavailable');
+    expect((await mediaDOM(items[0]!.id, { type: 'pip-enter' })).error).toBeUndefined();
+    expect(video.requestPictureInPicture).toHaveBeenCalledOnce();
+    expect(audio.requestPictureInPicture).not.toHaveBeenCalled();
+    expect(video.play).not.toHaveBeenCalled();
+    doc.pictureInPictureElement = video;
+    expect((await mediaDOM()).items[0]?.pipActive).toBe(true);
+  });
+  it('respects disabled/unloaded video and document policy without removing restrictions', async () => {
+    const { video, doc } = setupPip();
+    const { items } = await mediaDOM();
+    video.disablePictureInPicture = true;
+    expect((await mediaDOM(items[0]!.id, { type: 'pip-enter' })).errorCode).toBe('pip-unavailable');
+    expect(video.disablePictureInPicture).toBe(true);
+    video.disablePictureInPicture = false; video.readyState = 0;
+    expect((await mediaDOM()).items[0]?.pipAvailable).toBe(false);
+    video.readyState = 2; doc.pictureInPictureEnabled = false;
+    expect((await mediaDOM()).items[0]?.pipAvailable).toBe(false);
+    expect(video.requestPictureInPicture).not.toHaveBeenCalled();
+  });
+  it('does not close another element PiP and handles browser rejection', async () => {
+    const { video, audio, doc } = setupPip();
+    const { items } = await mediaDOM();
+    doc.pictureInPictureElement = audio;
+    expect((await mediaDOM(items[0]!.id, { type: 'pip-exit' })).errorCode).toBe('pip-not-active');
+    expect(doc.exitPictureInPicture).not.toHaveBeenCalled();
+    doc.pictureInPictureElement = video;
+    await mediaDOM(items[0]!.id, { type: 'pip-exit' });
+    expect(doc.exitPictureInPicture).toHaveBeenCalledOnce();
+    doc.pictureInPictureElement = null;
+    video.requestPictureInPicture.mockRejectedValue(new Error('gesture'));
+    expect((await mediaDOM(items[0]!.id, { type: 'pip-enter' })).errorCode).toBe('pip-rejected');
+  });
+});

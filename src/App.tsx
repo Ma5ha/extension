@@ -10,6 +10,7 @@ import { GmailPanel } from './components/ServicePanels';
 import { AgendaPanel } from './calendar/AgendaPanel';
 import { BookmarkPanel } from './bookmarks/BookmarkPanel';
 import { MediaPanel } from './media/MediaPanel';
+import { MediaProvider } from './media/MediaProvider';
 import { SettingsPanel } from './components/SettingsPanel';
 import { WidgetBoard } from './workspace/WidgetBoard';
 import { SessionsPanel } from './sessions/SessionsPanel';
@@ -62,7 +63,7 @@ export function App() {
   const title = space === 'Rad' ? 'Radni prostor' : space === 'Muzika' ? 'Mediji' : space;
   const today = new Intl.DateTimeFormat('sr-Latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return <div className={styles.app} data-glass={settings.glass > 0} style={{ '--glass-opacity': 1 - settings.glass / 250 } as CSSProperties}>
+  return <MediaProvider active={settings.music || space === 'Muzika'}><div className={styles.app} data-glass={settings.glass > 0} style={{ '--glass-opacity': 1 - settings.glass / 250 } as CSSProperties}>
     <a className={styles.skip} href="#main">Pređi na sadržaj</a>
     <aside className={styles.sidebar} aria-label="Tabora navigacija">
       <a className={styles.brand} href="#main" onClick={event => { event.preventDefault(); setSpace('Rad'); }} aria-label="Tabora, radni prostor">tabora<span className={styles.brandDot}>.</span></a>
@@ -109,5 +110,5 @@ export function App() {
     </main>
     {settingsOpen && <Dialog title="Tvoj prostor, tvoja pravila" close={() => setSettingsOpen(false)}><SettingsPanel settings={settings} update={update} editLayout={() => { void update({ layoutMode: 'custom' }); setSpace('Rad'); setEditingLayout(true); setSettingsOpen(false); }} /></Dialog>}
     {preview && <Dialog title="Pregled grupisanja" close={() => { if (!busy) setPreview(null); }}><GroupPreview plan={preview} busy={busy} confirm={() => void group()} cancel={() => setPreview(null)} /></Dialog>}
-  </div>;
+  </div></MediaProvider>;
 }

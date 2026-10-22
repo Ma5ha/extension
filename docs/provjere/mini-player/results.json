@@ -1,0 +1,16 @@
+{
+  "passed": [
+    "no autoplay; source selection survives navigation",
+    "video enter/exit, play/pause, seek and volume command wiring",
+    "floating drag, keyboard move/resize, presets, route persistence and dock",
+    "dark 320px reflow, viewport clamp and keyboard Escape",
+    "simulated Document PiP: portal, theme, hidden-opener polling, manual close and rejection",
+    "late popup request is cancelled when the user chooses the local player",
+    "unavailable video cannot send a PiP command",
+    "closed source returns to empty state"
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "documentPip": "same-origin window simulation; actual native PiP not verified",
+  "nativeVideo": "synthetic Chrome scripting fixture; no real media or user profile"
+}

@@ -10,12 +10,23 @@ export async function mediaDOM(id?: string, command?: MediaCommand): Promise<Fra
     if (!key) { key = String(++state.next); state.ids.set(element, key); }
     return key;
   };
+  const canPip = (element: HTMLMediaElement) => {
+    const video = element as HTMLVideoElement;
+    return element.tagName === 'VIDEO' && document.pictureInPictureEnabled === true && typeof video.requestPictureInPicture === 'function' && !video.disablePictureInPicture && video.readyState > 0 && video.videoWidth > 0;
+  };
   let error: string | undefined;
+  let errorCode: FrameMedia['errorCode'];
   if (command) {
     const element = elements.find(e => identify(e) === id);
     if (!element) error = 'Izvor više nije dostupan. Osvježi listu.';
     else try {
-      if (command.type === 'play') await element.play();
+      if (command.type === 'pip-enter') {
+        if (!canPip(element)) { errorCode = 'pip-unavailable'; throw new Error('pip'); }
+        if (document.pictureInPictureElement !== element) await (element as HTMLVideoElement).requestPictureInPicture();
+      } else if (command.type === 'pip-exit') {
+        if (document.pictureInPictureElement !== element) { errorCode = 'pip-not-active'; throw new Error('pip'); }
+        await document.exitPictureInPicture();
+      } else if (command.type === 'play') await element.play();
       else if (command.type === 'pause') element.pause();
       else if (command.type === 'volume' && Number.isFinite(command.value) && command.value >= 0 && command.value <= 1) { element.volume = command.value; if (Math.abs(element.volume - command.value) > 0.01) throw new Error('volume'); }
       else if (command.type === 'seek' && Number.isFinite(command.value) && command.value >= 0) {
@@ -25,10 +36,14 @@ export async function mediaDOM(id?: string, command?: MediaCommand): Promise<Fra
         if (!allowed) throw new Error('range');
         element.currentTime = command.value;
       } else throw new Error('command');
-    } catch { error = 'Player nije prihvatio komandu. Otvori izvorni tab i pokušaj tamo.'; }
+    } catch {
+      if (command.type === 'pip-enter' || command.type === 'pip-exit') errorCode ??= 'pip-rejected';
+      error = 'Player nije prihvatio komandu. Otvori izvorni tab i pokušaj tamo.';
+    }
   }
-  return { error, frames: document.querySelectorAll('iframe,frame').length, items: elements.map(e => ({
+  return { error, errorCode, frames: document.querySelectorAll('iframe,frame').length, items: elements.map(e => ({
     id: identify(e), kind: e.tagName === 'VIDEO' ? 'Video' : 'Audio', paused: e.paused, ended: e.ended,
+    pipAvailable: canPip(e), pipActive: e.tagName === 'VIDEO' && document.pictureInPictureElement === e,
     volume: e.volume, muted: e.muted, time: Number.isFinite(e.currentTime) ? e.currentTime : 0,
     duration: Number.isFinite(e.duration) ? e.duration : null,
     ranges: Array.from({ length: e.seekable.length }, (_, i) => [e.seekable.start(i), e.seekable.end(i)] as [number, number]),

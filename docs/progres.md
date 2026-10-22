@@ -4,6 +4,12 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-01-E — U TOKU: pripremljene TAB-07-B i TAB-02-T izmjene komituju se i šalju na origin/main po nalogu korisnika.
+
+TAB-02-T — ZAVRŠENO: pravilo u AGENTS.md i planu odlaže pisanje testova i novih automatizovanih QA skripti za završetak projekta. Postojeći testovi ostaju sačuvani; typecheck/lint/build i ručne provjere ostaju u toku razvoja.
+
+TAB-07-B — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: mini-player, izdvojene kontrole i opcioni izvorni video PiP. 57/57 testova, typecheck, lint, build, fokusirani browser QA i regresioni UI pregled prolaze. Stvarni sistemski PiP i konkretni servisi čekaju Reload/provjeru; detalji u docs/mini-player.md.
+
 TAB-01-D — ZAVRŠENO: commit `6953a84` sa TAB-03-F doradom poslat je na origin/main; lokalni i udaljeni HEAD su potvrđeno jednaki, radno stablo nakon slanja čisto. Terminal radi uz stvarnu putanju foldera sa završnim razmakom. Završna evidencija ide u prateći dokumentacioni commit.
 
 TAB-03-F — ZAVRŠENO u implementacionom i sintetički provjerenom obimu: stvarne Chrome ikonice uz tabove/grupe/bookmarkove i lokalni Inter font. Potrebna `favicon` dozvola dodata bez novih host dozvola. 50/50 testova, typecheck/lint/build i prošireni browser QA prolaze. Dorada je commitovana i poslata na origin/main kao `6953a84` u TAB-01-D.
@@ -74,15 +80,18 @@ Korisnik je izričito naložio commit. Obim: `.gitignore`, plan, agentove upute,
 
 | ID | Zadatak | Status | Rezultat / preostalo |
 |---|---|---|---|
+| TAB-02-T | Odlaganje pisanja testova | ZAVRŠENO | Novi/prošireni testovi i automatizovane QA skripte tek u završnoj fazi; AGENTS.md i plan usklađeni. |
 | TAB-02-REV | Ponovni izbor vizuelnog pravca | ZAVRŠENO | Korisnik izabrao tačan priloženi prikaz Radne konzole i naložio implementaciju. |
 | TAB-03-E | Radna konzola prema izabranoj slici | ZAVRŠENO | Implementacija i sintetički browser/visual QA prolaze; granice u design-qa.md. |
 | TAB-03-F | Stvarne ikonice i Inter font | ZAVRŠENO | Chrome favicon izvor, fallback/recovery, Inter lokalno sa OFL; 50 testova i sintetički browser QA prolaze. |
+| TAB-01-E | Commit i push mini-playera i uputa | U TOKU | Pregledane pripremljene izmjene; slijede commit, push i potvrda udaljenog HEAD-a. |
 | TAB-01-D | Commit i push ikonica i fonta | ZAVRŠENO | Commit 6953a84 na origin/main, udaljeni HEAD potvrđen; završna evidencija u pratećem commitu. |
 | TAB-01-C | Commit i push Radne konzole | ZAVRŠENO | Kod, dokumentacija i sintetički QA artefakti u commitu `72c479c`, push na origin/main potvrđen. |
 | TAB-01-B | Prvi push na GitHub | ZAVRŠENO | Udaljeni main jednak lokalnom HEAD-u `6b6f5a4`; podešen upstream `origin/main`. |
 | TAB-01-A | Dodavanje Git origin-a | ZAVRŠENO | Fetch/push URL odgovara korisnikovom nalogu; bez push-a ili objave. |
 | TAB-02-DOC | Prihvaćeni stack, upute i evidencija | ZAVRŠENO | Dokumenti usklađeni; lokalne veze i format provjereni. Bez instalacije u tom koraku. |
 | TAB-07-R | Istraživanje kontrole YouTube taba | ZAVRŠENO | Pregledana zvanična dokumentacija; tehnička procjena postoji, stvarni YouTube prototip nije izvršen. |
+| TAB-07-B | Video PiP i plutajući mini-player | ZAVRŠENO | Implementacija i sintetičke provjere prolaze; stvarni sistemski PiP i servisi ostaju neprovjereni. |
 | TAB-07-A | Objedinjena kontrola medijskih tabova | U TOKU | Korisnik odobrio početak u novom chatu; Panel i DOM/Chrome adapteri implementirani; automatizovane provjere i HTTP osnovni pregled prolaze, stvarna Chrome matrica preostaje. |
 | TAB-03-A | WXT osnova, raspored i teme | U TOKU | Implementirano i HTTP pregled provjeren; učitavanje u Chrome preostaje. |
 | TAB-03-B | Stil i organizacija koda | ZAVRŠENO | AGENTS.md prilagođen WXT projektu, bez Nx-a. |
@@ -292,3 +301,29 @@ Ponovo izvršeni `corepack pnpm typecheck`, `corepack pnpm lint`, `corepack pnpm
 ### 22. oktobar 2026. — TAB-01-D: potvrđen rezultat
 
 ZAVRŠENO. Napravljen i običnim pushom poslat commit `6953a84` — `feat: add Chrome favicons and bundled Inter font` (41 fajl: kod, testovi, lokalni font/licenca, dokumentacija i sintetički QA materijali). `git diff --cached --check` prolazi. `git rev-parse HEAD` i `git ls-remote --heads origin refs/heads/main` vratili su `6953a84254c10713e3ccf977a5b819de499f4877`; main je poravnat sa origin/main i radno stablo nakon slanja čisto. Ponovljene provjere: typecheck, lint, 50/50 testova i produkcioni build prolaze. Ova završna evidencija komituje se i šalje istim korisnikovim nalogom. Korisnikov naredni korak je Reload ekstenzije; stvarni Chrome favicon cache, Google/player i ostali ranije navedeni kriterijumi ostaju otvoreni.
+
+### 22. oktobar 2026. — TAB-07-B: početak
+
+Korisnik je izričito naložio implementaciju nakon razmatranja opcionalnog videa i floating playera. Git stablo je početno čisto na d33af38. Pregledani plan, progres, UI upute i postojeći Mediji model/DOM/adapter/hook/prikaz i mjesta montiranja. Chrome zvanični Document PiP i video PiP izvori potvrđuju mogućnost kontrola iznad drugih prozora i izvornog video prikaza; otvaranje zahtijeva korisnički klik, kontrole-prozor ne nadživljava opener. Izabrana implementacija obuhvata oba plutajuća načina jer korisnik nije suzio ponuđeni obim. Nema prenošenja proizvoljnog tuđeg DOM videa u Taboru. Koraci: stabilni zajednički controller kroz navigaciju; jedan mini-player koji se vraća u panel; pomjeranje/veličina uz tastaturne alternative; tema i lifecycle Document PiP-a; video PiP samo za izabrani podržani element i dokument. Slijede relevantni testovi, typecheck/lint/build i browser pregled bez čitanja privatnog profila.
+
+### 22. oktobar 2026. — TAB-07-B: zajedničke kontrole i mini-player
+
+Postojeći panel izdvojen u zajednički MediaProvider/controller i MediaContent; izabrani izvor i komande sada dijele glavni prikaz, navigacija i bočni panel unutar odgovarajuće Tabora stranice. Floating okvir se montira iznad navigacionih grana, sa pomjeranjem i promjenom veličine, tastaturnim strelicama i izborom ugla/veličine bez prevlačenja. Geometrija se ograničava na viewport, uključujući 320px. Video dugme zavisi od potvrđenih mogućnosti izvornog elementa. Document PiP i proširenje DOM adaptera još su u radu; početni typecheck zato prijavljuje očekivane nedostajuće interfejse dok se ti moduli dovršavaju, nije završna provjera. Kod ne uvodi novu reprodukciju, stream ili dozvole.
+
+### 22. oktobar 2026. — TAB-07-B: rezultat i završne provjere
+
+ZAVRŠENO u implementacionom i sintetički provjerenom obimu. Zajednički provider/controller čuva izbor kroz navigaciju; MediaContent koristi iste kontrole u glavnom/bočnom panelu i portalima. Mini-player ima pomjeranje, resize, tastaturu, ugaone/veličinske izbore, viewport ograničenje i povratak fokusa. Document PiP otvara se u klik toku, kopira lokalne stilove/font i temu, prati ručno zatvaranje/odbijanje/otkazivanje zakašnjelog otvaranja, a osvježavanje koristi njegov timer dok je opener skriven. Native video PiP cilja izabrani dokument i element prije prvog await-a; poštuje zabranu sajta, ne zatvara tuđi PiP i ne pokreće reprodukciju. Nove dozvole, zavisnosti ili server nisu dodati.
+
+Provjere: typecheck, lint bez upozorenja, 57/57 testova u 11 fajlova, produkcioni WXT build i diff --check prolaze. Fokusirani HTTP/Chrome-fixture pregled potvrđuje odsustvo autoplay-a, zajednički izbor izvora, video komande, play/pause/seek/volume, drag/tastaturu/resize/presete/navigaciju/dock, dark 320px bez preliva, Escape, prozor i sinhronizaciju teme, polling dok je opener skriven, ručno zatvaranje/odbijanje i otkazivanje zakašnjelog prozora, nedostupan video i zatvoren izvor. Pageerror/console error i eksterni zahtjevi: 0. Početni test preciznog label matcha doveo je do eksplicitnih pristupačnih imena izbora izvora; pomjeren overlay prije klika pokrivene navigacije. Regresioni test je otkrio 404 za podrazumijevani /favicon.ico HTTP servera; oba testna servera za taj endpoint sada daju 204, dok ostale greške i dalje padaju. Postojeći verify-console pregled glavnog/bočnog panela i svih ranijih interakcija nakon toga prolazi; njegovi novi regresioni snimci su u ignorisanom test-results/mini-player-regression.
+
+Vizuelno pregledani novi light1280, dark320 i controls-window snimci. Dokazi i granice: docs/provjere/mini-player/izvjestaj.md i results.json. Document PiP browser test koristi same-origin window simulaciju; video komande koriste sintetički scripting fixture, ne stvarni korisnički profil ili sistemski video. Stvarni sistemski PiP, YouTube/iframe/ostali servisi, puna accessibility i stvarni browser zoom nisu potvrđeni. Naredni korisnikov korak: Reload paketa i probni medijski izvor. Ranije stvarne Chrome/Google/player granice ostaju otvorene; nema novog commita/push-a.
+
+### 22. oktobar 2026. — TAB-02-T: pravilo pisanja testova
+
+U TOKU. Korisnik je naložio da agent više ne piše testove tokom razvoja, nego da se napišu na kraju projekta. Koraci: dodati izričito pravilo u AGENTS.md i uskladiti dio plana o provjeri kvaliteta. Postojeći testovi i prethodni rezultati ostaju sačuvani.
+
+TAB-02-T rezultat — ZAVRŠENO: AGENTS.md sada izričito zabranjuje pisanje novih/proširivanje postojećih testova i dodavanje QA/test skripti ili infrastrukture tokom razvoja; testovi se pišu na kraju projekta. PLAN.md usklađen. Postojeći testovi nisu brisani ili mijenjani ovim korakom. Izmjena je dokumentaciona; testovi nisu pokretani. Pregledan diff i provjeren format pomoću git diff --check.
+
+### 22. oktobar 2026. — TAB-01-E: priprema
+
+U TOKU. Korisnik izričito traži commit i push. Pregledani status, grana main, origin URL, diff i svi novi fajlovi. Paket sadrži mini-player/video PiP/Document PiP kod, dokumentaciju, prethodno napisane testove i sintetičke QA artefakte, te novo pravilo da se dalji testovi pišu na kraju projekta. Nema novih testova u ovom koraku. Prethodne provjere istog koda: typecheck/lint/build, 57/57 testova i oba browser pregleda prolaze; od tada su mijenjane samo upute/plan/progres. Ciljana provjera obrazaca tajni bez podudaranja, diff --check prolazi. Build, zavisnosti i privremeni regresioni materijali ostaju ignorisani. Slijede commit, običan push na origin/main i potvrda udaljenog HEAD-a.

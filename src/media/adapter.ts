@@ -1,5 +1,5 @@
 import { mediaDOM } from './dom';
-import { sitePattern, validCommand, type MediaCommand, type Source } from './model';
+import { sitePattern, validCommand, MediaActionError, type MediaCommand, type Source } from './model';
 
 export async function inspectSource(tab: chrome.tabs.Tab): Promise<Source> {
   const base: Source = { tab, items: [], status: 'permission', frames: 0 };
@@ -18,10 +18,15 @@ export function allowSite(url?: string) {
 }
 export async function control(source: Source, item: Source['items'][number], command: MediaCommand) {
   if (!validCommand(command)) throw new Error('command');
-  const current = await chrome.tabs.get(source.tab.id!);
-  if (current.url !== source.tab.url || current.discarded) throw new Error('changed');
-  const result = await chrome.scripting.executeScript({ target: { tabId: current.id!, documentIds: [item.documentId] }, func: mediaDOM, args: [item.id, command] });
-  if (!result[0]?.result || result[0].result.error) throw new Error(result[0]?.result?.error || 'unavailable');
+  // Pin the document and inject before the first await for gesture-gated PiP.
+  // Chrome rejects a closed/discarded tab or a document replaced by navigation.
+  if (command.type !== 'pip-enter' && command.type !== 'pip-exit') {
+    const current = await chrome.tabs.get(source.tab.id!);
+    if (current.url !== source.tab.url || current.discarded) throw new Error('changed');
+  }
+  const result = await chrome.scripting.executeScript({ target: { tabId: source.tab.id!, documentIds: [item.documentId] }, func: mediaDOM, args: [item.id, command] });
+  if (result[0]?.result?.errorCode) throw new MediaActionError(result[0].result.errorCode);
+  if (!result[0]?.result || result[0].result.error) throw new Error('unavailable');
 }
 export async function openSource(id: number) {
   const tab = await chrome.tabs.get(id);

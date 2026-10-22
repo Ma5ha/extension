@@ -60,14 +60,14 @@ export function App() {
   }
   const custom = settings.layoutMode === 'custom';
   const inspector = space === 'Rad' && !custom && (settings.focus || settings.agenda || settings.gmail || settings.music);
-  const title = space === 'Rad' ? 'Radni prostor' : space === 'Muzika' ? 'Mediji' : space;
+  const title = space === 'Rad' ? 'Radni prostor' : space === 'Muzika' ? 'Mediji' : space === 'Bookmarkovi' ? 'Bookmarks' : space;
   const today = new Intl.DateTimeFormat('sr-Latn', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return <MediaProvider active={settings.music || space === 'Muzika'}><div className={styles.app} data-glass={settings.glass > 0} style={{ '--glass-opacity': 1 - settings.glass / 250 } as CSSProperties}>
     <a className={styles.skip} href="#main">Pređi na sadržaj</a>
     <aside className={styles.sidebar} aria-label="Tabora navigacija">
       <a className={styles.brand} href="#main" onClick={event => { event.preventDefault(); setSpace('Rad'); }} aria-label="Tabora, radni prostor">tabora<span className={styles.brandDot}>.</span></a>
-      <nav className={styles.navigation} aria-label="Glavna navigacija">{destinations.map(({ name, icon: Icon }, index) => <button className={index === 4 ? styles.secondaryDestination : undefined} key={name} aria-current={space === name ? 'page' : undefined} onClick={() => { setSpace(name); setEditingLayout(false); }}><Icon size={21} aria-hidden="true" /><span>{name}</span></button>)}</nav>
+      <nav className={styles.navigation} aria-label="Glavna navigacija">{destinations.map(({ name, icon: Icon }, index) => <button className={index === 4 ? styles.secondaryDestination : undefined} key={name} aria-current={space === name ? 'page' : undefined} onClick={() => { setSpace(name); setEditingLayout(false); }}><Icon size={21} aria-hidden="true" /><span>{name === 'Bookmarkovi' ? 'Bookmarks' : name}</span></button>)}</nav>
       <div className={styles.sidebarFooter}><div className={styles.headerActions}>
         <button disabled={!ready} aria-label="Svijetla tema" aria-pressed={settings.theme === 'light'} title="Svijetla tema" onClick={() => void update({ theme: 'light' })}><Sun size={21} /></button>
         <button disabled={!ready} aria-label="Tamna tema" aria-pressed={settings.theme === 'dark'} title="Tamna tema" onClick={() => void update({ theme: 'dark' })}><Moon size={21} /></button>

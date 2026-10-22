@@ -239,3 +239,19 @@ TAB-07-B rezultat — ZAVRŠENO u implementacionom i sintetički provjerenom obi
 U TOKU. Korisnik je naložio commit i push svih pripremljenih izmjena: TAB-07-B mini-player i video/Document PiP kontrole, prateća dokumentacija/sintetički QA i TAB-02-T pravilo odlaganja pisanja testova. Testovi i QA skripte u ovom paketu nastali su prije tog pravila; sada se novi testovi ne pišu. Prethodne provjere istog implementacionog koda prolaze (57/57, typecheck/lint/build, fokusirani i regresioni UI pregled); nakon njih mijenjana je samo dokumentacija. Koraci: pregled i staging, commit, običan push na postojeći origin/main, potvrda udaljenog HEAD-a i završna evidencija. Početni HEAD je d33af38.
 
 TAB-01-E rezultat — ZAVRŠENO: commit `08274a8` (`feat: add floating media controls and optional video PiP`, 34 fajla) uspješno je poslat običnim pushom na origin/main. Lokalni i udaljeni HEAD potvrđeni su kao `08274a8bcfa307c68344a030f4e84ef6ccd88b84`; radno stablo nakon slanja čisto. Paket uključuje TAB-07-B i TAB-02-T; novi testovi nisu pisani tokom ovog Git zadatka. Završna evidencija šalje se pratećim dokumentacionim commitom. Sljedeći korisnikov korak ostaje Reload ekstenzije i provjera stvarnih PiP izvora; razvojni kriterijumi ostaju kako su prethodno evidentirani.
+
+### 22. oktobar 2026. — TAB-03-G: prozirne kartice i bookmark stablo
+
+U TOKU. Početno čisto stablo na 26b0792. Obim: suptilan linearni gradijent, tematske prozirne kartice, stvarna hijerarhija Chrome foldera sa disclosure kontrolama i tastaturom, engleski tekst bookmark interfejsa i kratki prelazi uz reduced motion. Koraci: web istraživanje; prikaz i tekstovi; typecheck/lint/build i ručni browser pregled. Bez novih testova/QA skripti, dozvola, zavisnosti ili commit/push-a.
+
+TAB-03-G rezultat — implementacija i typecheck/lint/build ZAVRŠENI; ručna provjera djelimična. Promijenjeni theme/App stilovi daju linearni light/dark gradijent i prozirne kartice, uključujući kompaktne dnevne module; kratki ulazni/hover/disclosure prelazi poštuju reduced motion. BookmarkPanel prikazuje stvarnu ugniježđenu hijerarhiju i prazne foldere, nativne disclosure kontrole sa tastaturom, postojeće create/edit/remove/move forme i potvrdu otvaranja foldera uključujući podfoldere. Engleski bookmark tekstovi i statusi, originalni korisnički nazivi ostaju.
+
+Provjere: corepack pnpm typecheck, lint i build prolaze nakon završne korekcije; git diff --check prolazi. Nisu pisani novi testovi ili QA skripte. Ručno u Chrome-u na HTTP prikazu pregledani light/dark kartice i gradient, navigacija i englesko denied stanje Bookmarks; početni IAB nije dosegao localhost, Chrome 127.0.0.1 prikaz jeste. Popunjeno stablo i Chrome CRUD/dozvole, uske širine, stvarni zoom, tastatura i reduced-motion nisu izvršno potvrđeni; ne tvrdi se puna accessibility usklađenost. Lokalni paket build/chrome-mv3 spreman je za Reload. Sljedeći korak: pregled učitane ekstenzije sa stvarnim folderima i dovršetak ručne matrice. Bez novog commita/push-a/objave. TAB-03 i ostale razvojne faze ostaju U TOKU prema ranijim kriterijumima.
+
+### 22. oktobar 2026. — TAB-02-U: vrijeme pisanja izvještaja
+
+ZAVRŠENO. Prema korisnikovom nalogu, izvještaj se priprema prije push-a, odnosno na kraju svake sesije ako push nije dio rada. AGENTS.md nalaže uključivanje izvještaja u isti odobreni Git korak, bez dodatnog dokumentacionog commit/push-a radi naknadnog izvještaja; ishod push-a ide u završni odgovor. Dokumentaciona izmjena, bez promjene razvojnih faza ili odobrenja za Git upise.
+
+### 22. oktobar 2026. — TAB-01-F: slanje kartica i bookmark stabla
+
+U TOKU. Korisnik je odobrio commit/push pripremljenog TAB-03-G i TAB-02-U paketa na origin/main. Pregled svih 11 fajlova i završni typecheck/lint/build/diff --check prolaze. Izvještaj je pripremljen prije slanja prema novom pravilu; ishod Git radnji ide u završni odgovor. Preostale ručne UI provjere i razvojni kriterijumi ostaju otvoreni.

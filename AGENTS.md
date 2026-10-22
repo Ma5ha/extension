@@ -105,6 +105,7 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 
 - Prije promjene zabilježi zadatak, pripadajuću TAB fazu, konkretne korake i početni status u evidenciji.
 - Poslije svakog značajnog koraka upiši rezultat, relevantne fajlove, izvršene provjere i njihov ishod. Ne čekaj kraj dugog zadatka.
+- Ako pišeš izvještaj o radu, pripremi ga prije push-a; ako se push ne radi, napiši ga na kraju svake sesije, prije završnog odgovora. Planirane nalaze i izvršene provjere zabilježi prije slanja, da izvještaj bude uključen u isti odobreni commit/push. Ne pravi dodatni dokumentacioni commit/push samo radi naknadnog izvještaja; ishod push-a saopšti u završnom odgovoru.
 - Prije završnog odgovora ažuriraj pregled statusa i navedi preostalo i naredni korak. Promjene obima, stacka, zavisnosti ili kriterijuma prenesi i u plan.
 - Svaki zadatak ima stabilan ID; faze TAB-01–TAB-12 zadržavaju postojeće oznake. Detaljne korake označi npr. TAB-03-A. Ne briši istoriju da promijeniš status.
 - Statusi su PLANIRANO, U TOKU, ZAVRŠENO, BLOKIRANO, PAUZIRANO i OTKAZANO. Uz blokadu navedi konkretan uslov za nastavak; PAUZIRANO koristi kada korisnik zatraži pauzu.

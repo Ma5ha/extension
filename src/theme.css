@@ -9,6 +9,10 @@
 :root {
   color-scheme: light;
   --background: #ffffff;
+  --page-gradient: linear-gradient(125deg, #f7fafc 0%, #edf3f8 52%, #f3f1f8 100%);
+  --card-opacity: .76;
+  --card-padding: 20px;
+  --motion-fast: 160ms;
   --sidebar: #f5f8fa;
   --on-accent: #ffffff;
   --panel-rgb: 255 255 255;
@@ -34,6 +38,8 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --background: #101216;
+  --page-gradient: linear-gradient(125deg, #10151c 0%, #17212c 52%, #201c2b 100%);
+  --card-opacity: .8;
   --sidebar: #141920;
   --on-accent: #101216;
   --panel-rgb: 25 29 36;
@@ -66,3 +72,5 @@ p { line-height: 1.65; }
 small { font-size: 12px; }
 svg { flex-shrink: 0; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+button, a, summary { transition: background-color var(--motion-fast) ease, color var(--motion-fast) ease, border-color var(--motion-fast) ease; }

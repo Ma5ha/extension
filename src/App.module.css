@@ -1,4 +1,4 @@
-.app { display: grid; grid-template-columns: clamp(200px, 16.6vw, 248px) minmax(0, 1fr); min-height: 100dvh; background: var(--panel); }
+.app { display: grid; grid-template-columns: clamp(200px, 16.6vw, 248px) minmax(0, 1fr); min-height: 100dvh; background: var(--page-gradient); }
 .sidebar { position: sticky; top: 0; height: 100dvh; min-height: 580px; display: flex; flex-direction: column; padding: 28px 18px 24px; background: var(--sidebar); border-right: 1px solid var(--border); }
 .brand { display: inline-block; align-self: flex-start; margin: 0 10px 42px; font-size: 28px; line-height: 1.15; font-weight: 750; letter-spacing: -1.6px; color: var(--text); text-decoration: none; }
 .brand:hover { text-decoration: none; }
@@ -26,12 +26,12 @@
 .workspaceActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 .workspaceActions button { font-size: 12px; min-height: 36px; padding: 8px 12px; }
 .inspector { border-left: 1px solid var(--border); padding: 28px 24px; min-width: 0; }
-.inspector > section { padding: 0 0 24px; margin-bottom: 26px; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; background: transparent; }
-.inspector > section:last-child { border-bottom: 0; margin-bottom: 0; }
+.inspector > section { margin-bottom: var(--space-4); }
+.inspector > section:last-child { margin-bottom: 0; }
 .inspector h2 { font-size: 18px; letter-spacing: -.5px; }
-.primaryContent > section + section { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 20px; }
+.primaryContent > section + section { margin-top: var(--space-4); }
 .destination { max-width: 980px; }
-.panel { min-width: 0; background: rgb(var(--panel-rgb) / var(--glass-opacity, 1)); padding: 0; }
+.panel, .app .panel, .inspector > section { min-width: 0; background: rgb(var(--panel-rgb) / min(var(--glass-opacity, 1), var(--card-opacity))); padding: var(--card-padding); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); animation: cardEnter 180ms ease-out; }
 [data-glass='true'] .sidebar { background: rgb(var(--panel-rgb) / var(--glass-opacity, 1)); backdrop-filter: blur(16px); }
 .panelHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 .panelHeader h2 { display: flex; align-items: center; gap: 10px; font-size: 21px; letter-spacing: -.65px; }
@@ -148,3 +148,6 @@
 
 .listActions { display: flex; align-items: center; gap: 8px; }
 .refreshTabs { width: 30px; min-height: 32px; padding: 6px; background: transparent; border: 0; color: var(--muted); }
+
+@keyframes cardEnter { from { opacity: .6; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 759px) { .panel { --card-padding: 16px; } }

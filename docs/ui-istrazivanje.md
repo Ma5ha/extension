@@ -219,3 +219,11 @@ Naknadni izbor i implementacija imaju prednost nad istorijskim napomenama raniji
 ### Dopuna TAB-07-A — 21. oktobar 2026.
 
 Nepovezani muzički widget zamijenjen je panelom Mediji u istom rasporedu. Standardni DOM adapter i opcione dozvole imaju implementaciju; Spotify nalog/embed nije dio ove izmjene. HTTP pregled potvrđuje osnovni panel u obje teme i 320 px reflow; aktivne Chrome kontrole još zahtijevaju matricu u `provjere/mediji.md`.
+
+## 14. TAB-03-G — kartice i bookmark stablo, 22. oktobar 2026.
+
+Korisnik sada traži prozirne kartice, suptilan linearni gradijent, engleski bookmark interfejs i diskretne animacije. Pregledane žive reference [Linear](https://linear.app/features) i [Rauno](https://rauno.me/); smjer ostaje jednostavna hijerarhija i kratka povratna informacija, bez kopiranja njihovih asseta. Dokumentacioni pregled, ne korisničko istraživanje.
+
+[Chrome bookmarks API](https://developer.chrome.com/docs/extensions/reference/api/bookmarks) potvrđuje stvarnu hijerarhiju children i postojeće CRUD/move operacije. [WAI disclosure/tree primjer](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/examples/treeview-navigation/) preporučuje jednostavniji disclosure kada puni ARIA tree nije potreban: ovdje su nativni details/summary i ugniježđene liste, bez lažnog tree role-a. Tab dolazi do svake radnje; Enter/Space otvara folder, Left/Right zatvara/otvara, Up/Down/Home/End kreće se među vidljivim folderima. Native stanje ostaje dostupno čitaču ekrana.
+
+[MDN reduced motion](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion) primijenjen kroz postojeći globalni override. [MDN backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/backdrop-filter) pregledan; kartice koriste alfa površine bez dodatnog blura. Nema novih zavisnosti ili dozvola. Engleski obuhvata bookmark navigacioni naziv, naslov, forme, potvrde i statusne poruke; korisnički nazivi foldera ostaju originalni. Ostali moduli zadržavaju raniji jezik.

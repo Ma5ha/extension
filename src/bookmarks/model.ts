@@ -23,7 +23,7 @@ export function flattenFolders(nodes: chrome.bookmarks.BookmarkTreeNode[], ances
     if (node.url) return [];
     const locked = managed || node.unmodifiable === 'managed';
     const nextPath = node.title ? [...path, node.title] : path;
-    const self = node.parentId !== undefined ? [{ id: node.id, title: node.title || 'Bez naziva', path: nextPath.join(' / '), ancestors, editable: !locked }] : [];
+    const self = node.parentId !== undefined ? [{ id: node.id, title: node.title || 'Untitled folder', path: nextPath.join(' / '), ancestors, editable: !locked }] : [];
     return [...self, ...flattenFolders(node.children ?? [], [...ancestors, node.id], nextPath, locked)];
   });
 }

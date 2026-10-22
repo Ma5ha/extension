@@ -255,3 +255,17 @@ ZAVRŠENO. Prema korisnikovom nalogu, izvještaj se priprema prije push-a, odnos
 ### 22. oktobar 2026. — TAB-01-F: slanje kartica i bookmark stabla
 
 U TOKU. Korisnik je odobrio commit/push pripremljenog TAB-03-G i TAB-02-U paketa na origin/main. Pregled svih 11 fajlova i završni typecheck/lint/build/diff --check prolaze. Izvještaj je pripremljen prije slanja prema novom pravilu; ishod Git radnji ide u završni odgovor. Preostale ručne UI provjere i razvojni kriterijumi ostaju otvoreni.
+
+### 22. oktobar 2026. — TAB-07-C: kompaktniji media player
+
+U TOKU. Korisnik traži manje i grupisanije kontrole i izbor izvora u jednoj selekt kartici. Početno stablo čisto. Koraci: objediniti naslov izvora i select, grupisati transport/progres/jačinu, skloniti sporedne prikaze u sklopivi dio; typecheck/lint/build i raspoloživi ručni pregled. Postojeće komande i PiP ostaju. Bez novih testova, zavisnosti ili commit/push-a.
+
+TAB-07-C rezultat — implementacija ZAVRŠENA; ručna provjera djelimična. MediaContent objedinjuje ikonicu, native select izvora i status u jednu karticu bez duplog naslova. Transport 40px, progres/vremena i horizontalna jačina su grupisani sa manjim razmacima; sekundarni mini-player/Document PiP izbori su u disclosure „Prikaz playera“. MediaPanel CSS ograničava široki prikaz na 620px; floating sadržaj ima manje unutrašnje margine. Komande, dozvole, player izbor i video PiP ostaju postojeći.
+
+Provjere: corepack pnpm typecheck/lint/build prolaze, git diff --check prolazi. Ručno u Chrome HTTP prikazu pregledani sidebar preview i samostalni panel, light/dark i otvaranje „Prikaz playera“. HTTP nema stvarne izvore: aktivna selekt kartica/transport, nativni PiP, uske širine/zoom/tastatura i reduced motion nisu izvršno potvrđeni. Bez novih testova/QA skripti ili zavisnosti. Lokalni build spreman za Reload; naredni korak pregled sa stvarnim izvorom u učitanoj ekstenziji. Nema commita/push-a po ovom nalogu.
+
+TAB-01-F naknadna evidencija u narednoj sesiji — ZAVRŠENO: prethodni commit 22665c0 poslat je na origin/main i jednakost HEAD-a potvrđena u završnom odgovoru; ovaj zapis ne pokreće novi commit/push.
+
+### 22. oktobar 2026. — TAB-01-G: slanje kompaktnog playera
+
+U TOKU. Korisnik je odobrio commit i push TAB-07-C dorade na origin/main. Pregledano pet izmijenjenih fajlova: MediaContent, panel/floating stilovi, plan i progres; git diff --check prolazi. Prethodni typecheck/lint/build istog koda prolaze, ručno pregledani HTTP panel i disclosure u obje teme. Nema naknadnih promjena koda, novih testova, zavisnosti ili dozvola. Stvarni aktivni izvor/PiP i preostala ručna matrica ostaju otvoreni. Izvještaj je pripremljen prije slanja; slijede commit, običan push i provjera udaljenog HEAD-a, čiji ishod ide u završni odgovor bez dodatnog dokumentacionog commita.

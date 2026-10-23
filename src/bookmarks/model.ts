@@ -1,9 +1,9 @@
 export interface Bookmark { id: string; title: string; url: string; created: number; folder?: string; editable?: boolean; parentId?: string; }
 export function normalizeUrl(input: string): string {
   const text = input.trim();
-  if (!text || text.length > 8192 || /\s/.test(text)) throw new Error('Unesi ispravnu web adresu.');
+  if (!text || text.length > 8192 || /\s/.test(text)) throw new Error('Enter a valid web address.');
   const url = new URL(/^[a-z][a-z\d+.-]*:/i.test(text) ? text : `https://${text}`);
-  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || !url.hostname) throw new Error('Dozvoljene su HTTP i HTTPS adrese bez korisničkih podataka.');
+  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || !url.hostname) throw new Error('Use an HTTP or HTTPS address without credentials.');
   return url.href;
 }
 export function bookmarkHref(value: string): string | undefined {

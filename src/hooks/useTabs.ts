@@ -30,9 +30,9 @@ export function useTabs(report: (text: string) => void) {
   async function enable() {
     try {
       const granted = await requestAccess(['tabs']);
-      if (!granted) report('Pristup tabovima nije odobren. Možeš ga omogućiti kasnije.');
+      if (!granted) report('Tab access was not granted. You can enable it later.');
       await refresh();
-    } catch { report('Dozvola nije dostupna. Pokušaj ponovo.'); }
+    } catch { report('Permission is unavailable. Try again.'); }
   }
   return { ...data, state, refresh, enable };
 }

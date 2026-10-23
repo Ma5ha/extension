@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
@@ -14,6 +22,8 @@
   --orbit-opacity: .14;
   --card-padding: 20px;
   --motion-fast: 160ms;
+  --motion-enter: 220ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
   --sidebar: #eeede9;
   --sidebar-rgb: 238 237 233;
   --on-accent: #ffffff;
@@ -37,7 +47,7 @@
   font-optical-sizing: auto;
   font-feature-settings: 'liga' 1, 'calt' 1;
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
+  font-size: 1rem;
   color: var(--text);
   background: var(--background);
 }
@@ -68,21 +78,21 @@ button, input, select { font: inherit; }
 button, a, input, select { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; color: inherit; }
 button:disabled { cursor: default; opacity: .55; }
-button, select { min-height: 40px; }
-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); border: 1px solid var(--control-border); border-radius: 9px; padding: 8px 12px; background: var(--control-fill); }
+button, select { min-height: 32px; }
+button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); border: 1px solid var(--control-border); border-radius: 7px; padding: 5px 9px; background: var(--control-fill); }
 button:hover:not(:disabled) { background: var(--control-hover); }
 a { color: var(--accent); text-underline-offset: 4px; }
 a:hover { text-decoration: underline; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 h1, h2, h3, p { margin: 0; }
-h2 { font-weight: 650; font-size: 20px; letter-spacing: -.6px; line-height: 1.3; }
-h3 { font-weight: 600; font-size: 15px; line-height: 1.5; }
+h2 { font-weight: 650; font-size: 1.4286rem; letter-spacing: -.6px; line-height: 1.3; }
+h3 { font-weight: 600; font-size: 1.0714rem; line-height: 1.5; }
 p { line-height: 1.65; }
-small { font-size: 12px; }
+small { font-size: 0.85714rem; }
 svg { flex-shrink: 0; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
-button, a, summary { transition: background-color var(--motion-fast) ease, color var(--motion-fast) ease, border-color var(--motion-fast) ease; }
+button, a, summary { transition: background-color var(--motion-fast) ease, color var(--motion-fast) ease, border-color var(--motion-fast) ease, transform 100ms var(--ease-out); }
 
 /* Native scrolling and sliders retain keyboard, touch and assistive technology support. */
 :root { --scroll-thumb: #8291a3; --range-track: #c8d2de; }
@@ -108,3 +118,55 @@ input:not([type='range']):not([type='checkbox']):not([type='radio']):hover:not(:
 input:not([type='range']):not([type='checkbox']):not([type='radio']):focus-visible, textarea:focus-visible, select:focus-visible { background-color: var(--control-focus); border-color: var(--accent); }
 select option, select optgroup { background: var(--panel); color: var(--text); }
 @media (forced-colors: active) { button, input:not([type='range']), textarea, select { background: Canvas; color: CanvasText; } }
+
+button:active:not(:disabled) { transform: scale(.97); }
+input:not([type='range']), textarea, select { transition: background-color var(--motion-fast) ease, border-color var(--motion-fast) ease; }
+@media (forced-colors: active) { button:active:not(:disabled) { transform: none; } }
+
+:root {
+  --material-fill: rgb(var(--panel-rgb) / var(--glass-opacity, .45));
+  --material-border: rgb(var(--ink-rgb) / .12);
+  --material-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 8px 28px rgb(24 32 42 / .035);
+  --accent-wash: rgb(85 147 176 / .09);
+  --atmosphere: radial-gradient(ellipse at 18% 12%, rgb(126 178 191 / .28), transparent 48%), radial-gradient(ellipse at 87% 72%, rgb(174 157 194 / .24), transparent 48%);
+}
+:root[data-theme='dark'] {
+  --material-border: rgb(220 235 255 / .13);
+  --material-shadow: inset 0 1px 0 rgb(220 235 255 / .06), 0 8px 28px rgb(0 0 0 / .08);
+  --accent-wash: rgb(135 197 227 / .08);
+  --atmosphere: radial-gradient(ellipse at 18% 12%, rgb(52 102 126 / .22), transparent 48%), radial-gradient(ellipse at 87% 72%, rgb(99 72 133 / .2), transparent 48%);
+}
+
+:root { font-size: 11px; }
+:root[data-font-size='tiny'] { font-size: 10px; }
+:root[data-font-size='compact'] { font-size: 11px; }
+:root[data-font-size='cozy'] { font-size: 12px; }
+:root[data-font-size='default'] { font-size: 14px; }
+:root[data-font-size='large'] { font-size: 16px; }
+
+:root { --font-numbers: 'Space Grotesk', 'Inter', sans-serif; }
+@media (pointer: coarse) { button, select { min-height: 44px; } }
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('@fontsource-variable/lora/files/lora-latin-wght-normal.woff2') format('woff2');
+}
+:root { --font-heading: 'Space Grotesk', 'Inter', sans-serif; --font-writing: 'Lora', Georgia, serif; }
+h1, h2, h3 { font-family: var(--font-heading); }
+
+@font-face {
+  font-family: 'Lora'; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url('@fontsource-variable/lora/files/lora-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-024F,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+/* Shared compact control treatment; touch keeps generous targets. */
+button { min-height: 28px; padding: 4px 8px; gap: 6px; border-radius: 8px; border-color: var(--material-border); font-size: .9rem; font-weight: 500; line-height: 1.3; box-shadow: inset 0 1px 0 rgb(255 255 255 / .08); }
+button:hover:not(:disabled) { border-color: var(--control-border); }
+button svg { max-width: 20px; max-height: 20px; }
+input, select, textarea { max-width: 100%; }
+@media (pointer: coarse) { button, select { min-height: 44px; } }
+@media (forced-colors: active) { button { border-color: ButtonText; } }

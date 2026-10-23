@@ -33,7 +33,7 @@ corepack pnpm test
 - Ručni pregled grupisanja po `URL.origin`: najmanje dva podobna taba; preskaču se zakačeni, već grupisani, interni/nepodržani i pojedinačni tabovi. Ponovna provjera prije primjene ne uključuje naknadno otvorene tabove. Rezultat razlikuje uspjeh, preskakanje i neuspjeh. Grupisanje nema radnju zatvaranja ili Undo.
 - Podešavanja se čuvaju po polju u `chrome.storage.local` i osvježavaju kroz storage događaje u ostalim novim tabovima. Istovremene promjene istog polja imaju pravilo posljednjeg upisa. HTTP pregled koristi localStorage samo za pregled izgleda.
 
-`storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel; `favicon` omogućava stvarne ikonice sajtova iz Chrome-ovog lokalnog favicon prikaza. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
+`alarms` zakazuje timer, alarm i podsjetnike za zadatke; opciona `notifications` dozvola traži se pri pokretanju podsjetnika/timera. `storage` čuva lokalne podatke i podešavanja; `sidePanel` omogućava bočni panel; `favicon` omogućava stvarne ikonice sajtova iz Chrome-ovog lokalnog favicon prikaza. Opcioni `identity` i Google API host traže se pri povezivanju kalendara. `tabs` se traži za naslove/adrese tabova, a `tabGroups` pri primjeni pregleda. Search dozvola nije dio paketa; bookmarks dozvola je opciona za bookmark widget. Mediji opciono traže `scripting` i pristup jednom izabranom HTTP/HTTPS hostu. Manifest dopušta opcioni izbor tih hostova, bez unaprijed odobrenog pristupa svim sajtovima ili automatskih content skripti. Odbijanje dozvole ostavlja osnovni UI dostupnim.
 
 Gmail prikazuje **nepovezano stanje i običnu prečicu**; Calendar ima opcionu integraciju opisanu ispod. Mediji kontrolišu postojeće tabove: mute/otvaranje i, uz opcioni pristup sajtu, HTML audio/video play/pause, jačinu i seek po dostupnim opsezima. Izbor pauziranog taba omogućava otkrivanje bez zvuka; dozvola se može ukinuti u panelu. Nema novog playera, Gmail poruka ili RSS-a. Podrška zavisi od sajta; stvarna Chrome matrica još nije potvrđena — vidi [Mediji provjeru](docs/provjere/mediji.md). Vijesti su označena naredna faza. Podešavanja nude osnovnu Radnu konzolu ili prethodni prilagodljivi režim. Sačuvani raspored widgeta ostaje netaknut; prilagodljivi režim podržava premještanje, redoslijed, širine kolona i najmanje visine widgeta; izvoz/uvoz i ostale integracije ostaju prema planu.
 
@@ -84,3 +84,15 @@ U panelu Mediji izaberi postojeći izvor i po potrebi odobri kontrole samo njego
 **Prikaži video / Sakrij video** koristi Chrome-ov video PiP za izabrani izvor. Video ostaje isti element u izvornom tabu; ne preuzima se stream i ne pokreće se drugi player. Dugme je dostupno samo za učitan i podržan video. Chrome koristi jedan PiP prozor, pa prelazak sa izdvojenih kontrola na video vraća kontrole u lokalni mini-player. Ako browser odbije radnju, otvori izvorni tab i koristi njegove kontrole.
 
 Izvorni tab mora ostati otvoren. Pristup sajtu i njegovim okvirima, dozvola za PiP i sam servis određuju podršku. Nema automatskog puštanja, novih dozvola ili pauziranja drugih izvora.
+
+## Fokus i radni prostori
+
+Work, Personal i Study imaju odvojene rasporede, vidljivost modula, sesije, zadatke i bilješke. Postojeći podaci ostaju u Work. Tema/veličina fonta, Chrome tabovi i bookmarkovi su zajednički. Izbor prostora pamti se u pojedinačnom tabu.
+
+Dugme Focus ostavlja timer, zadatke i bilješke. Quick note otvara bilješku prostora. U listi tabova ikona bilješke vezuje tekst za tačan URL; Notes prikazuje te bilješke i nakon zatvaranja stranice. Pregled duplikata nalazi iste web adrese u trenutnom prozoru; korisnik bira kopije za zatvaranje, a aktivni i zakačeni tabovi ostaju zaštićeni.
+
+Sačuvan zadatak dobija Remind me sa lokalnim datumom/vremenom. Završetak ili brisanje zadatka otkazuje podsjetnik. History pokazuje završene timere po danima za izabrani prostor; pauza i reset ne dodaju sesiju. Timer je zajednički svim Tabora prikazima i sesija ostaje vezana za prostor u kojem je pokrenuta.
+
+Prečice unutar Tabore: **Alt/Option + Shift + F** fokus, **T** početak timera od 25 minuta/pauza/nastavak, **N** brza bilješka, **1/2/3** Work/Personal/Study. Ne aktiviraju se tokom unosa ili otvorenog dijaloga.
+
+Chrome mora biti pokrenut za pozadinske podsjetnike; uspavani uređaj ne bude. Sistemske obavijesti i njihov zvuk zavise od dozvola Chrome-a i OS-a. Nakon build-a uradi Reload ekstenzije.

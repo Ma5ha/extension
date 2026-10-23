@@ -22,7 +22,7 @@ export async function saveBookmark(title: string, input: string, previous?: Book
 }
 export async function removeBookmark(bookmark: Bookmark) {
   const [live] = await chrome.bookmarks.get(bookmark.id);
-  if (!live?.url || live.unmodifiable) throw new Error('Bookmark više nije dostupan ili se ne može mijenjati.');
+  if (!live?.url || live.unmodifiable) throw new Error('This bookmark is unavailable or cannot be edited.');
   await chrome.bookmarks.remove(bookmark.id);
 }
 export function subscribeBookmarks(refresh: () => void) {

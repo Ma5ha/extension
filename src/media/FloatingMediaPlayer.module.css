@@ -1,16 +1,31 @@
 .floating { position: fixed; z-index: 50; display: flex; flex-direction: column; color: var(--text); background: var(--panel); border: 1px solid var(--control-border); border-radius: var(--radius); box-shadow: 0 16px 56px rgb(0 0 0 / 18%); overflow: hidden; }
 .window { min-width: 0; min-height: 100dvh; color: var(--text); background: var(--panel); }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--border); background: var(--surface); }
-.bar strong { padding: 8px; font-size: 13px; }
-.handle { justify-content: flex-start; flex: 1; border: 0; background: transparent; cursor: grab; touch-action: none; user-select: none; font-size: 13px; }
+.bar strong { padding: 8px; font-size: 0.92857rem; }
+.handle { justify-content: flex-start; flex: 1; border: 0; background: transparent; cursor: grab; touch-action: none; user-select: none; font-size: 0.92857rem; }
 .handle:active { cursor: grabbing; }
-.dock { flex: 0 0 36px; min-height: 36px; padding: 6px; background: transparent; border-color: transparent; }
+.dock { flex: 0 0 36px; min-height: 32px; padding: 6px; background: transparent; border-color: transparent; }
 .content { min-height: 0; padding: 10px 10px 28px; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .window .content { overflow: visible; }
 .resize { position: absolute; bottom: 1px; right: 1px; min-height: 26px; width: 28px; padding: 2px; border: 0; border-radius: 6px 0 var(--radius) 0; background: var(--panel); cursor: nwse-resize; touch-action: none; }
-.placement { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 12px; color: var(--muted); }
+.placement { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 0.85714rem; color: var(--muted); }
 .placement summary { cursor: pointer; min-height: 32px; padding: 8px 0; }
 .placement label { display: grid; gap: 6px; margin-top: 8px; }
 .placement select { width: 100%; min-width: 0; color: var(--text); background: var(--control-fill); border: 1px solid var(--control-border); border-radius: 8px; padding: 8px; }
 
 .content > section { padding: var(--space-2); border: 0; box-shadow: none; }
+
+.floating, .window { background: var(--atmosphere), var(--page-gradient); }
+.floating { border-color: var(--material-border); border-radius: 18px; }
+.bar { background: transparent; border: 0; padding: 4px 10px; }
+.bar strong { color: var(--muted); font-size: .8rem; font-weight: 500; }
+.handle { color: var(--muted); font-size: .8rem; }
+.content { padding: 0 10px 20px; }
+.content > section { background: transparent; backdrop-filter: none; }
+
+.floating { max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+.bar { min-width: 0; gap: 4px; flex-wrap: wrap; }
+.handle { min-width: 0; overflow-wrap: anywhere; }
+.content { min-width: 0; padding-inline: 8px; }
+.window { container-type: inline-size; }
+@media (max-height: 480px) { .content { padding-bottom: 12px; } .placement { margin-top: 8px; } }

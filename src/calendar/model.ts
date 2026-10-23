@@ -18,7 +18,7 @@ export function parseEvents(items: unknown): AgendaEvent[] {
     const from = allDay ? start.date : start.dateTime, to = allDay ? end.date : end.dateTime;
     if (e.status === 'cancelled' || typeof e.id !== 'string' || typeof from !== 'string' || typeof to !== 'string') return [];
     if (allDay ? !/^\d{4}-\d{2}-\d{2}$/.test(from) || !/^\d{4}-\d{2}-\d{2}$/.test(to) : !Number.isFinite(Date.parse(from)) || !Number.isFinite(Date.parse(to))) return [];
-    return [{ id: e.id, title: typeof e.summary === 'string' && e.summary.trim() ? e.summary : 'Bez naslova', start: from, end: to, allDay, url: safeLink(e.htmlLink), meeting: safeLink(e.hangoutLink) }];
+    return [{ id: e.id, title: typeof e.summary === 'string' && e.summary.trim() ? e.summary : 'Untitled', start: from, end: to, allDay, url: safeLink(e.htmlLink), meeting: safeLink(e.hangoutLink) }];
   });
 }
 export function dayRange(now: Date) {
@@ -30,7 +30,7 @@ export function nextEvent(events: AgendaEvent[], now: number) {
   return events.find(e => !e.allDay && Date.parse(e.start) >= now);
 }
 export function eventTime(event: AgendaEvent, timeZone: string) {
-  if (event.allDay) return 'Cijeli dan';
-  const format = new Intl.DateTimeFormat('sr-Latn', { hour: '2-digit', minute: '2-digit', timeZone });
+  if (event.allDay) return 'All day';
+  const format = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone });
   return `${format.format(new Date(event.start))}–${format.format(new Date(event.end))}`;
 }

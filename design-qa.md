@@ -1,51 +1,24 @@
-# Radna konzola — završna vizuelna provjera
+# TAB-07-H — selected media player implementation
 
-Source visual truth: `docs/ui-koncepti/radna-konzola-odabrano.jpg`, 1280 × 910 px.
-Implementation screenshot: `docs/provjere/konzola/reference-state-light-1280.png`, 1280 × 910 px.
-CSS viewport: 1280 × 910, deviceScaleFactor 1. Bez promjene razmjere; puna širina oba prikaza poređena je u istoj slici.
-State: svijetla konzola, osam sintetičkih tabova u tri origina, dvije sačuvane sesije, lokalna bilješka i tri dnevna mjesta. Podaci postoje samo u QA fixture-u; produkcioni kod koristi stvarne lokalne podatke.
+final result: blocked
 
-## Nalazi i istorija poređenja
+Source visual truth: `/Users/mladenblagovcanin/.codex/generated_images/01a1645e-ddad-7c81-8fdd-7c9882823194/exec-225fe9f9-977b-416d-9483-27cabc05fcf7.png` (1513×1040, composite concept with synthetic media).
 
-Prvo direktno poređenje: `docs/provjere/konzola/comparison-v1.png`.
+Implementation: local Chrome HTTP newtab build, Music view. No populated implementation screenshot available. Browser can operate the HTTP preview, which intentionally has no Chrome sources. Chrome's new-tab extension page yielded metadata then an about:blank accessibility surface; native Chrome control is unavailable because computer-use permission is not granted. User confirmed Reload and reopening. This does not verify the loaded extension's media view.
 
-- [P1, ispravljeno] Previsoki redovi i pomoćni footer gurali su sesije iz prvog ekrana. Redovi su svedeni na 44px, zaglavlja/granični razmaci smanjeni i osvježavanje premješteno u toolbar.
-- [P2, ispravljeno] Nedostajala je radnja Dodaj zadatak sa reference. Dodata je; fokusira prvo prazno od tri postojeća mjesta, bez četvrtog zadatka.
+State/density: source has selected paused sample media; HTTP has honest preview/empty state. Same-state, same-scale comparison cannot be captured, so no full-view or focused comparison is claimed. Viewport/density normalization remains unperformed.
 
-Ponovno direktno poređenje nakon popravki: `docs/provjere/konzola/comparison-v2.png`. Obe sesije sada su vidljive u izvornom viewport-u. Nema preostalih P0/P1/P2 nalaza.
+## Findings
+- Populated player and detached PiP screenshot comparison is blocked by browser access, not a demonstrated design pass.
+- Typography uses bundled Inter and font presets; layout implements 16:9 real artwork, centered title, 40px play with thin ring, duration, speaker popover, styled source picker. All five fidelity surfaces (fonts, spacing, colors, images, copy) still require populated visual comparison.
+- Image content intentionally differs: source mock mountains and sample duration must never replace actual source metadata. Missing artwork uses explicit fallback; missing duration says Duration unavailable.
 
-Fokusirana poređenja: `docs/provjere/konzola/comparison-content-v2.png` (tabovi/sesije) i `docs/provjere/konzola/comparison-inspector-v2.png` (zadaci/bilješke/servisi). Pregledani su i dark desktop 1440px i dark 320px snimci.
+## Verification completed
+- Typecheck, lint, production build and diff check pass.
+- HTTP Music view: Detach controls opened a document PiP window (main panel reports detached), Return to panel restored the main controls. This verifies lifecycle only; popup appearance was not captured.
+- No new tests or automated QA scripts were added.
 
-## Obavezne površine
+## Remaining checks
+Capture real selected-source widget and detached view in matching light theme, compare against source, verify thumbnail fallback, duration/seek, mute/volume hover/focus, picker keyboard behavior, small sizes, dark theme, font synchronization and popup scroll. Inspect browser console when accessible.
 
-- Fonts/typography: sistemski sans iz postojećeg projekta, 29px glavni naslov, 21px glavni naslovi sekcija, 18px desni panel, 14px redovi i 12px metapodaci. Težina i prelamanje zadržavaju hijerarhiju reference; dugi naslovi imaju dostupan puni tekst kroz title.
-- Spacing/layout rhythm: iste tri oblasti i proporcije (navigacija oko 16,6%, dnevni alati oko 24,4%); kompaktne liste i čista površina umjesto kartica unutar kartica. Sesije staju u prvi ekran pri 1280 × 910.
-- Colors/tokens: bijela osnova, blaga siva navigacija, taman tekst i plavi akcenat. Tamna tema koristi postojeće semantičke tokene i isti raspored. Screenshot nije potvrda pune WCAG usklađenosti.
-- Image quality/assets: izabrana referenca sačuvana neizmijenjena; UI nema dodatnih raster ilustracija. Lokalne Phosphor brend/servis ikone iz postojeće biblioteke čuvaju oštrinu i ne šalju privatne URL-ove favicon servisima.
-- Copy/content: primjeri nisu ugrađeni u aplikaciju. Datum, tabovi, sesije, bilješke i zadaci dolaze iz stvarnih izvora u ekstenziji; u QA su označeni kao sintetički.
-
-## Namjerne razlike i P3 dorade
-
-- Monohromatske servisne ikone umjesto šarenih favicon-a.
-- Nepodešeni Calendar ima stvarnu radnju Otvori kalendar, umjesto nefunkcionalnog povezivanja. Gmail ostaje prava eksternalna prečica.
-- Bilješka nema izmišljeni datum posljednjeg čuvanja; prikazuje Lokalna bilješka.
-- Osnovne akcije za izvore/dozvole i pomoć medija ostaju dostupne kroz sažete details kontrole. Izvor se ne pokreće automatski.
-- Prethodni raspored i njegova podešavanja ostaju sačuvani u režimu Prilagođeni widgeti; nova konzola je podrazumijevana.
-
-## Interakcije i provjere
-
-`corepack pnpm typecheck`, `corepack pnpm lint`, `corepack pnpm test` (46/46), `corepack pnpm build` i `git diff --check` prolaze.
-
-`verify-console.mjs` / kompatibilni `verify-workspace.mjs` prolaze sa sintetičkim Chrome API-jima u odvojenom headless browseru: šest destinacija, aktiviranje/zatvaranje tabova, sklapanje grupa, pregled grupisanja i Escape, bilješke i draft nakon zatvaranja dijaloga, dnevni zadaci, sesije i preskakanje postojećih URL-ova, bookmark premještanje i potvrđeno otvaranje, stari raspored i drag/keyboard kontrole, bočni panel i dijeljenje bilješke. Nema pageerror ili console error poruka. Light/dark provjereni na 1440/1280/1024/768/320 px bez horizontalnog preliva; sidepanel na 360px. Reduced motion je uključen.
-
-Granice: nije provjerena korisnikova stvarna instalacija ekstenzije, Chrome autorizacija, Google OAuth, aktivan player, puni accessibility audit ili stvarni browser zoom. HTTP pregled ne pristupa stvarnim Chrome tabovima i bookmarkovima. Razvojne integracije i otvorene faze nisu proglašene završenim ovim UI korakom.
-
-## TAB-03-F — odobrena dorada ikonica i fonta
-
-Korisnik je naknadno naložio stvarne ikonice aplikacija i ljepši font. Aktuelni pregled je `docs/provjere/ikonice-font/reference-state-light-1280.png`, uz dark1440/320 i bookmark sidepanel360 snimke. Inter i favicon slike su namjerna dorada prethodne reference; raspored, sidebar i gustina sadržaja su sačuvani. Prvi dark pregled je pokazao slabo vidljiv crni logo; dodata mala svijetla podloga i novi snimci pregledani. Nema novih P0/P1/P2 nalaza u toj doradi. Prošireni sintetički UI QA prolazi; detalji i ograničenja su u `docs/provjere/ikonice-font/izvjestaj.md`.
-
-final result: passed
-
-## TAB-07-B — mini-player
-
-Novi light1280, dark320 i izdvojeni kontrolni prozor vizuelno pregledani u docs/provjere/mini-player/. Prikaz zadržava postojeće tokene/Inter font i čitljive light/dark kontrole. Lokalni okvir je pomjerljiv i promjenljiv, sa tastaturom i alternativama bez prevlačenja. Testovi potvrđuju 320px bez horizontalnog preliva; reduced motion uključen. UI tokovi i postojeća konzola/bočni panel prolaze. Dokumentovani HTTP/Chrome fixture i simulacija prozora ne potvrđuju stvarni native PiP, kompatibilnost servisa, puni accessibility ili browser zoom. Final result za ovaj obim: passed.
+No P0/P1/P2 visual finding is claimed resolved without the missing comparison. No deployment or commit was performed.

@@ -2,20 +2,20 @@
 .next { padding: var(--space-3); border-radius: 9px; background: var(--accent-soft); overflow-wrap: anywhere; }
 .events { margin: 0; padding: 0; list-style: none; }
 .events li { display: grid; gap: var(--space-2); padding: var(--space-3) 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
-.time, .content small { color: var(--muted); font-size: 12px; }
+.time, .content small { color: var(--muted); font-size: 0.85714rem; }
 .links, .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-.links a, .actions a { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 40px; }
+.links a, .actions a { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 36px; }
 .actions { margin-top: var(--space-4); }
 
 .compact { min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .compact > header { margin-bottom: var(--space-3); }
-.compact h2 { font-size: 18px; }
-.compact .content { margin-top: 0; gap: var(--space-3); font-size: 13px; }
-.empty { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.compact h2 { font-size: 1.2857rem; }
+.compact .content { margin-top: 0; gap: var(--space-3); font-size: 0.92857rem; }
+.empty { color: var(--muted); font-size: 0.92857rem; line-height: 1.6; }
 .empty button { margin-top: var(--space-3); }
 .compact .actions { margin-top: var(--space-2); gap: var(--space-2); }
-.compact .actions a { min-height: 36px; padding: 6px 12px; border: 1px solid var(--control-border); border-radius: 7px; color: var(--accent); font-size: 12px; text-decoration: none; }
+.compact .actions a { min-height: 32px; padding: 6px 12px; border: 1px solid var(--control-border); border-radius: 7px; color: var(--accent); font-size: 0.85714rem; text-decoration: none; }
 .compact .actions a:hover { background: var(--surface); }
-.compact .actions button { font-size: 12px; }
-.timezone { padding-top: var(--space-3); color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.compact .actions button { font-size: 0.85714rem; }
+.timezone { padding-top: var(--space-3); color: var(--muted); font-size: 0.78571rem; overflow-wrap: anywhere; }
 .timezone strong { font-weight: 400; }

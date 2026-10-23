@@ -4,10 +4,10 @@ export async function readLocal(key: string): Promise<unknown> {
   const raw = localStorage.getItem(key); return raw === null ? undefined : JSON.parse(raw);
 }
 export async function writeLocal(key: string, value: unknown) {
-  if (isExtension) await chrome.storage.local.set({ [key]: value }); else localStorage.setItem(key, JSON.stringify(value));
+  if (isExtension) await chrome.storage.local.set({ [key]: value }); else { localStorage.setItem(key, JSON.stringify(value)); window.dispatchEvent(new CustomEvent('tabora-local', { detail: key })); }
 }
 export async function deleteLocal(key: string) {
-  if (isExtension) await chrome.storage.local.remove(key); else localStorage.removeItem(key);
+  if (isExtension) await chrome.storage.local.remove(key); else { localStorage.removeItem(key); window.dispatchEvent(new CustomEvent('tabora-local', { detail: key })); }
 }
 export async function listLocal(prefix: string): Promise<unknown[]> {
   if (isExtension) return Object.entries(await chrome.storage.local.get(null)).filter(([k]) => k.startsWith(prefix)).map(([, v]) => v);
@@ -19,5 +19,7 @@ export function subscribeLocal(prefix: string, refresh: () => void) {
     chrome.storage.onChanged.addListener(listener); return () => chrome.storage.onChanged.removeListener(listener);
   }
   const listener = (event: StorageEvent) => { if (event.key === null || event.key.startsWith(prefix)) refresh(); };
-  window.addEventListener('storage', listener); return () => window.removeEventListener('storage', listener);
+  const samePage = (event: Event) => { if ((event as CustomEvent<string>).detail.startsWith(prefix)) refresh(); };
+  window.addEventListener('storage', listener); window.addEventListener('tabora-local', samePage);
+  return () => { window.removeEventListener('storage', listener); window.removeEventListener('tabora-local', samePage); };
 }

@@ -30,13 +30,13 @@ export function usePlayerWindow() {
     if (current.current && !current.current.closed) { current.current.focus(); return true; }
     if (pending.current) return false;
     const api = documentPlayerAPI();
-    if (!api) { setError('Izdvojene kontrole nisu podržane u ovom browseru. Koristi mini-player u Tabori.'); return false; }
+    if (!api) { setError('Detached controls are not supported in this browser. Use the Tabora mini-player.'); return false; }
     pending.current = true; setOpening(true); setError('');
     const token = ++generation.current.value;
     let popup: Window | null = null;
     try {
       // Invoke synchronously in the click handler, before any await or permission query.
-      popup = await api.requestWindow({ width: 380, height: 520 });
+      popup = await api.requestWindow({ width: 380, height: 600 });
       if (!mounted.current || token !== generation.current.value || popup.closed) { popup.close(); return false; }
       const disconnect = preparePlayerWindow(popup);
       const opened = popup;
@@ -54,7 +54,7 @@ export function usePlayerWindow() {
       return true;
     } catch {
       popup?.close();
-      if (mounted.current && token === generation.current.value) setError('Prozor nije otvoren. Pokušaj ponovo klikom ili koristi mini-player u Tabori.');
+      if (mounted.current && token === generation.current.value) setError('The window could not be opened. Click to try again or use the Tabora mini-player.');
       return false;
     } finally {
       if (mounted.current && token === generation.current.value) { pending.current = false; setOpening(false); }

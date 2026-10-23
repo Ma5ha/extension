@@ -18,7 +18,7 @@ export async function getTabs(): Promise<{ tabs: Tab[]; windowId: number }> {
   return {
     windowId: window.id,
     tabs: tabs.filter(t => t.id !== undefined).map(t => ({
-      id: t.id!, windowId: t.windowId, title: t.title || 'Bez naslova',
+      id: t.id!, windowId: t.windowId, title: t.title || 'Untitled',
       url: t.pendingUrl || t.url || '', pinned: t.pinned, groupId: t.groupId, active: t.active,
       ...(t.favIconUrl ? { favIconUrl: t.favIconUrl } : {}),
     })),

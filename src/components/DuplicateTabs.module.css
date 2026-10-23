@@ -1,0 +1,6 @@
+.content { display: grid; gap: 12px; }
+.content fieldset { min-width: 0; border: 1px solid var(--material-border); border-radius: 10px; padding: 12px; }
+.url { overflow-wrap: anywhere; color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+.content label { display: flex; align-items: center; gap: 8px; padding-block: 6px; }
+.content label span { min-width: 0; overflow-wrap: anywhere; }
+.content small { display: block; color: var(--muted); }

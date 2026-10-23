@@ -1,10 +1,11 @@
-import type { CSSProperties } from 'react';
-import { ArrowsClockwise, Headphones, Play, Pause, SpeakerHigh, ArrowSquareOut, PictureInPicture, SpeakerSlash, ArrowUpRight, ArrowCounterClockwise, ArrowClockwise } from '@phosphor-icons/react';
+import { ArrowsClockwise, Headphones, Play, Pause, ArrowSquareOut, PictureInPicture, ArrowUpRight, ArrowCounterClockwise, ArrowClockwise } from '@phosphor-icons/react';
 import { openSource } from './adapter';
 import { sitePattern } from './model';
 import { useMediaPlayer } from './MediaContext';
 import { SourcePicker } from './SourcePicker';
-import { SiteIcon } from '../components/SiteIcon';
+import { MediaArtwork } from './MediaArtwork';
+import { MediaSlider } from './MediaSlider';
+import { VolumeControl } from './VolumeControl';
 import styles from '../App.module.css';
 import media from './MediaPanel.module.css';
 
@@ -20,55 +21,61 @@ export function MediaContent({ compact = false, detached = false }: { compact?: 
   const range = item?.ranges.find(([start, end]) => item.time >= start && item.time <= end);
   const viewButtons = <>
     {!detached && <button title="Mini-player" aria-label="Mini-player" onClick={event => player.float(event.currentTarget)}><PictureInPicture size={18} /><span className={styles.srOnly}>Mini-player</span></button>}
-    {!windowPlayer.pipWindow && <button aria-label={windowPlayer.opening ? 'Otvaram izdvojene kontrole' : 'Izdvoji kontrole'} title={windowPlayer.supported ? 'Izdvoji kontrole iznad drugih prozora' : 'Izdvojeni prozor nije podržan'} disabled={!windowPlayer.supported || windowPlayer.opening} onClick={event => void player.detach(event.currentTarget)}><ArrowSquareOut size={18} /></button>}
+    {!windowPlayer.pipWindow && <button aria-label={windowPlayer.opening ? 'Opening detached controls' : 'Detach controls'} title={windowPlayer.supported ? 'Detach controls above other windows' : 'Detached window is not supported'} disabled={!windowPlayer.supported || windowPlayer.opening} onClick={event => void player.detach(event.currentTarget)}><ArrowSquareOut size={18} /></button>}
   </>;
-  return <section className={`${styles.panel} ${media.panel} ${compact ? media.compact : ''}`} aria-label="Mediji">
-    <header className={styles.panelHeader}><h2><Headphones size={22} aria-hidden="true" />Mediji</h2><button className={media.iconButton} aria-label="Osvježi izvore" title="Osvježi izvore" disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}><ArrowsClockwise size={18} /></button></header>
+  return <section className={`${styles.panel} ${media.panel} ${compact ? media.compact : ''}`} data-detached={detached} aria-label="Media">
+    <header className={styles.panelHeader}><h2><Headphones size={20} aria-hidden="true" />Media</h2><div className={media.headerTools}>{source && !detached && <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />}<button className={media.iconButton} aria-label="Refresh sources" title="Refresh sources" disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}><ArrowsClockwise size={18} /></button></div></header>
     {windowPlayer.error && <p role="status">{windowPlayer.error}</p>}
-    {state === 'preview' && <div className={media.empty}><p>Kontrole su dostupne u Chrome ekstenziji.</p><small>Pokreni medij u drugom tabu, pa izaberi izvor.</small></div>}
-    {state === 'loading' && <p role="status">Tražim izvore…</p>}
-    {state === 'permission' && <><p>Dozvoli pregled naslova i adresa tabova da izabereš izvor.</p><button disabled={busy} onClick={() => void perform(player.enable)}>Omogući pregled tabova</button></>}
-    {state === 'error' && <p role="status">Lista nije dostupna. Pokušaj osvježavanje.</p>}
-    {state === 'ready' && !source && <div className={media.empty}><p>Nema aktivnog izvora.</p><small>Pokreni medij u drugom tabu, pa osvježi. Pauzirani izvori se otkrivaju na sajtovima kojima odobriš pristup.</small></div>}
+    {state === 'preview' && <div className={media.empty}><p>Controls are available in the Chrome extension.</p><small>Play media in another tab, then choose a source.</small></div>}
+    {state === 'loading' && <p role="status">Finding sources…</p>}
+    {state === 'permission' && <><p>Allow tab title and address access to choose a source.</p><button disabled={busy} onClick={() => void perform(player.enable)}>Allow tab access</button></>}
+    {state === 'error' && <div className={media.empty} role="status"><p>Chrome did not return the source list. Try again.</p><button disabled={busy} onClick={() => void perform(refresh)}>Retry discovery</button></div>}
+    {state === 'ready' && !source && <div className={media.empty}><p>No active source.</p><small>Choose a source tab below. Paused media can be detected after you allow access to its site.</small></div>}
+    {state === 'ready' && candidates.length > 0 && <details className={media.help} open={!source}>
+      <summary>{source ? 'Add another source' : 'Choose a source tab'}</summary>
+      <p className={styles.meta}>Choose a tab to detect its player, including paused media. Site access is requested only if needed.</p>
+      <div className={media.candidateList}>{candidates.map(tab => <button key={tab.id} disabled={busy} onClick={() => void player.grant(tab.url)}>{tab.title || 'Untitled tab'}</button>)}</div>
+    </details>}
     {source && <>
-      <div className={media.nowPlaying}><span className={media.artwork}><SiteIcon url={source.tab.url || ''} favIconUrl={source.tab.favIconUrl} size={32} /></span><div className={media.sourceText}>
-        <small>{item && source.status === 'ready' ? item.ended ? 'Završeno' : item.paused ? 'Pauzirano' : 'Reprodukuje se' : 'Kontrola taba'}{source.tab.mutedInfo?.muted ? ' · tab utišan' : item?.muted ? ' · player utišan' : ''}</small>
-        <strong className={media.sourceTitle}>{source.tab.title || 'Medijski izvor'}</strong>
-      </div></div>
-      <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />
+      <MediaArtwork artwork={item?.artwork} url={source.tab.url || ''} favicon={source.tab.favIconUrl} />
+      <div className={media.sourceText}>
+        <strong className={media.sourceTitle}>{item?.title || source.tab.title || 'Media source'}</strong>
+        <small>{item && source.status === 'ready' ? item.ended ? 'Ended' : item.paused ? 'Paused' : 'Playing' : 'Tab controls'}{source.tab.mutedInfo?.muted ? ' · tab muted' : item?.muted ? ' · muted' : ''}</small>
+      </div>
       {source.status === 'ready' && item && <>
         <div className={media.playback}><div className={media.transport}>
-          {[-10, 10].map((delta, index) => <button key={delta} className={index === 0 ? media.backward : media.forward} aria-label={delta < 0 ? 'Nazad 10 sekundi' : 'Naprijed 10 sekundi'} disabled={busy || !item.ranges.some(([a, b]) => item.time + delta >= a && item.time + delta <= b)} onClick={() => command({ type: 'seek', value: item.time + delta })}>{delta < 0 ? <ArrowCounterClockwise size={18} aria-hidden="true" /> : <ArrowClockwise size={18} aria-hidden="true" />}<span>10<span className={styles.srOnly}> sekundi</span></span></button>)}
-          <button className={media.play} aria-label={item.paused || item.ended ? 'Pusti' : 'Pauziraj'} disabled={busy} onClick={() => command({ type: item.paused || item.ended ? 'play' : 'pause' })}>{item.paused || item.ended ? <Play size={22} weight="fill" /> : <Pause size={22} weight="fill" />}</button>
+          {[-10, 10].map((delta, index) => <button key={delta} className={index === 0 ? media.backward : media.forward} aria-label={delta < 0 ? 'Back 10 seconds' : 'Forward 10 seconds'} disabled={busy || !item.ranges.some(([a, b]) => item.time + delta >= a && item.time + delta <= b)} onClick={() => command({ type: 'seek', value: item.time + delta })}>{delta < 0 ? <ArrowCounterClockwise size={18} aria-hidden="true" /> : <ArrowClockwise size={18} aria-hidden="true" />}<span>10<span className={styles.srOnly}> seconds</span></span></button>)}
+          <button className={media.play} aria-label={item.paused || item.ended ? 'Play' : 'Pause'} disabled={busy} onClick={() => command({ type: item.paused || item.ended ? 'play' : 'pause' })}>{item.paused || item.ended ? <Play size={18} weight="fill" /> : <Pause size={18} weight="fill" />}</button>
         </div>
-        <div className={media.progress}><div className={media.timeline}><span>{mediaTime(item.time)}</span><span>{item.duration === null ? 'Uživo / nepoznato' : mediaTime(item.duration)}</span></div>
-        <input style={{ '--range-fill': `${range && range[1] > range[0] ? Math.max(0, Math.min(100, (item.time - range[0]) / (range[1] - range[0]) * 100)) : 0}%` } as CSSProperties} aria-label="Pozicija reprodukcije" type="range" min={range?.[0] ?? 0} max={range?.[1] ?? 1} step="0.1" value={range ? item.time : 0} disabled={busy || !range || range[0] === range[1]} onChange={event => command({ type: 'seek', value: Number(event.target.value) })} /></div>
+        <div className={media.seekControl}>
+          <MediaSlider key={`${source.tab.id}:${item.documentId}:${item.id}`} label="Playback position" min={range?.[0] ?? 0} max={range?.[1] ?? 1} step={0.1} value={range ? item.time : 0} disabled={busy || !range || range[0] === range[1]} commit={value => command({ type: 'seek', value })}>{value => <div className={media.timeline}><span>{mediaTime(range ? value : item.time)}</span><span>{item.duration === null ? 'Duration unavailable' : mediaTime(item.duration)}</span></div>}</MediaSlider>
+        </div>
         </div>
       </>}
-      <div className={media.controls} aria-label="Kontrole izvora">
-        {source.status === 'ready' && item && <label className={media.volume}><span className={media.volumeLabel}><SpeakerHigh size={17} aria-hidden="true" /><span className={styles.srOnly}>Jačina · </span>{Math.round(item.volume * 100)}%</span><input style={{ '--range-fill': `${item.volume * 100}%` } as CSSProperties} aria-label="Jačina playera" type="range" min="0" max="1" step="0.05" value={item.volume} disabled={busy} onChange={event => command({ type: 'volume', value: Number(event.target.value) })} /></label>}
+      <div className={media.controls} aria-label="Source controls">
+        <VolumeControl />
+        {detached && <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />}
         <div className={media.actions}>
-          <button title={source.tab.mutedInfo?.muted ? 'Uključi zvuk taba' : 'Utišaj tab'} aria-label={source.tab.mutedInfo?.muted ? 'Uključi zvuk taba' : 'Utišaj tab'} aria-pressed={!!source.tab.mutedInfo?.muted} disabled={busy} onClick={() => void perform(() => chrome.tabs.update(source.tab.id!, { muted: !source.tab.mutedInfo?.muted }))}>{source.tab.mutedInfo?.muted ? <SpeakerSlash size={18} /> : <SpeakerHigh size={18} />}</button>
-          <button title="Otvori tab" aria-label="Otvori tab" disabled={busy} onClick={() => void perform(() => openSource(source.tab.id!))}><ArrowUpRight size={18} /></button>
-          {source.status === 'ready' && item?.kind === 'Video' && <button title={item.pipActive ? 'Sakrij video' : 'Prikaži video'} aria-label={item.pipActive ? 'Sakrij video' : 'Prikaži video'} aria-pressed={item.pipActive} disabled={busy || (!item.pipAvailable && !item.pipActive)} onClick={() => command({ type: item.pipActive ? 'pip-exit' : 'pip-enter' })}><PictureInPicture size={18} /></button>}
+          <button title="Open tab" aria-label="Open tab" disabled={busy} onClick={() => void perform(() => openSource(source.tab.id!))}><ArrowUpRight size={18} /></button>
+          {source.status === 'ready' && item?.kind === 'Video' && <button title={item.pipActive ? 'Hide video' : 'Show video'} aria-label={item.pipActive ? 'Hide video' : 'Show video'} aria-pressed={item.pipActive} disabled={busy || (!item.pipAvailable && !item.pipActive)} onClick={() => command({ type: item.pipActive ? 'pip-exit' : 'pip-enter' })}><PictureInPicture size={18} /></button>}
           {viewButtons}
         </div>
       </div>
-      {item?.kind === 'Video' && !item.pipAvailable && !item.pipActive && <p className={styles.meta}>Video prikaz nije dostupan. Koristi izvorni tab.</p>}
 
-      {source.status === 'permission' && <><p>Odobri pristup ovom sajtu za play/pause, jačinu i video prikaz.</p><button disabled={busy || !sitePattern(source.tab.url)} onClick={() => void player.grant(source.tab.url)}>Dozvoli kontrole: {sitePattern(source.tab.url)}</button></>}
-      {source.status === 'discarded' && <p>Chrome je odbacio tab iz memorije. Otvori ga i ponovo osvježi izvore.</p>}
-      {source.status === 'unavailable' && <p>Player ili pristup stranici nije dostupan. Otvori izvorni tab ili osvježi listu.</p>}
-      {source.status === 'ready' && !item && <p>Nema dostupnog HTML playera. Medij može biti u nedostupnom okviru ili koristiti drugi sistem. Otvori izvorni tab.</p>}
+
+      {source.status === 'permission' && <><p>Allow access to this site for playback, volume and video controls.</p><button disabled={busy || !sitePattern(source.tab.url)} onClick={() => void player.grant(source.tab.url)}>Allow controls: {sitePattern(source.tab.url)}</button></>}
+      {source.status === 'discarded' && <p>Chrome unloaded this tab. Open it and refresh sources.</p>}
+      {source.status === 'unavailable' && <p>The player or page is unavailable. Open the source tab or refresh the list.</p>}
+      {source.status === 'ready' && !item && <p>No HTML player is available. Media may be in an inaccessible frame or use another system. Open the source tab.</p>}
     </>}
     {message && <p role="status">{message}</p>}
     {!source && <div className={media.presentations}>{viewButtons}</div>}
-    {(state === 'ready' || source) && <details className={media.help}><summary>Izvori, dozvole i pomoć</summary>
-      {candidates.length > 0 && <label>Dodaj pauzirani izvor<select disabled={busy} value="" onChange={event => { const tab = candidates.find(t => String(t.id) === event.target.value); if (tab) void player.grant(tab.url); }}><option value="">Izaberi tab i odobri pristup…</option>{candidates.map(t => <option key={t.id} value={t.id}>{t.title || 'Bez naslova'}</option>)}</select></label>}
-      {source?.status === 'ready' && <button disabled={busy} onClick={() => void perform(() => chrome.permissions.remove({ origins: [sitePattern(source.tab.url)!] }))}>Ukini pristup ovom sajtu</button>}
-      <p className={styles.meta}>Kontrole utiču samo na izabrani izvor. Utišavanje taba ne pauzira reprodukciju. Video se prikazuje u zasebnom Chrome prozoru gdje ga sajt podržava. Chrome smjenjuje video i izdvojene kontrole u PiP prikazu.</p>
-      <p className={styles.meta}>Izvorni tab mora ostati otvoren. Zatvaranje izdvojenih kontrola vraća panel; zatvaranje Tabore zatvara njen prozor kontrola. Nema automatskog puštanja ili pauziranja drugih izvora.</p>
-      {!!source?.frames && <p className={styles.meta}>Pristup glavnom sajtu ne odobrava pristup svim okvirima sa videom.</p>}
+    {(state === 'ready' || source) && <details className={media.help}><summary>Sources, permissions and help</summary>
+
+      {source?.status === 'ready' && <button disabled={busy} onClick={() => void perform(() => chrome.permissions.remove({ origins: [sitePattern(source.tab.url)!] }))}>Revoke site access</button>}
+      <p className={styles.meta}>Controls affect only the selected source. Muting a tab does not pause playback. Video appears in a separate Chrome window when supported by the site. Chrome switches between video and detached controls in Picture-in-Picture.</p>
+      <p className={styles.meta}>The source tab must stay open. Closing detached controls returns to the panel; closing Tabora closes its controls window. Other sources are never played or paused automatically.</p>
+      {!!source?.frames && <p className={styles.meta}>Access to the main site does not grant access to every video frame.</p>}
     </details>}
   </section>;
 }

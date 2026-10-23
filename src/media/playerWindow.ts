@@ -7,7 +7,7 @@ export function documentPlayerAPI(): DocumentPlayerAPI | undefined {
 // Only bundled styles and presentation attributes cross into the same-origin window.
 export function preparePlayerWindow(popup: Window): () => void {
   const target = popup.document;
-  target.title = 'Tabora · Mediji';
+  target.title = 'Tabora · Media';
   const base = target.createElement('base');
   base.href = document.baseURI;
   target.head.append(base);
@@ -19,6 +19,7 @@ export function preparePlayerWindow(popup: Window): () => void {
   const sync = () => {
     target.documentElement.lang = document.documentElement.lang;
     target.documentElement.dir = document.documentElement.dir;
+    target.documentElement.dataset.fontSize = document.documentElement.dataset.fontSize || 'compact';
     target.documentElement.dataset.theme = document.documentElement.dataset.theme || 'light';
     for (const property of ['--glass-opacity', '--material-blur']) target.documentElement.style.setProperty(property, document.documentElement.style.getPropertyValue(property));
     target.body.style.margin = '0';
@@ -26,6 +27,6 @@ export function preparePlayerWindow(popup: Window): () => void {
   };
   sync();
   const observer = new MutationObserver(sync);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'lang', 'dir', 'style'] });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-font-size', 'lang', 'dir', 'style'] });
   return () => observer.disconnect();
 }

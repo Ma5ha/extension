@@ -41,3 +41,19 @@ Model/API testovi pokrivaju filtriranje URL-ova, djelimične rezultate otvaranja
 QA skripta koristi instalirani Playwright (`TABORA_PLAYWRIGHT_PATH` može navesti njegov ESM ulaz); `TABORA_CHROMIUM_PATH` opciono bira već instalirani browser. Nisu dodate produkcione zavisnosti.
 
 Izvori: [Chrome bookmarks](https://developer.chrome.com/docs/extensions/reference/api/bookmarks), [Chrome sidePanel](https://developer.chrome.com/docs/extensions/reference/api/sidePanel), [WXT entrypoints](https://wxt.dev/guide/essentials/entrypoints.html).
+
+## Radni tokovi — TAB-10-O, 23. oktobar 2026.
+
+Implementirani Work/Personal/Study prostori; Work zadržava stare ključeve bez migracije ili brisanja. Personal/Study koriste svoje prefikse za raspored, module, sesije, zadatke, opšte i URL bilješke. Tema/font/materijal ostaju zajednički. Izbor prostora je sessionStorage po tabu; promjene podataka istog prostora osvježavaju druge Tabora prikaze. Bočni panel ima isti izbor prostora. Prebacivanje ne otvara/ne zatvara tabove ili sesije.
+
+Focus ostavlja timer i FocusPanel, sklanja navigaciju i ostale glavne panele; Exit focus vraća prethodni prikaz. Quick note uređuje sačuvanu bilješku prostora. Page notes su običan tekst do 20.000 znakova za tačan HTTP(S) URL, s dostupnim pregledom u Notes i poslije zatvaranja taba. Prazan sačuvan tekst uklanja bilješku iz liste. Nesačuvani zadatak/bilješka se ne odbacuju pri promjeni prostora/prikaza/fokusa bez upozorenja.
+
+Duplikati se porede po tačnoj adresi sa query/fragment dijelom. Nema preselektovanih kopija. Pregled zahtijeva da ostane bar jedna kopija, a aktivne/pinned tabove nije moguće izabrati. Prije svakog zatvaranja ponovo se čita isti prozor, provjerava originalni ID/adresa i postojanje kopije koja ostaje; novi tabovi se ne dodaju u izbor. Izvještaj razlikuje zatvoreno/preskočeno/neuspjelo.
+
+Podsjetnik zadatka ima lokalni datetime i identitet prostora/dana/indeksa. Worker pri završetku ponovo čita stvarni zadatak; završeni/prazni zadaci ne šalju obavijest. Storage događaji otkazuju podsjetnik kada se zadatak završi ili isprazni. Serijalizovan reminder worker obnavlja aktivne rokove pri startu. Timer je jedan zajednički svim prikazima, pauza/nastavak čuvaju ID/trajanje/prostor sesije. Završetak i istorija upisuju se jednim storage upisom; reset ne upisuje nezavršenu sesiju. History grupiše završetke po lokalnom danu i prostoru, prikazuje broj sesija i minute te posljednjih 30 sesija. Timere koji su započeti prije dodavanja istorije bez metapodataka ne dopisuje retroaktivno.
+
+Alt/Option+Shift: F fokus, T novi 25-minutni timer ili pauza/nastavak, N bilješka prostora, 1/2/3 izbor prostora. Ignorišu input/textarea/select/contenteditable, IME, ponavljanje i otvorene dijaloge; nema globalnih browser prečica.
+
+Provjera: typecheck/lint/build/diff prolaze. Postojeći testovi 55/57: dva pada su prethodni prevodi Calendar All day i PiP poruke, bez izmjene tih testova ili ranijih prevoda. Izolovani HTTP browser: čuvanje zadatka i bilješke, prazan Personal/povratak Work, nezavisan clock izbor, fokus, prečice i njihovo ignorisanje tokom pisanja, timer početak/pauza i stvarni jednominutni istek sa istorijom samo u Work. Light 1440 i dark 1024/320 vizuelno pregledani; stvarni 320px viewport ima document.scrollWidth 320, bez JS grešaka. Privremeni snimci su van repoa; nema novih testova/QA fajlova ili infrastrukture. Stvarni Chrome notifications, task delivery, duplicate close, native PiP i multi-tab/restart/sleep ostaju neprovjereni.
+
+API izvori: [Chrome alarms](https://developer.chrome.com/docs/extensions/reference/api/alarms), [Chrome tabs](https://developer.chrome.com/docs/extensions/reference/api/tabs).

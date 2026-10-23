@@ -1,20 +1,21 @@
 import { getTabs, isExtension } from '../adapters/chrome';
 import { deleteLocal, listLocal, subscribeLocal, writeLocal } from '../local/store';
 import { parseSession, snapshotTabs, type SavedSession } from './model';
-const prefix = 'tabora.session.v1.';
-export async function loadSessions() {
-  return (await listLocal(prefix)).flatMap(raw => { const value = parseSession(raw); return value ? [value] : []; }).sort((a, b) => b.created - a.created);
+import { workspaceKey, type WorkspaceId } from '../workspace/WorkspaceContext';
+const prefix = (workspace: WorkspaceId) => workspaceKey('tabora.session.v1.', workspace);
+export async function loadSessions(workspace: WorkspaceId = 'work') {
+  return (await listLocal(prefix(workspace))).flatMap(raw => { const value = parseSession(raw); return value ? [value] : []; }).sort((a, b) => b.created - a.created);
 }
-export async function saveSession(name: string) {
+export async function saveSession(name: string, workspace: WorkspaceId = 'work') {
   const current = await getTabs();
   const tabs = snapshotTabs(current.tabs);
   const session = parseSession({ id: crypto.randomUUID(), name: name.trim(), created: Date.now(), tabs });
   if (!session) throw new Error('session');
-  await writeLocal(prefix + session.id, session);
+  await writeLocal(prefix(workspace) + session.id, session);
   return { saved: tabs.length, skipped: current.tabs.length - tabs.length };
 }
-export async function removeSession(session: SavedSession) { await deleteLocal(prefix + session.id); }
-export const subscribeSessions = (refresh: () => void) => subscribeLocal(prefix, refresh);
+export async function removeSession(session: SavedSession, workspace: WorkspaceId = 'work') { await deleteLocal(prefix(workspace) + session.id); }
+export const subscribeSessions = (refresh: () => void, workspace: WorkspaceId = 'work') => subscribeLocal(prefix(workspace), refresh);
 export async function restoreSession(session: SavedSession) {
   if (!isExtension) throw new Error('extension');
   const valid = parseSession(session); if (!valid) throw new Error('session');

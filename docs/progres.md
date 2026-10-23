@@ -4,6 +4,10 @@ Datumi se vode prema Europe/Belgrade. Ovaj dokument prati rezultate; [PLAN.md](.
 
 ## Aktuelni pregled
 
+TAB-03-J — U TOKU (preostala ručna matrica): kratke animacije navigacije/dijaloga/widgeta/foldera i press feedback dodati; typecheck/lint/build i HTTP navigacija/modal/fokus pregled prolaze.
+
+TAB-10-J — U TOKU (preostala ručna matrica): četiri mala widgeta na vrhu umjesto naslova/datuma; velika desna clock kartica uklonjena. Typecheck/lint/build, desktop light/dark i 390px pregled prolaze.
+
 TAB-01-M — U TOKU: pregledani sat i transparentne kontrole za odobreni commit/push; ishod u završnom odgovoru.
 
 TAB-10-I — U TOKU (preostala ručna matrica): lokalni sat/datum/zona i pregled dana implementirani, uključenost i custom raspored podržani. Typecheck/lint/build i HTTP light/dark prikaz prolaze.
@@ -493,3 +497,193 @@ Typecheck/lint/build prolaze; poslije korekcije kapitalizacije datuma build pono
 ### 22. oktobar 2026. — TAB-01-M: slanje sata i transparentnih kontrola
 
 U TOKU. Korisnik je odobrio commit/push pripremljenih TAB-03-I i TAB-10-I izmjena na origin/main. Pregledan paket od 17 fajlova: clock model/komponenta/stilovi, settings i layout integracija, tematske transparentne forme i dokumentacija; diff --check prolazi. Prethodni typecheck/lint/build prolaze, završni build uključuje korekciju velikih slova datuma. HTTP pregled obje teme i Settings izvršen uz ranije zapisane granice. Nema novih testova/QA skripti, dozvola, zavisnosti ili privatnih podataka. Izvještaj pripremljen prije push-a; slijede commit, običan push i potvrda udaljenog HEAD-a. Ishod u završnom odgovoru bez dodatnog dokumentacionog commita.
+
+### 22. oktobar 2026. — TAB-10-J: mali widgeti na vrhu
+
+U TOKU. Korisnik traži da sat/pregled dana bude gore umjesto sadašnjeg zaglavlja i podijeljen u više malih widgeta. Tumačenje: u Radnoj konzoli zamijeniti vidljivi naslov/datum gornjom trakom Sat/Datum/Sedmica/Godina; ukloniti veliku desnu clock karticu. Grupisanje tabova ostaje, custom raspored ostaje podržan. Koraci: prikaz ClockPanel-a kao trake, integracija i responsive reflow; typecheck/lint/build i ručni pregled. Bez novih testova ili commit/push-a.
+
+TAB-10-J rezultat — implementacija ZAVRŠENA, ručna matrica djelimična. ClockPanel je grupa četiri male kartice (vrijeme, datum, sedmica, godišnji progres) u vrhu Radne konzole umjesto vidljivog naslova/datuma. Semantički h1 ostaje sr-only, grouping akcija ostaje. Desna velika clock kartica uklonjena. Custom režim zadržava isti clock modul sa manjim karticama; checkbox Sat i dan ostaje. Lokalna zona je skraćena na grad uz puni IANA naziv u title-u radi uže kartice. Timer i postojeći datum model ostaju.
+
+Završni typecheck/lint/build i diff --check prolaze. Ručno Chrome HTTP desktop light/dark i 390px light pregled: nema velike kartice desno, četiri kartice na vrhu. Prvi narrow pregled otkrio previsok 2×2 header; preuređen u kompaktan red da tabovima ostane više prostora, zatim pregled ponovljen. Posljednja korekcija skraćuje naziv zone; puna custom/checkbox/zoom/reduced-motion i stvarna Chrome matrica nisu izvršene. Viewport resetovan. Bez novih testova/QA skripti, zavisnosti ili dozvola. Build spreman za Reload; nema commita/push-a.
+
+TAB-01-M naknadna evidencija u narednoj sesiji — ZAVRŠENO: b2ddf9a poslat je na origin/main, udaljeni HEAD potvrđen u prethodnom završnom odgovoru.
+
+### 22. oktobar 2026. — TAB-03-J: animacije interakcija
+
+U TOKU. Korisnik traži animacije u aplikaciji. Obim: kratki ulaz pri promjeni sekcije, dijalog/backdrop, mali stagger gornjih widgeta, otvaranje foldera/source liste i odziv dugmadi. Samo jednokratne/event animacije, bez stalnog kretanja ili blokiranja unosa; reduced-motion override ostaje. Koraci: CSS i navigacioni ključ; typecheck/lint/build i ručni pregled. Prethodno necommitovano premještanje sata ostaje sačuvano. Bez novih testova/QA skripti ili commit/push-a.
+
+TAB-03-J rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Semantički motion-enter/ease-out tokeni, kratak view ulaz na navigaciju (key sekcije), dialog/backdrop ulaz, notice ulaz, 25ms stagger gornjih mini widgeta, press feedback dugmadi i reveal otvorenih bookmark/source grana. Nema animation loop-a, JS čekanja ili blokiranja inputa. Globalni prefers-reduced-motion:reduce gasi sve animacije/prelaze; forced-colors gasi press transform.
+
+Typecheck/lint/build i diff --check prolaze. Chrome HTTP ručno potvrđeni prelazak na Bookmarks, otvaranje Settings, Escape zatvaranje i vraćen fokus na Settings dugme. To potvrđuje tok i fokus; nije frame-by-frame/performance provjera animacije. Aktivno popunjeni folderi/media, reduced-motion emulacija, narrow/zoom i potpuna accessibility matrica nisu provjereni. Raniji widget/layout pregledi ostaju u evidenciji. Bez novih testova/QA skripti, zavisnosti ili dozvola. Build spreman za Reload; prethodni top-widget rad ostaje necommitovan zajedno s animacijama. Nema commita/push-a.
+
+### 22. oktobar 2026. — TAB-03-K: engleski interfejs
+
+U TOKU. Korisnik traži cijelu aplikaciju na engleskom. Obim: navigacija, widgeti, forme, dijalozi, pomoć, statusi/greške, accessibility imena, datumi i manifest/HTML tekstovi; korisnički sadržaj se ne prevodi. Koraci: inventar UI stringova, prevod, pregled ostataka, typecheck/lint/build i ručni pregled. Prethodni top-widget/animacioni rad ostaje sačuvan; bez novih testova ili commit/push-a.
+
+### 22. oktobar 2026. — TAB-10-K: kartice vremena i redoslijed konzole
+
+U TOKU. Korisnik traži ljepše vremenske kartice na mjestu Workspace naslova, izraženije brojeve i samostalnu promjenu redoslijeda sekcija. Postojeća gornja pozicija ostaje; koraci: tipografija/površine kartica, režim uređivanja konzole sa drag i strelicama, čuvanje kroz postojeći layout, typecheck/lint/build i ručni pregled. Postojeće necommitovane izmjene ostaju. Bez novih testova, zavisnosti ili commit/push-a.
+
+TAB-10-K rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Gornje četiri kartice imaju izraženije Inter Variable brojeve (lokalni font, tabularne cifre, lakša težina), veće metadata tekstove, diskretan gradijent i responsive 2×2 prikaz na uskom prozoru. Edit layout sada je dostupan i u konzoli: novi src/workspace/SectionOrder.tsx omogućava zamjenu redoslijeda vidljivih sekcija unutar srednje/desne regije prevlačenjem ili nativnim dugmadima gore/dolje. Redoslijed koristi postojeći settings.layout i čuvanje/greške; za premještanje između kolona ostaje Custom layout u Settings. Clock i App/CSS su povezani bez novih zavisnosti ili dozvola.
+
+Typecheck, lint i produkcioni build prolaze. Chrome HTTP light desktop pregled potvrđuje kartice na vrhu i Edit layout; klik Move Open tabs down pa Reload potvrđuje Saved sessions ispred Open tabs, dakle čuvanje redoslijeda. Drag, dark/narrow/200%/reduced motion i stvarna učitana ekstenzija nisu provjereni u ovoj sesiji; to je preostala ručna matrica. Nema novih testova/QA skripti ili commit/push-a. Sljedeći korak: Reload lokalnog paketa i pregled u ekstenziji.
+
+### 22. oktobar 2026. — TAB-10-L: direktni drag and drop
+
+U TOKU. Korisnik traži normalan drag and drop i dozvoljava potrebne biblioteke. Implementirati direktne ručke, zajedničko stanje obje kolone, liniju mjesta spuštanja i umetanje (umjesto zamjene), sa čuvanjem postojećeg layout-a. Zadržati tastaturnu alternativu. Provjeriti typecheck/lint/build i ručni Chrome tok. Bez novih testova ili commit/push-a.
+
+TAB-10-L rezultat — implementacija ZAVRŠENA, ručna matrica djelimična. Korisnik je dodatno naložio vremenske kartice gore i u Custom widgets režimu: ClockPanel je sada jednom u zajedničkom zaglavlju oba rasporeda, uklonjen iz custom mreže. Instalirani @dnd-kit/core 6.3.1, sortable 10.0.0 i utilities 3.2.2 (package.json/pnpm-lock.yaml). Prvi native drag pokušaj nije pomjerio sekciju u ručnoj provjeri; zamijenjen pointer/keyboard senzorima dnd-kit-a. SectionOrder i WidgetBoard sada koriste zajednički DndContext, direktne vidljive ručke, pomjeranje/umetanje, overlay, označeno odredište, auto-scroll biblioteke, Escape otkazivanje i tastaturnu alternativu/kolona select u Edit layout. Console objedinjuje lijevu/desnu custom kolonu u dnevne alate dok se konzola koristi; promjena se čuva postojećim settings adapterom.
+
+Typecheck/lint/build i git diff --check prolaze nakon završne implementacije. Chrome HTTP: stvarni pointer drag agende iz desne u srednju kolonu uspješan; Reload potvrđuje čuvanje. Dark Custom widgets pregled potvrđuje četiri vremenske kartice gore; pointer drag agende u praznu lijevu kolonu uspješan, zatim Finish editing. Light console i dark custom desktop pregled izvršeni. Touch, keyboard drag, narrow/zoom/reduced motion, aktivni Chrome podaci i učitana ekstenzija još nisu ručno provjereni. Nema novih testova/QA skripti, dozvola, commit/push-a. Sljedeći korak: Reload ekstenzije i preostala ručna matrica.
+
+### 22. oktobar 2026. — TAB-03-L: objedinjena dnevna traka i staklene kartice
+
+U TOKU. Korisnik traži zanimljivije objedinjene vremenske kartice i vidljiviju prozirnost svih kartica. Koraci: zajednička površina vremena/datuma/sedmice/godine, hijerarhija brojeva, semantički glass tokeni i atmosfera iza kartica, transparentna početna podešavanja uz očuvanje ručnog izbora, typecheck/lint/build i Chrome pregled. Bez novih testova, commit/push-a.
+
+TAB-03-L rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. ClockPanel sada koristi jednu zajedničku staklenu površinu, istaknuto vrijeme i unutrašnje podjele za datum/sedmicu/godinu; ostaje gore u oba rasporeda. Clock CSS prepisan bez prethodnih višestrukih override-a. theme.css uvodi material-fill/border/shadow i atmosphere tokene, App kartice koriste zajednički materijal, uklonjen dodatni sloj pozadine inspector-a. Početna prozirnost 55%, blur 12px; postojeće eksplicitne vrijednosti (uključujući 0% za neprozirno) sačuvane, nedostajuće dobijaju nove defaults vrijednosti. Ručni slider ostaje izvor kontrole.
+
+Typecheck/lint/build i diff --check prolaze. Chrome HTTP custom desktop vizuelno pregledan u dark/light: objedinjena traka i kartice prate tonove pozadine; postojeća visoka prozirnost/blur ostali sačuvani. Narrow/200%/forced colors, mjerenje kontrasta i stvarna ekstenzija nisu provjereni u ovoj sesiji. Bez novih testova, zavisnosti, dozvola ili commit/push-a. Sljedeći korak: Reload paketa i preostala ručna matrica.
+
+### 22. oktobar 2026. — TAB-10-M: neutralno vrijeme i veličina teksta
+
+U TOKU. Korisnik odbacuje plavu ispunu sata, traži manje fontove, zanimljiviji prikaz i preset veličine. Koraci: neutralna kompaktna traka sa sedmičnim markerima, Compact/Default/Large izbor u Settings sa lokalnim čuvanjem, relativni fontovi za vlastiti UI, typecheck/lint/build i Chrome pregled. Bez novih testova ili commit/push-a.
+
+TAB-10-M rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Uklonjena plava ispuna prvog segmenta i smanjeni brojevi na 2rem (sat), 1.7rem (ostali); sedmica ima sedam neutralnih markera i današnji dan. Settings nudi Compact/Default/Large sa bazama 13/14/16px; Compact je početni izbor. fontSize je validirano i zasebno lokalno čuvano polje, useSettings postavlja data-font-size. CSS font-size px vrijednosti vlastitog UI-ja pretvorene u rem da preset obuhvati kartice i ostali tekst; dimenzije kontrola ostaju.
+
+Typecheck/lint/build prolaze, završni build nakon responsive korekcije sedmičnih markera prolazi. Chrome HTTP light custom pregled potvrđuje neutralnu traku/manje brojeve i Settings meni sa tri preseta. Pokušaji promjene native selecta kroz UI alat nisu promijenili prikazanu Compact vrijednost (DOM locator nije našao kontrolu); end-to-end promjena preseta i čuvanje nakon Reload-a nisu ručno potvrđeni. Dark/narrow/zoom, PiP i stvarna ekstenzija ostaju za provjeru. Bez novih testova/QA skripti ili commit/push-a. Sljedeći korak je pregled preseta u učitanoj ekstenziji.
+
+### 22. oktobar 2026. — TAB-03-M: kontrole izgleda i tabova
+
+U TOKU. Korisnik traži zanimljiviji light/dark prekidač, Edit layout van zaglavlja, Group tabs kao ikonu u Open tabs i jasne font-size presete. Koraci: segmentirani theme switch, uređivanje iz Settings sa završnom radnjom u režimu, ikona grupisanja u TabsPanel, eksplicitni Compact/Default/Large tasteri, typecheck/lint/build i Chrome provjera čuvanja. Bez novih testova/commit/push-a.
+
+TAB-03-M rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Sidebar sada ima sunce/mjesec u segmentiranom pill prekidaču sa pokretnom neutralnom podlogom. Settings zadržava sistemsku temu. Uklonjene obje akcije iz zaglavlja; Edit layout je u Settings i otvara uređivanje trenutnog rasporeda bez promjene režima, Done je samo u aktivnom editoru. TabsPanel sada ima Group tabs by site ikonu sa title/aria-label i busy/permission disabled stanjem u oba rasporeda. Font-size select zamijenjen je sa tri jasna Aa Compact/Default/Large tastera u vrhu Settings, uz aria-pressed i postojeće lokalno čuvanje.
+
+Typecheck/lint/build i diff --check prolaze. Chrome HTTP potvrđeni light→dark promjena, Large taster i ponovno učitavanje: Large ostaje izabran u ponovo otvorenim Settings. Vraćen Compact. Potvrđen Settings→Edit layout tok sa Done radnjom i Group ikona u Open tabs; stvarno grupisanje nije pokretano jer HTTP nema Chrome pristup. Narrow/zoom/reduced-motion, sistemska promjena teme i stvarna ekstenzija još nisu provjereni. Bez novih testova/QA skripti, zavisnosti ili commit/push-a. Sljedeći korak: Reload paketa i preostala ručna matrica.
+
+### 22. oktobar 2026. — TAB-07-F: četiri vizuelne varijante playera
+
+U TOKU. Korisnik dostavlja screenshot Media playera i traži četiri redizajna. Obim su četiri nezavisna ImageGen mockupa sa stvarno priloženim screenshotom, u Tabora light/prozirnom pravcu i sa postojećim kontrolama; različita hijerarhija/struktura, bez novih integracija ili implementacije prije izbora. Pročitani Product Design ideate/get-context/user-context i imagegen; nema sačuvanog Product Design konteksta.
+
+TAB-07-F rezultat — vizuelna ideacija ZAVRŠENA. Četiri nezavisna ImageGen rezultata prikazana su redom: 1 kompaktni horizontalni dock, 2 centralni play sa tankim kružnim okvirom, 3 izvor kao vidljiv red sa inline kontrolama, 4 podijeljena izvor/playback struktura. Screenshot je stvarno priložen u svaki poziv. Rezultati ostaju preview-only u Codex generated_images; aplikacioni kod nije mijenjan. Vizuelno pregledani svi rezultati: različite strukture su vidljive; treći ima neželjenu plavu selected površinu, četvrti duplira external-link ikonu. To su nedosljednosti mockupa za korekciju u izabranoj razradi, ne specifikacija novih mogućnosti. Nepoznato trajanje prikazano; seek podrška mora ostati zavisna od stvarnog izvora. Nisu pokretani tehnički testovi jer je obim samo ideacija/dokumentacija. Sljedeći korak: korisnikov izbor prema redoslijedu četiri prikazana rezultata. Nema implementacije/commit/push-a.
+
+### 22. oktobar 2026. — TAB-07-G: razrada druge varijante playera
+
+U TOKU. Korisnik bira drugi prikazani TAB-07-F mockup (Focus Dial) i traži vidljivo trajanje/floating prikaz, mute klikom na speaker, volume slider na hover, manji Play, veći thumbnail i stilizovan custom source picker. Tumačenje floating: pokazati isti player kao plutajući mini panel; trajanje samo gdje izvor daje total, nepoznato ostaje jasno označeno. Prema ideate workflow-u prvo revidirani mockup sa stvarno priloženim izabranim rezultatom, bez implementacije prije pregleda razrade. Hover slider dobija i focus/click pristup radi tastature/dodira.
+
+TAB-07-G rezultat — razrada mockupa ZAVRŠENA. Izabrani drugi prikaz stvarno je priložen ImageGen pozivu; revidirani rezultat prikazuje isti player kao widget i floating panel, veći thumbnail, manji centralni Play, 1:24 / 4:32 sa seek linijom, custom source popover i volume na hover/focus uz mute klik. Vidljiva oznaka Concept preview · sample media označava sintetički sadržaj/trajanje. Pregledan rezultat: struktura je prisutna, thumbnail je veći nego zadatih 180×104 ali odgovara zahtjevu za većim prikazom; izvor popover se preklapa s thumbnailom, ne sa playback kontrolama. Ovo je statična razrada, ne implementacija, stvarno trajanje ili dokaz dostupnih thumbnail metapodataka. Za implementaciju ostaju stvarni metadata/fallback i unknown/live duration stanja. Nema tehničkih testova/commit/push-a. Sljedeći korak je pregled revidirane razrade prije implementacije.
+
+### 22. oktobar 2026. — TAB-07-H: implementacija izabranog detached playera
+
+U TOKU. Korisnik prihvata TAB-07-G razradu i traži isti izgled detached playera. Obim: zajednički panel/floating/Document PiP izgled, izvorni artwork/poster uz favicon fallback, manji Play, vrijeme/total i unknown fallback, mute klik + hover/focus volume, custom picker. Očuvati postojeće dozvole, kontrolu samo izabranog taba, bez autoplay/servera. Koraci: metadata adapter/model, male prikazne komponente i CSS, floating/popup sinhronizacija fonta/teme, typecheck/lint/build i ručni pregled. Ne generisati sintetički thumbnail kao stvarni medij. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-07-H rezultat — implementacija postoji, provjera U TOKU. Zajednički MediaContent sada ima 16:9 artwork, centriran naslov/stanje, 40px Play i tanki okvir, elapsed/total i unknown fallback, mute klik i volume popover na hover/focus. MediaArtwork/VolumeControl su male izdvojene komponente; SourcePicker je stilizovan trigger/popover sa thumbnailom, naslovom i neutralnim selected stanjem. DOM adapter čita stvarni video poster/Media Session metadata/og:image, samo HTTP(S) URL-ove; fallback ne glumi stvarni thumbnail. Novi validirani mute command mijenja odabrani element; tab-only mute ostaje za izvor bez adaptera. Floating i Document PiP koriste istu komponentu, default 360/380×600, neutralan prozorski materijal, povratak X i font-size/tema sinhronizaciju. Nema autoplay, novih dozvola ili servera.
+
+Typecheck/lint/build i diff --check prolaze. HTTP Chrome Music provjeren: Detach otvara PiP (main panel prikazuje detached), Return to panel vraća prikaz. Stvarni izvor/popup screenshot nije potvrđen: chrome://extensions nije dostupan browser alatu, native Chrome odbijen zbog computer-use dozvole; korisnik je izvršio Reload i ponovno otvorio Taboru, ali newtab accessibility alat vraća about:blank. Populated vizuelno poređenje i stvarne playback/mute/volume/picker kontrole ostaju neprovjereni. design-qa.md iskreno navodi final result blocked; nema tvrdnje o vizuelnom prolazu. Bez novih testova/QA skripti ili commit/push-a. Sljedeći korak: pregled odabranog izvora i detached prikaza u učitanoj ekstenziji, zatim zatvaranje QA matrice.
+
+### 22. oktobar 2026. — TAB-07-I: popravka otkrivanja izvora
+
+U TOKU. Korisnik prijavljuje da Media ne nalazi izvore. Provjeriti novododato metadata čitanje, izolovati greške po tabu i omogućiti vidljiv izbor pauziranog izvora bez pokretanja zvuka. Typecheck/lint/build i postojeći relevantni testovi; bez novih testova ili commit/push-a.
+
+TAB-07-I rezultat — implementacija popravke ZAVRŠENA, stvarna provjera izvora preostaje. useMedia koristi allSettled po tabu umjesto all-or-nothing upita; permission provjera je u adapter try/catch. Artwork/metadata selektori su opciono čitanje u zaštićenim blokovima, tako da ne mogu prekinuti osnovno otkrivanje audio/video elemenata. Dodavanje izvora je vidljivo i automatski otvoreno kada nema izvora; korisnik bira stvarni HTTP(S) tab, pamti se izbor i traži samo njegov site access, bez autoplay. Ranija skrivena Add paused source native selekcija uklonjena iz help-a.
+
+Typecheck/lint/build i diff --check prolaze. Pokretanje postojeće test komande sa filter argumentima zapravo je izvršilo cijelu zbirku: 55/57 prolazi, dva pada su raniji prevodi UI stringova (Calendar Cijeli dan→All day, Media Otvori izvorni tab→Open the source tab). Svi 8 mediaDOM testovi prolaze, adapter 4/5; test fajlovi nisu mijenjani po korisnikovom pravilu. Nisu dodati novi testovi/QA skripte. Nema tvrdnje da je korisnikov live Chrome problem reprodukovan ili potvrđeno riješen u učitanoj ekstenziji, jer je pristup ranije blokiran. Sljedeći korak Reload paketa i izbor izvornog taba u novom vidljivom chooser-u. Nema commit/push-a.
+
+### 22. oktobar 2026. — TAB-07-J: zaglavljeno Finding sources
+
+U TOKU. Korisnik potvrđuje trajni loading nakon TAB-07-I. allSettled i dalje čeka neriješen Chrome executeScript; cilj su ograničeni rokovi za browser upite/pojedinačne tabove, odmah dostupan spisak tabova, otkazivanje zastarjelih scan rezultata i izlazak iz loading-a sa smislenom greškom. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-07-J rezultat — kod popravke ZAVRŠEN, stvarna Chrome potvrda preostaje. Novi media/deadline.ts ograničava čekanje Chrome promise-a i čisti tajmer; permission/tab query najviše po 3s, svaki tab scan 2.5s. Kandidati i ready stanje objavljuju se odmah poslije tab query-a, prije inject čekanja. Neriješen scan postaje unavailable samo za taj tab, ne blokira chooser; browser executeScript zahtjev dobija injectImmediately. Generacijski token odbacuje rezultate starih scan-ova pri promjeni aktivacije/PiP-a i oslobađa running lock. Error prikaz ima Retry discovery. Postojeći izvori se ne brišu pri grešci nabrajanja.
+
+Završni typecheck/lint (bez upozorenja)/build i diff --check prolaze. Prvi lint warning o ref cleanup-u riješen je hvatanjem stabilnog objekta generacije; provjere ponovljene poslije korekcije. Nisu pisani novi testovi/QA skripte. Ručna loaded-extension provjera ovog timeout scenarija nije izvršena zbog prethodno zabilježenog ograničenja browser pristupa; ne tvrditi potvrđen korisnikov rezultat. Ranija dva translation test pada ostaju izvan ove izmjene. Sljedeći korak: Reload paketa i potvrda da se chooser ili retry prikaže umjesto trajnog Finding sources. Bez commit/push-a.
+
+### 22. oktobar 2026. — TAB-07-K: kontinuirano prevlačenje slidera
+
+U TOKU. Korisnik potvrđuje da otkrivanje izvora sada radi i prijavljuje da volume/seek slideri rade klikom, ne kontinuiranim drag-om. Uzrok u kodu: svaki onChange pokreće async command/busy i vraća kontrolisanu vrijednost iz browser poll-a. Koraci: lokalni draft tokom drag-a, commit završne vrijednosti na release, keyboard/blur/cancel, zajednička komponenta za panel/floating/detached; typecheck/lint/build. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-07-K rezultat — implementacija ZAVRŠENA; live drag provjera preostaje. Novi MediaSlider održava lokalnu vrijednost tokom pointer/keyboard interakcije, ne šalje async komandu na svaki onChange; commit konačne vrijednosti na pointerup/keyup/blur, pointer capture i cancel/Escape podrška. Aktivni drag se ne prekida busy promjenom; polling ne prepisuje draft. Source/element key odbacuje draft pri promjeni izvora. Volume procenat i seek elapsed prikaz koriste draft; volume preciznost je 1%. command vraća promise postojećeg perform toka radi završetka commit-a. Isti MediaContent/VolumeControl dijele izmjenu za panel/floating/detached. Korisnikova potvrda da TAB-07-J otkrivanje radi evidentirana je ovim zadatkom.
+
+Typecheck/lint/build i diff --check prolaze. Stvarni Chrome source drag/keyboard/touch nije ručno provjeren u ovoj sesiji zbog ranije zabilježenog ograničenja browser pristupa; ne tvrditi izvršenu provjeru. Nema novih testova/QA skripti, zavisnosti, dozvola, commit/push-a. Sljedeći korak Reload i drag oba slidera u učitanoj ekstenziji.
+
+### 22. oktobar 2026. — TAB-07-L: odziv player komandi
+
+U TOKU. Korisnik potvrđuje drag i traži brz odziv svih klikova. U kodu komanda koristi globalni busy, potvrda se odbacuje i čeka se full refresh. Koraci: odmah lokalno stanje za playback/volume/seek/mute, serijalizovan red komandi bez blokiranja UI-ja, odgovor samo odabranog elementa umjesto full scan-a, zaštita od zastarjelog poll-a, greška/rollback; typecheck/lint/build. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-07-L rezultat — implementacija ZAVRŠENA, mjerenje odziva u stvarnom Chrome-u preostaje. Kontrole play/pause/mute/volume/seek odmah optimistično ažuriraju odabrani element, bez globalnog busy blokiranja. Serijalizovani promise red čuva redoslijed brzih radnji i originalni tab/document target; verzija komande sprečava prepis starom potvrdom. Adapter vraća stanje odabranog elementa iz samog command odgovora, bez naknadnog full scan čekanja; injectImmediately je sada i na control putanji. PiP ostaje direktno pozvan radi user gesture-a. Greška posljednje komande vraća prethodno stanje, prikazuje poruku i pokreće osvježavanje. useMedia pending/revision zaštita čuva novo stanje od zastarjelog poll-a; opšti perform više ne čeka full refresh poslije akcije.
+
+Typecheck/lint/build i diff --check prolaze. Pokrenuti postojeći media/media.test.ts i media/adapter.test.ts direktno kroz pnpm exec vitest: 12/13 prolazi; jedini pad je ranije evidentiran test koji očekuje stari prevedeni PiP error tekst. Test fajlovi nisu mijenjani; novih testova/QA skripti nema. Korisnikova potvrda drag funkcionalnosti TAB-07-K evidentirana. Stvarni end-to-end latency nije izmjeren u ovoj sesiji zbog prethodno zabilježenog ograničenja pristupa; ne tvrditi broj ms niti potvrđen actual playback odziv. Nema novih zavisnosti/dozvola, commit/push-a. Sljedeći korak Reload i pregled brzih uzastopnih play/pause/mute/slider radnji u učitanoj ekstenziji.
+
+### 22. oktobar 2026. — TAB-10-N: pet manjih font preseta
+
+U TOKU. Korisnik potvrđuje brz odziv playera i traži generalno manji font sa pet preseta jer je Compact prevelik. Koraci: Tiny/Compact/Cozy/Default/Large (10/11/12/14/16px baze), Compact smanjen sa 13 na 11px i ostaje default, validacija/čuvanje i responsive Settings izbor, typecheck/lint/build i HTTP pregled. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-10-N rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Pet vidljivih preseta Tiny/Compact/Cozy/Default/Large (10/11/12/14/16px baze), Compact sada 11px umjesto 13px. Preseti definisani u settings adapteru i validirani prije čuvanja; postojeći compact izbor automatski postaje manji. Settings prikazuje pet Aa uzoraka, na uskom prozoru grid prelazi u tri kolone. Vlastiti rem tekst nasljeđuje izbor, dimenzije meta/dugmadi ostaju; detached font sinhronizacija ostaje postojeća.
+
+Typecheck/lint/build i diff --check prolaze. Chrome HTTP dark desktop: svih pet izbora vidljivo, Tiny klik potvrđen, nakon Reload-a i ponovnog Settings otvaranja Tiny ostaje izabran; vraćen Compact i snimljen pregled. Narrow/light/zoom i stvarna ekstenzija/PiP nisu provjereni u ovoj sesiji. Nema novih testova/QA skripti, zavisnosti, dozvola ili commit/push-a. Korisnikova potvrda brzog player odziva TAB-07-L evidentirana. Sljedeći korak Reload i izbor najugodnije veličine u Settings.
+
+### 22. oktobar 2026. — TAB-03-P: animirani theme pill
+
+U TOKU. Korisnik traži ljepši animirani pill za theme switcher. Obim: zaobljen track/thumb, mekši slide i ikonice, postojeća reduced-motion podrška; bez novih testova/zavisnosti. Provjere: typecheck/lint/build i diff --check.
+
+TAB-03-P rezultat — implementacija ZAVRŠENA. App.module.css: pill thumb/track, 38×34px izbori, 360ms spring-like slide i diskretna rotacija/scale ikonica, hover/press odziv. Globalni prefers-reduced-motion isključuje prelaze. Typecheck/lint/build i diff --check prolaze; build je ponovljen sa write dozvolom nakon sandbox EPERM. Ručni Chrome pregled light/dark, uskih širina, tastature/zoom-a i reduced motion nije izvršen u ovoj sesiji. Sljedeći korak: Reload ekstenzije i vizuelni pregled animacije. Bez novih testova/zavisnosti/commit/push-a.
+
+### 22. oktobar 2026. — TAB-03-Q: kompaktnije kontrole i orbitalno kretanje
+
+U TOKU. Korisnik traži manja dugmad, kretanje SVG pozadine i bolji font za brojeve. Koraci: smanjiti desktop kontrole uz vidljiv fokus i očuvane touch mete, lokalni Space Grotesk Variable za brojke, spora transform animacija postojećeg SVG-a sa korisničkim isključivanjem i reduced-motion, typecheck/lint/build i HTTP pregled. Ovo je eksplicitno korisnikovo odobrenje za stalno diskretno dekorativno kretanje, zamjenjuje raniju zabranu u ovom obimu. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-03-Q rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. Desktop osnovne kontrole 32px, ranije 40px kontrole 36px, manji padding/radijusi, navigacija 36px i kompaktniji font preset tasteri. Play zadržava 40px, coarse-pointer kontrole 44px. Brojevi sata/datuma/sedmice/procenta, media vremena/procenti i badges koriste lokalni Space Grotesk Variable (Fontsource 5.3.0, latin WOFF2 22.29kB); Inter ostaje za tekst, OFL licenca u public/licenses. Novi backgroundMotion validirani lokalni boolean, Settings Animate background checkbox; postojeći SVG polako drift/rotate/scale preko transform-a u 64s alternate ciklusu. Hidden tab pauzira animaciju, reduced-motion je potpuno gasi, forced-colors skriva dekoraciju. Bez canvas-a, novih servisa ili dozvola.
+
+Typecheck/lint/build i diff --check prolaze; build potvrđuje font i licencu u lokalnom paketu. Chrome HTTP desktop dark/light vizuelno pregledani: manja dugmad i novi oblici cifara; Settings checkbox isključen/uključen i vrijednost potvrđena u accessibility prikazu. Sama animacija nije frame/performance izmjerena; reduced-motion/visibility pauza, coarse pointer, narrow/zoom i učitana ekstenzija/PiP nisu izvršno provjereni u ovoj sesiji. Bez novih testova/QA skripti ili commit/push-a. Sljedeći korak Reload i pregled kretanja sa stvarnim rasporedom.
+
+### 22. oktobar 2026. — TAB-03-R: karakter widget kartica
+
+U TOKU. Korisnik traži sređenije/zanimljivije kartice i dozvoljava kombinovanje fontova po ulozi. Koraci: zajednički card shell sa integrisanom drag ručkom, diskretna ikonografija i neutralni rubovi, zbijenija prazna stanja; Inter kontrole, Space Grotesk naslovi/brojevi i lokalna Lora za bilješke; typecheck/lint/build i ručni light/dark pregled. Očuvati materijal, mali font preset i funkcionalnost playera/drag-a. Bez novih testova/QA skripti/commit/push-a.
+
+TAB-03-R rezultat — implementacija ZAVRŠENA; ručna matrica djelimična. SectionOrder widget dobija zajednički glass card okvir i malu contextual ikonografiju u zaglavlju; ručka je integrisana desno, unutrašnji panel više ne duplira surface/obrub/sjenku. Hover/focus border se diskretno pojačava, bez plave ispune i skakanja kartice. Prazni tab/session prikazi su zbijeniji; task separatori diskretniji, notes preview čistiji. Tipografija: Inter kontrole/metapodaci, Space Grotesk naslovi/brojevi, lokalni Lora Variable za note preview/editor. Fontsource Lora 5.3.0 Latin/Latin Extended (č/ć/š/ž/đ) zapakovani uz OFL licencu, bez runtime font mreže.
+
+Završni typecheck/lint/build i diff --check prolaze. Chrome HTTP custom desktop light/dark vizuelno pregledani: kartice imaju jedan okvir, unutrašnje ručke i različitu tipografiju. Tastaturni Space pickup agende pa Escape cancel potvrđeni accessibility stanjem bez promjene položaja. Narrow/zoom/reduced-motion, console raspored, stvarni podaci i player/PiP nisu provjereni u ovoj sesiji; Lora Extended dodata poslije snimka, završni build potvrđuje oba podskupa. Bez novih testova/QA skripti, dozvola, commit/push-a. Sljedeći korak Reload i pregled kartica sa korisnikovim sadržajem.
+
+### 22. oktobar 2026. — TAB-03-S: timer, alarm i prilagodljiv raspored
+
+U TOKU. Korisnik traži timer/alarm, responsivniji player i aplikaciju te manja i ljepša dugmad. Koraci: trajni lokalni rokovi i Chrome alarms/optional notifications, kompaktni alati uz sat, reflow stranice umjesto podjele visine na manjim ekranima, player prema širini kontejnera, ujednačeniji desktop tasteri. Bez novih testova, QA skripti ili commit/push-a. Postojeće korisničke izmjene se čuvaju.
+
+TAB-03-S rezultat — implementacija ZAVRŠENA; stvarna Chrome provjera preostaje. Dodati src/clock/reminders.ts, ReminderTools.tsx i CSS: timer sa pauzom/nastavkom/resetom, jednokratni lokalni alarm (sljedeća pojava izabranog vremena), trajno stanje preko postojećeg local store-a i sinhronizacija između tabova. Alati su pod „Timer & alarm“ uz sat. Background serijalizuje promjene i završetak; obnavlja zakazane rokove nakon pokretanja workera, upisuje završeno stanje prije obavijesti i izbjegava dupliranje obavijesti između Tabora tabova. Dodata alarms dozvola, notifications ostaje opciona i traži se pri pokretanju; odbijanje dozvole prikazuje objašnjenje. Lokalna PNG ikona bez mreže. Bez otvorenog taba radi Chrome zakazivanje; bez pokrenutog Chrome-a/pri sleep-u nije obećano buđenje uređaja. Zvuk zavisi od sistemskih obavijesti. HTTP pregled čuva rok i prikazuje završetak dok je stranica otvorena, nema Chrome pozadinskih obavijesti.
+
+App.module.css: na širini do 1100px i visini do 650px prirodni page scroll, bez dvije prisilne vertikalne scroll zone; do 759px jedna kolona i kompaktnija navigacija. Custom board ispod 999px prelazi u jednu kolonu, na uskom ekranu ukidaju se minimalne visine medium/tall widgeta. Player dobija container queries, manje play margine/prsten i akcije, ograničenu artwork visinu i adaptivno prelamanje. Zajednička dugmad 28px na desktopu, mekši rubovi, 8px radijus, manji padding i jasan hover/fokus; touch mete ostaju 44px.
+
+Provjere: prvi typecheck našao noUncheckedIndexedAccess grešku pri parsiranju vremena; ispravljena podrazumijevanim numeričkim vrijednostima. Završni typecheck, lint, build i git diff --check prolaze. Build manifest potvrđuje alarms i optional notifications, PNG je zapakovan. Nisu dodati testovi/QA skripte/zavisnosti. Vizuelni Chrome pregled na različitim širinama/light-dark/zoom/PiP, sistemske notifikacije, restart/sleep i stvarni istek alarma nisu izvršno provjereni u ovoj sesiji; nema dostupnog browser-control alata. Sljedeći korak: Reload ekstenzije i pregled tih tokova. Bez commit/push-a.
+
+### 22. oktobar 2026. — TAB-10-O: radni tokovi i fokus
+
+U TOKU. Korisnik je odobrio svih šest predloženih funkcija i tastaturne prečice: fokus režim, tri radna prostora sa svojim rasporedom/sesijama, podsjetnici za dnevne zadatke, bilješke vezane za URL taba, pregled duplikata sa ručnim izborom i istorija završenih timera po danu. Koraci: lokalni scope prostora uz kompatibilnost postojećih Work podataka; zajednički reminder servis; zasebni mali UI moduli; povezivanje u navigaciju i prečice; typecheck/lint/build i pregled dostupnih provjera. Bez novih testova/QA skripti, servera, zavisnosti ili commit/push-a. Chrome tabovi/bookmarkovi ostaju zajednički; timer je jedan zajednički, istorija pamti prostor u kojem je pokrenut.
+
+TAB-10-O korak 1: postojeći Work ključevi sačuvani; dodati Personal/Study scope za raspored, vidljivost modula, sesije, dnevne zadatke i bilješke. Izbor prostora je po tabu/sessionStorage, izgled je zajednički. Implementirani zajednički reminder adapter i worker modul, podsjetnici vezani za zadatak te atomski upis završetka timera i zapisa istorije sa prostorom/datumom/trajanjem. Završetak/brisanje zadatka otkazuje podsjetnik. Istorija ne broji resetovane ili samo pauzirane timere. Integracija UI-ja i provjere slijede.
+
+23. oktobar 2026. — TAB-10-O korak 2: fokus prikaz sadrži timer/zadatke/bilješke, duplikati koriste tačan HTTP(S) URL (query i fragment se ne uklanjaju), selekcija je početno prazna i ostaje najmanje jedna kopija. Adapter ponovo čita aktuelni prozor prije svakog zatvaranja, preskače promijenjene/aktivne/pinned tabove i prijavljuje djelimičan rezultat. Bilješke uz URL ostaju dostupne u Notes nakon zatvaranja taba, radni prostor ih odvaja. Prečice Alt/Option+Shift F/T/N/1/2/3 ignorisane su tokom unosa, IME-a i otvorenih dijaloga. Prebacivanje prostora/navigacije/fokusa čuva ili upozorava na nesačuvane bilješke/zadatke. Typecheck i lint prolaze; slijede postojeći testovi i build. Nema novih testova ili QA skripti.
+
+### 23. oktobar 2026. — TAB-10-O: završni status
+
+Implementacija ZAVRŠENA u lokalnom provjerenom obimu; Chrome integraciona matrica ostaje otvorena.
+
+| Korak | Rezultat | Status |
+|---|---|---|
+| TAB-10-O1 | Fokus: timer/zadaci/bilješke, izlaz u prethodni prikaz | ZAVRŠENO — HTTP pregled |
+| TAB-10-O2 | Work/Personal/Study: odvojen raspored, sesije, zadaci i bilješke; stari Work podaci sačuvani | ZAVRŠENO — UI i postojeći settings/session testovi |
+| TAB-10-O3 | Podsjetnici za zadatke i otkazivanje pri završetku/brisanja | ZAVRŠENO — implementacija; stvarna dostava neprovjerena |
+| TAB-10-O4 | URL bilješke iz tabova i trajni pregled u Notes | ZAVRŠENO — implementacija; stvarni Chrome izbor neprovjeren |
+| TAB-10-O5 | Duplikati: ručni izbor, najmanje jedna kopija, zaštita active/pinned i ponovno čitanje prije zatvaranja | ZAVRŠENO — implementacija; stvarno Chrome zatvaranje neprovjereno |
+| TAB-10-O6 | Istorija timera po prostoru/danu, pauza/nastavak čuvaju sesiju | ZAVRŠENO — stvarni jednominutni HTTP istek i istorija |
+| TAB-10-O7 | Alt/Option+Shift F/T/N/1/2/3 i pregled prečica | ZAVRŠENO — HTTP fokus/timer/note i ignorisanje tokom pisanja |
+
+Typecheck, lint, build i diff --check prolaze. Postojeći testovi: 55 prolazi, 2 pada zbog ranijih prevoda u calendar/model.ts i media/model.ts (očekuju Cijeli dan i Otvori izvorni tab); relevantne produkcione prevode/testove ovaj zadatak nije mijenjao. Nema novih testova, QA fajlova, zavisnosti, dozvola, servera ili commit/push-a. Izolovani HTTP browser potvrđuje sačuvani zadatak/bilješku, odvajanje prostora i clock podešavanja, fokus i prečice, timer početak/pauzu te stvarni istek od 60s i jedan zapis istorije u Work, sa praznim Personal prikazom. Light desktop i dark 1024/320 snimci su pregledani; 320px document width potvrđen, bez pageerror događaja. Snimci samo u /tmp; nisu dio repoa.
+
+Preostalo: učitana Chrome ekstenzija i stvarni task/system notifications, ručno zatvaranje duplikata, native PiP, multi-tab/restart/sleep/OS dozvole te puna tastatura/zoom/reduced-motion matrica. Lokalni HTTP pregled nije dokaz tih Chrome tokova. Povezana dokumentacija: docs/radni-prostor.md i README.md. TAB-03/TAB-04/TAB-10 kao cjeline ostaju U TOKU. Naredni korak je Reload i navedena stvarna provjera; nema odobrenja za commit/push ili objavu.
+
+### 23. oktobar 2026. — TAB-01-N: commit i push funkcionalnih/UI nadogradnji
+
+U TOKU. Korisnik je izričito naložio commit i push. Obuhvat: sve pripremljene izmjene od b2ddf9a — player/kontrole i asinhrona pouzdanost, lokalni fontovi/licence, kompaktnije kartice/dugmad i responsivnost, drag raspored, timer/alarm, fokus, Work/Personal/Study, podsjetnici zadataka, URL bilješke, duplikati, istorija i prečice te povezana dokumentacija. Ovim nalogom odobren je Git commit/push tih izmjena; ranija ograničenja u istorijskim zapisima više ne blokiraju ovu radnju.
+
+Pregledani Git status, obim promjena, novi fajlovi i lockfile; git diff --check prolazi. Pretraga obrazaca privatnih ključeva i poznatih tokena kroz 90 izmijenjenih/novih tekstualnih fajlova nije našla podudaranja. Jedini novi binarni asset je lokalna reminder.png ikona; build, node_modules, privremeni browser snimci/profili i test-results nisu uključeni. git fetch origin je uspio, HEAD i origin/main su jednaki prije commita (0/0).
+
+Prethodne završne provjere istog aplikacionog koda: typecheck/lint/build i diff --check prolaze; postojeći testovi 55/57, dva pada zbog ranijih prevoda (Calendar All day i PiP poruka). Novi testovi nisu dodavani/mijenjani. HTTP UI provjere i preostale stvarne Chrome provjere ostaju prema TAB-10-O. Ova Git radnja ne predstavlja objavu ekstenzije niti potvrdu neizvršenih integracionih provjera.
+
+Izvještaj pripremljen prije commita/push-a. Slijede staged diff provjera, jedan lokalni commit, običan push na origin/main i potvrda udaljenog HEAD-a; njihov ishod i hash saopštavaju se u završnom odgovoru, bez dodatnog dokumentacionog commita.

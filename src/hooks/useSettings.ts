@@ -1,18 +1,20 @@
+import { useWorkspace } from '../workspace/WorkspaceContext';
 import { useEffect, useRef, useState } from 'react';
 import { defaults, loadSettings, parseSettings, saveSettings, subscribeSettings, type Settings } from '../adapters/settings';
 
 export function useSettings(report: (message: string) => void) {
+  const { workspace } = useWorkspace();
   const [settings, setSettings] = useState(defaults);
   const [ready, setReady] = useState(false);
   const pending = useRef(0), writes = useRef<Promise<unknown>>(Promise.resolve());
   useEffect(() => {
     let active = true;
-    loadSettings().then(s => { if (active && pending.current === 0) setSettings(s); }).catch(() => {
-      if (active) report('Podešavanja nisu učitana. Koristi se osnovni izgled. Pokušaj ponovo otvaranjem taba.');
+    loadSettings(workspace).then(s => { if (active && pending.current === 0) setSettings(s); }).catch(() => {
+      if (active) report('Settings could not be loaded. The default layout is shown. Reopen this tab to try again.');
     }).finally(() => { if (active) setReady(true); });
-    const unsubscribe = subscribeSettings(s => { if (active && pending.current === 0) setSettings(s); });
+    const unsubscribe = subscribeSettings(s => { if (active && pending.current === 0) setSettings(s); }, workspace);
     return () => { active = false; unsubscribe(); };
-  }, [report]);
+  }, [report, workspace]);
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => {
@@ -26,15 +28,23 @@ export function useSettings(report: (message: string) => void) {
     document.documentElement.style.setProperty('--glass-opacity', String(1 - settings.glass / 100));
     document.documentElement.style.setProperty('--material-blur', `${settings.blur}px`);
   }, [settings.glass, settings.blur]);
+  useEffect(() => { document.documentElement.dataset.fontSize = settings.fontSize; }, [settings.fontSize]);
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.backgroundMotion = String(settings.backgroundMotion);
+    const sync = () => { root.dataset.pageVisible = String(!document.hidden); };
+    sync(); document.addEventListener('visibilitychange', sync);
+    return () => document.removeEventListener('visibilitychange', sync);
+  }, [settings.backgroundMotion]);
   async function update(patch: Partial<Settings>) {
     pending.current++;
     setSettings(previous => parseSettings({ ...previous, ...patch }));
-    const operation = writes.current.then(() => saveSettings(patch));
+    const operation = writes.current.then(() => saveSettings(patch, workspace));
     writes.current = operation.catch(() => {});
     try { const saved = await operation; if (pending.current === 1) setSettings(saved); }
     catch {
-      report('Podešavanja nisu sačuvana. Pokušaj ponovo.');
-      if (pending.current === 1) { try { setSettings(await loadSettings()); } catch { /* Keep the last visible settings. */ } }
+      report('Settings could not be saved. Try again.');
+      if (pending.current === 1) { try { setSettings(await loadSettings(workspace)); } catch { /* Keep the last visible settings. */ } }
     } finally { pending.current--; }
   }
   return { settings, ready, update };

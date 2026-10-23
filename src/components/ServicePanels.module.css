@@ -2,7 +2,7 @@
 .shortcut { display: flex; align-items: flex-start; gap: var(--space-3); min-height: 48px; color: var(--text); text-decoration: none; border-radius: 7px; }
 .shortcut:hover h2 { color: var(--accent); }
 .shortcut > div { min-width: 0; flex: 1; }
-.shortcut h2 { margin: 0; font-size: 18px; line-height: 1.4; }
-.shortcut p { margin-top: var(--space-1); color: var(--muted); font-size: 12px; line-height: 1.5; }
+.shortcut h2 { margin: 0; font-size: 1.2857rem; line-height: 1.4; }
+.shortcut p { margin-top: var(--space-1); color: var(--muted); font-size: 0.85714rem; line-height: 1.5; }
 .icon { flex: 0 0 auto; margin-top: 1px; color: var(--accent); }
 .arrow { flex: 0 0 auto; margin-top: 3px; color: var(--muted); }

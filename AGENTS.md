@@ -31,7 +31,7 @@ Korisnik želi malo futurističan, nenapadan izgled. Početna preporuka je „Mi
 
 ## Struktura i komponente
 
-- Jedna glavna bočna navigacija prema Radnoj konzoli: Rad, Bookmarkovi, Sesije i Bilješke, zatim Vijesti i Muzika. Podešavanja su odvojena radnja. Prethodni prilagodljivi widget raspored ostaje dostupan u podešavanjima, a nova konzola je osnovna.
+- Jedna glavna bočna navigacija prema Radnoj konzoli: Rad, Bookmarkovi, Sesije i Bilješke, zatim Vijesti i Muzika. Podešavanja su odvojena radnja. Od 25. oktobra 2026. prema korisnikovom nalogu Custom widgets je jedini raspored; Radna konzola i izbor režima su uklonjeni. Bočna navigacija ostaje, widgeti imaju podesive kolone/širine/visine.
 - Prema posljednjoj instrukciji korisnika nema search polja ni komandne pretrage. Ne vraćaj ih bez novog naloga.
 - Sadržaj određuje format: tabovi su grupe/lista, Gmail lista, kalendar agenda, vijesti naslovi, muzika player.
 - Widgeti imaju dosljedan okvir, naslov, akcije i stanja, uz format prilagođen sadržaju.

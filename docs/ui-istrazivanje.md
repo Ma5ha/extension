@@ -241,3 +241,33 @@ Prema najnovijem korisnikovom nalogu, konzola prelazi sa page scroll-a na dvije 
 ## 17. TAB-10-H — materijal
 
 Korisnik traži prljaviju bijelu osnovu i više kontrole nad staklom: light tokeni sada su topla sivobijela osnova, prozirnost stvarnih 0–70%, a blur pozadine nezavisnih 0–32px. Blur se primjenjuje na pozadinu materijala kroz backdrop-filter, ne na tekst; pri neprozirnosti 0% nema vidljiv efekat. Izbori su lokalni i u obje teme, bez mrežnih asseta.
+
+## 18. TAB-10-P — jedini raspored, 25. oktobar 2026.
+
+Najnoviji korisnikov izbor je samo Custom widgets. Prethodna Radna konzola više nije alternativni raspored. Bočna navigacija i zajedničko zaglavlje ostaju, a widgeti koriste sačuvane kolone, redoslijed, širine, visine i vidljivost po prostoru. Light/dark, drag i alternativne kontrole u Edit layout ostaju.
+
+TAB-06-A (25. oktobar 2026): Gmail widget implementira opcioni metadata-only inbox, filter nepročitanih i početno skriven privatni sadržaj, bez pretrage. Stvarni OAuth i UI matrica još nisu potvrđeni; detalji u [Gmail dokumentaciji](gmail.md).
+
+TAB-10-Q (25. oktobar 2026): korisnik traži razdvajanje widget zaglavlja i kartice. Kategorija/ikona i tanka linija sada su na podlozi iznad samostalne sadržajne kartice; uklonjena je spojena gornja traka. Referenca: [Linear Insights](https://linear.app/insights), uz postojeće Tabora tokene. Drag ručke i alternative za premještanje dostupne su u Edit layout režimu. Light/dark desktop i dark uski HTTP pregled potvrđeni; stvarni Chrome i puna matrica ostaju otvoreni.
+
+TAB-10-R: prema najnovijoj korisnikovoj instrukciji drag ručke su stalno dostupne i van Edit layout režima. Novi odvojeni izgled ostaje; alternativne kontrole su i dalje u editoru.
+
+TAB-10-S: korisnik screenshotom pojašnjava da je prvobitno razdvajanje tražio za gornji dnevni pregled. Now/Today/Week/Year sada su četiri odvojene kartice, Timer & alarm je samostalna površina ispod. Prihvaćene vanjske oznake ostalih widgeta i stalni drag ostaju.
+
+TAB-10-T: Time tools sada ima Timer/Alarm/Stopwatch kartice, velike unose i preset trajanja, statusne oznake i primarne radnje. Zajednički opcioni zvuk sa Preview sound. Light/dark desktop HTTP pregled potvrđen; integracione granice u [time-tools.md](time-tools.md).
+
+TAB-03-G: diskretniji plus/drag i ravnija dugmad. ThemeSwitch izuzet iz opšteg icon pravila prema korisnikovoj korekciji; zadržava svoj prethodni slider. TAB-08-A: News sada prikazuje stvarne RSS/Atom izvore i sačuvane članke; ograničenja u [rss.md](rss.md).
+
+TAB-10-V (25. oktobar 2026): korisnik traži sopstveno miješanje boja, punu providnost i pozadinsku sliku. Settings sada dozvoljava custom accent/dva tonta, glass do 100% i lokalni raster background. Blur je nezavisan, Settings ostaje neproziran. Detalji i granice provjere u [appearance.md](appearance.md).
+
+TAB-10-W: Settings organizovan u četiri sekcije; pet stilova ima pregled i eksplicitni Apply. Reset appearance zadržava backgroundImage i layout. Novi panel light/dark/390px HTTP pregledan; detalji u [appearance.md](appearance.md).
+
+TAB-08-B: RSS članci opcionalno prikazuju lazy thumbnail iz samog feeda, sa Show article images prekidačem, tekstualnim fallback-om i dvorednim opisom. NASA stvarne slike potvrđene u light/dark HTTP pregledu. Ranija zabrana učitavanja feed slika zamijenjena je ovim eksplicitnim korisničkim izborom; HTML/skripte se i dalje ne izvršavaju.
+
+TAB-08-C: RSS news je sada i Work widget, sa pet zajedničkih naslova/slikama/refreshom i vezom ka News. Vidljivost po prostoru i postojeći drag/edit kontrole su dostupni.
+
+TAB-10-X: Developer console widget je implementiran kao ručno povezivanje jednog web taba, read-only logovi/filter/clear i odspajanje, bez izvršavanja komandi. Debugger je required dozvola jer Chrome ne podržava optional debugger. HTTP početno stanje provjereno, stvarni Chrome capture preostaje; [detalji](developer-console.md).
+
+### TAB-10-Y — podesiv bočni meni
+
+Prema korisnikovom nalogu 25. oktobra: Settings → Sidebar bira vidljive navigacione stranice, uključujući samostalnu Developer console. Work i Settings ostaju dostupni; izbor je globalan i ne briše podatke niti mijenja widget visibility. HTTP potvrđeni hide/persist/restore i fallback na Work.

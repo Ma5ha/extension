@@ -2,7 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { DndContext, DragOverlay, PointerSensor, KeyboardSensor, useSensor, useSensors, useDroppable, closestCorners, type DragEndEvent, type DragOverEvent } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { DotsSixVertical, Browser, CalendarDots, Stack, NotePencil, BookmarkSimple, EnvelopeSimple, Headphones, Clock } from '@phosphor-icons/react';
+import { DotsSixVertical, Browser, CalendarDots, Stack, NotePencil, BookmarkSimple, EnvelopeSimple, Headphones, Clock, Rss, Terminal } from '@phosphor-icons/react';
 import { placeWidget, widgetNames, type Layout, type WidgetId, type Column } from './layout';
 import css from './WidgetBoard.module.css';
 
@@ -15,11 +15,9 @@ const sectionIdentity = {
   gmail: { label: 'Mail', icon: EnvelopeSimple },
   music: { label: 'Listening', icon: Headphones },
   clock: { label: 'At a glance', icon: Clock },
+  news: { label: 'Your headlines', icon: Rss },
+  console: { label: 'Developer tools', icon: Terminal },
 } as const;
-
-export function consoleLayout(layout: Layout): Layout {
-  return { ...layout, items: layout.items.map(item => item.column === 'left' ? { ...item, column: 'right' } : item) };
-}
 
 export function SectionDragProvider({ children, layout, update }: { children: ReactNode; layout: Layout; update: (layout: Layout) => Promise<void> }) {
   const [active, setActive] = useState<WidgetId | null>(null);
@@ -62,7 +60,7 @@ function SortableSection({ id, column, children, controls, height }: { id: Widge
   </div>;
 }
 
-export function SectionOrder({ layout, widgets, editing, update, column, custom = false }: { layout: Layout; widgets: Partial<Record<WidgetId, ReactNode>>; editing: boolean; update: (layout: Layout) => Promise<void>; column: Column; custom?: boolean }) {
+export function SectionOrder({ layout, widgets, editing, update, column }: { layout: Layout; widgets: Partial<Record<WidgetId, ReactNode>>; editing: boolean; update: (layout: Layout) => Promise<void>; column: Column }) {
   const visible = layout.items.filter(item => item.column === column && widgets[item.id]);
   const { setNodeRef, isOver } = useDroppable({ id: `column-${column}`, data: { column } });
   function move(id: WidgetId, before?: WidgetId, destination: Column = column) { void update(placeWidget(layout, id, destination, before)); }
@@ -71,8 +69,8 @@ export function SectionOrder({ layout, widgets, editing, update, column, custom 
       {visible.map((item, index) => <SortableSection key={item.id} id={item.id} column={column} height={item.height} controls={editing && <div className={css.orderActions}>
         <button disabled={index === 0} aria-label={`Move ${widgetNames[item.id]} up`} onClick={() => move(item.id, visible[index - 1]!.id)}>↑</button>
         <button disabled={index === visible.length - 1} aria-label={`Move ${widgetNames[item.id]} down`} onClick={() => move(item.id, visible[index + 2]?.id)}>↓</button>
-        <select aria-label={`Column for ${widgetNames[item.id]}`} value={column} onChange={event => move(item.id, undefined, event.target.value as Column)}>{(custom ? ['left', 'center', 'right'] : ['center', 'right']).map(value => <option key={value} value={value}>{value}</option>)}</select>
-        {custom && <select aria-label={`Height for ${widgetNames[item.id]}`} value={item.height} onChange={event => void update({ ...layout, items: layout.items.map(p => p.id === item.id ? { ...p, height: event.target.value as typeof p.height } : p) })}><option value="auto">Natural height</option><option value="medium">At least 360 px</option><option value="tall">At least 560 px</option></select>}
+        <select aria-label={`Column for ${widgetNames[item.id]}`} value={column} onChange={event => move(item.id, undefined, event.target.value as Column)}>{['left', 'center', 'right'].map(value => <option key={value} value={value}>{value}</option>)}</select>
+        <select aria-label={`Height for ${widgetNames[item.id]}`} value={item.height} onChange={event => void update({ ...layout, items: layout.items.map(p => p.id === item.id ? { ...p, height: event.target.value as typeof p.height } : p) })}><option value="auto">Natural height</option><option value="medium">At least 360 px</option><option value="tall">At least 560 px</option></select>
       </div>}>{widgets[item.id]}</SortableSection>)}
     </SortableContext>
     <div className={css.dropEnd}>{visible.length === 0 ? 'Drag a section here' : 'Drop here to move to the end'}</div>

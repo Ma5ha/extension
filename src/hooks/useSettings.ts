@@ -1,3 +1,4 @@
+import { appearanceVariables } from '../adapters/appearance';
 import { useWorkspace } from '../workspace/WorkspaceContext';
 import { useEffect, useRef, useState } from 'react';
 import { defaults, loadSettings, parseSettings, saveSettings, subscribeSettings, type Settings } from '../adapters/settings';
@@ -18,16 +19,16 @@ export function useSettings(report: (message: string) => void) {
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => {
-      document.documentElement.dataset.theme = settings.theme === 'system' ? (media.matches ? 'dark' : 'light') : settings.theme;
+      const root = document.documentElement;
+      const dark = settings.theme === 'system' ? media.matches : settings.theme === 'dark';
+      root.dataset.theme = dark ? 'dark' : 'light';
+      root.dataset.customColors = String(settings.customColors);
+      root.dataset.transparentCards = String(settings.glass === 100);
+      for (const [name, value] of Object.entries(appearanceVariables(settings, dark))) root.style.setProperty(name, value);
     };
-    sync();
-    media.addEventListener('change', sync);
+    sync(); media.addEventListener('change', sync);
     return () => media.removeEventListener('change', sync);
-  }, [settings.theme]);
-  useEffect(() => {
-    document.documentElement.style.setProperty('--glass-opacity', String(1 - settings.glass / 100));
-    document.documentElement.style.setProperty('--material-blur', `${settings.blur}px`);
-  }, [settings.glass, settings.blur]);
+  }, [settings]);
   useEffect(() => { document.documentElement.dataset.fontSize = settings.fontSize; }, [settings.fontSize]);
   useEffect(() => {
     const root = document.documentElement;

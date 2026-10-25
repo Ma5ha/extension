@@ -31,7 +31,8 @@ export async function disconnectCalendar() {
   // Disable first: other open Tabora tabs clear their agenda immediately.
   await chrome.storage.local.set({ [connectionKey]: false });
   if (await chrome.permissions.contains({ permissions: ['identity'] })) {
-    await chrome.identity.clearAllCachedAuthTokens();
+    const token = await authToken(false).catch(() => null);
+    if (token) await chrome.identity.removeCachedAuthToken({ token });
   }
   // Do not remove a shared host grant used by the optional media module.
 }

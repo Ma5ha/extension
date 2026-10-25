@@ -1,12 +1,12 @@
-export const widgetIds = ['agenda', 'focus', 'tabs', 'sessions', 'bookmarks', 'gmail', 'music', 'clock'] as const;
+export const widgetIds = ['agenda', 'focus', 'tabs', 'sessions', 'bookmarks', 'gmail', 'music', 'clock', 'news', 'console'] as const;
 export type WidgetId = typeof widgetIds[number];
 export type Column = 'left' | 'center' | 'right';
 export type WidgetHeight = 'auto' | 'medium' | 'tall';
 export interface Placement { id: WidgetId; column: Column; height: WidgetHeight; }
 export interface Layout { items: Placement[]; widths: Record<Column, number>; }
-export const widgetNames: Record<WidgetId, string> = { agenda: 'Agenda', focus: 'Focus and notes', tabs: 'Open tabs', sessions: 'Saved sessions', bookmarks: 'Chrome bookmarks', gmail: 'Gmail', music: 'Media', clock: 'Clock and day' };
+export const widgetNames: Record<WidgetId, string> = { agenda: 'Agenda', focus: 'Focus and notes', tabs: 'Open tabs', sessions: 'Saved sessions', bookmarks: 'Chrome bookmarks', gmail: 'Gmail', music: 'Media', clock: 'Clock and day', news: 'RSS news', console: 'Developer console' };
 export const defaultLayout: Layout = {
-  items: widgetIds.map(id => ({ id, column: id === 'agenda' || id === 'focus' ? 'left' : id === 'tabs' || id === 'sessions' ? 'center' : 'right', height: 'auto' })),
+  items: widgetIds.map(id => ({ id, column: id === 'agenda' || id === 'focus' ? 'left' : id === 'tabs' || id === 'sessions' || id === 'console' ? 'center' : 'right', height: 'auto' })),
   widths: { left: .84, center: 2.1, right: 1.03 },
 };
 export function parseLayout(raw: unknown): Layout {

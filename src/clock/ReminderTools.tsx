@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Timer, Bell } from '@phosphor-icons/react';
+import { Timer, Bell, SpeakerHigh } from '@phosphor-icons/react';
 import { useWorkspace } from '../workspace/WorkspaceContext';
 import { completedSession, historyPrefix } from './history';
 import { writeLocal } from '../local/store';
@@ -8,6 +8,8 @@ import { isExtension } from '../adapters/chrome';
 import { useLocalValue } from '../local/useLocalValue';
 import { emptyReminder, nextAlarm, parseReminder, reminderKey, runningTimer, type Reminder } from './reminders';
 import css from './ReminderTools.module.css';
+import { Stopwatch } from './Stopwatch';
+import { parseSound, soundKey, parseSoundError, soundErrorKey } from './sound';
 
 export function ReminderControl({ kind }: { kind: 'timer' | 'alarm' }) {
   const { workspace } = useWorkspace();
@@ -41,6 +43,7 @@ export function ReminderControl({ kind }: { kind: 'timer' | 'alarm' }) {
   async function start() {
     setError('');
     try {
+      if (kind === 'timer' && !value.remaining && (!Number.isInteger(Number(minutes)) || Number(minutes) < 1 || Number(minutes) > 1440)) { setError('Choose 1–1440 whole minutes.'); return; }
       if (isExtension && !await chrome.permissions.contains({ permissions: ['notifications'] })) {
         const allowed = await chrome.permissions.request({ permissions: ['notifications'] });
         setNotice(allowed ? '' : 'Notifications are off. Completion will appear here.');
@@ -53,11 +56,13 @@ export function ReminderControl({ kind }: { kind: 'timer' | 'alarm' }) {
     } catch { setError('Could not start. Check the time and try again.'); }
   }
   return <section className={css.tool} aria-label={kind === 'timer' ? 'Timer' : 'Alarm'}>
-    <h3>{kind === 'timer' ? <Timer size={15} aria-hidden="true" /> : <Bell size={15} aria-hidden="true" />}{kind === 'timer' ? 'Timer' : 'Alarm'}</h3>
-    {finished ? <p role="status" className={css.finished}>{kind === 'timer' ? 'Time is up' : 'Alarm reached'}</p> : value.end || value.remaining ? <output className={css.readout} aria-label={kind === 'timer' ? 'Time remaining' : 'Alarm time'}>{kind === 'timer' ? `${String(Math.floor(seconds / 3600)).padStart(2, '0')}:${String(Math.floor(seconds / 60) % 60).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}` : new Intl.DateTimeFormat('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' }).format(value.end)}</output> : <label className={css.input}>{kind === 'timer' ? 'Minutes' : 'Local time'}<input aria-label={kind === 'timer' ? 'Timer minutes' : 'Alarm time'} type={kind === 'timer' ? 'number' : 'time'} min={kind === 'timer' ? 1 : undefined} max={kind === 'timer' ? 1440 : undefined} step={kind === 'timer' ? 1 : undefined} value={kind === 'timer' ? minutes : time} onChange={event => kind === 'timer' ? setMinutes(event.target.value) : setTime(event.target.value)} /></label>}
+    <h3>{kind === 'timer' ? <Timer size={18} aria-hidden="true" /> : <Bell size={18} aria-hidden="true" />}{kind === 'timer' ? 'Timer' : 'Alarm'}<span className={css.status}>{finished ? 'Finished' : value.end ? 'Running' : value.remaining ? 'Paused' : 'Ready'}</span></h3>
+    {finished ? <p role="status" className={css.finished}>{kind === 'timer' ? 'Time is up' : 'Alarm reached'}</p> : value.end || value.remaining ? <output className={css.readout} aria-label={kind === 'timer' ? 'Time remaining' : 'Alarm time'}>{kind === 'timer' ? `${String(Math.floor(seconds / 3600)).padStart(2, '0')}:${String(Math.floor(seconds / 60) % 60).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}` : new Intl.DateTimeFormat('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' }).format(value.end)}</output> : <label className={css.input}><span>{kind === 'timer' ? 'Duration in minutes' : 'Local alarm time'}</span><input aria-label={kind === 'timer' ? 'Timer minutes' : 'Alarm time'} type={kind === 'timer' ? 'number' : 'time'} min={kind === 'timer' ? 1 : undefined} max={kind === 'timer' ? 1440 : undefined} step={kind === 'timer' ? 1 : undefined} value={kind === 'timer' ? minutes : time} onChange={event => kind === 'timer' ? setMinutes(event.target.value) : setTime(event.target.value)} /></label>}
+    {kind === 'timer' && !finished && !value.end && !value.remaining && <div className={css.presets} aria-label="Timer presets">{[5, 15, 25, 45].map(preset => <button key={preset} aria-pressed={Number(minutes) === preset} onClick={() => setMinutes(String(preset))}>{preset} min</button>)}</div>}
+    {kind === 'alarm' && <p className={css.hint}>{Intl.DateTimeFormat().resolvedOptions().timeZone} · {value.end ? 'Scheduled for the next occurrence' : 'Next occurrence of this time'}</p>}
     {kind === 'timer' && (value.end > 0 || value.remaining > 0) && value.workspace && <small className={css.hint}>Session · {value.workspace}</small>}
     <div className={css.actions}>
-      {!finished && (!value.end ? <button disabled={!store.ready || busy} onClick={() => void start()}>{value.remaining ? 'Resume' : kind === 'timer' ? 'Start' : 'Set alarm'}</button> : kind === 'timer' ? <button disabled={busy} onClick={() => void change({ ...value, end: 0, remaining: Math.max(0, value.end - Date.now()), done: false })}>Pause</button> : null)}
+      {!finished && (!value.end ? <button className={css.primary} disabled={!store.ready || busy} onClick={() => void start()}>{value.remaining ? 'Resume' : kind === 'timer' ? 'Start' : 'Set alarm'}</button> : kind === 'timer' ? <button className={css.primary} disabled={busy} onClick={() => void change({ ...value, end: 0, remaining: Math.max(0, value.end - Date.now()), done: false })}>Pause</button> : null)}
       {(value.end > 0 || value.remaining > 0 || finished) && <button disabled={busy} onClick={() => void change(emptyReminder)}>{finished ? 'Dismiss' : kind === 'timer' ? 'Reset' : 'Cancel'}</button>}
     </div>
     {notice && <p className={css.hint}>{notice}</p>}
@@ -65,5 +70,24 @@ export function ReminderControl({ kind }: { kind: 'timer' | 'alarm' }) {
   </section>;
 }
 export function ReminderTools() {
-  return <details className={css.tools}><summary><Timer size={14} aria-hidden="true" />Timer & alarm</summary><div className={css.grid}><ReminderControl kind="timer" /><ReminderControl kind="alarm" /></div><p className={css.hint}>Alarms use local time. Notifications need permission. Sleeping devices notify after waking.</p></details>;
+  const sound = useLocalValue(soundKey, true, parseSound);
+  const soundFailure = useLocalValue(soundErrorKey, false, parseSoundError);
+  const [error, setError] = useState(''), [previewing, setPreviewing] = useState(false);
+  async function preview() {
+    setError(''); setPreviewing(true);
+    try {
+      const audio = new Audio(isExtension ? chrome.runtime.getURL('/reminder-chime.wav') : '/reminder-chime.wav');
+      audio.volume = .9;
+      await audio.play();
+      await soundFailure.save(false);
+    } catch { setError('Sound could not play. Check browser audio settings and try again.'); }
+    finally { setPreviewing(false); }
+  }
+  return <details className={css.tools}><summary><Timer size={16} aria-hidden="true" />Time tools<span className={css.summaryHint}>Timer · Alarm · Stopwatch</span></summary>
+    <div className={css.soundBar}><span><SpeakerHigh size={16} aria-hidden="true" />Completion sound</span><label><input type="checkbox" checked={sound.value} disabled={!sound.ready} onChange={e => void sound.save(e.target.checked)} />Sound {sound.value ? 'on' : 'off'}</label><button disabled={!sound.ready || !sound.value || previewing} onClick={() => void preview()}>Preview sound</button></div>
+    {soundFailure.value && <p role="alert" className={css.hint}>The completion sound could not play in the background. Try Preview sound and reload the extension.</p>}
+    {(error || sound.error) && <p role="alert">{error || sound.error}</p>}
+    <div className={css.grid}><ReminderControl kind="timer" /><ReminderControl kind="alarm" /><Stopwatch /></div>
+    <p className={css.hint}>Alarms use local time. Sleeping devices alert after waking. Sound follows browser and system volume. Background alerts require the Chrome extension.</p>
+  </details>;
 }

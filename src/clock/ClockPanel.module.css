@@ -1,6 +1,6 @@
-.widgets { display: grid; grid-template-columns: 1.35fr 1.2fr 1fr 1.15fr; min-width: 0; width: 100%; padding: var(--space-1); border: 1px solid var(--material-border); border-radius: var(--radius); background: var(--material-fill); backdrop-filter: blur(var(--material-blur, 0px)); box-shadow: var(--material-shadow); }
-.widget { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: var(--space-1); padding: var(--space-3) var(--space-4); }
-.widget + .widget { border-left: 1px solid var(--material-border); }
+.widgets { display: grid; grid-template-columns: 1.35fr 1.2fr 1fr 1.15fr; min-width: 0; width: 100%; gap: var(--space-4); }
+.widget { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: var(--space-1); padding: var(--space-4); border: 1px solid var(--material-border); border-radius: var(--radius); background: var(--material-fill); backdrop-filter: blur(var(--material-blur, 0px)); box-shadow: var(--material-shadow); }
+
 
 .widget h2 { display: flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: 0.78571rem; font-weight: 500; }
 .widget h2 svg { color: var(--muted); }
@@ -14,8 +14,9 @@
 .widget progress::-webkit-progress-value { background: var(--accent); border-radius: 8px; }
 .widget progress::-moz-progress-bar { background: var(--accent); }
 @media (max-width: 1199px) { .widget { padding: var(--space-3); } }
-@media (max-width: 759px) { .widgets { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-1); } .widget { gap: var(--space-1); } .widget:nth-child(3) { border-left: 0; } .widget:nth-child(n+3) { border-top: 1px solid var(--material-border); }  }
-@media (forced-colors: active) { .widgets { background: Canvas; border-color: CanvasText; backdrop-filter: none; } .widget:first-child { background: Canvas; } }
+@media (max-width: 759px) { .widgets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); } .widget { gap: var(--space-1); } }
+@media (max-width: 359px) { .widgets { grid-template-columns: minmax(0, 1fr); } }
+@media (forced-colors: active) { .widget { background: Canvas; border-color: CanvasText; backdrop-filter: none; } }
 
 .weekDays { display: flex; gap: 4px; margin-top: 4px; }
 .weekDays span { display: grid; place-items: center; flex: 1; min-width: 0; max-width: 20px; height: 20px; font-size: .65rem; color: var(--muted); border-radius: 5px; background: var(--surface); }

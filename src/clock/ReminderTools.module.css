@@ -1,12 +1,28 @@
-.tools { grid-column: 1 / -1; min-width: 0; border-top: 1px solid var(--material-border); padding: 4px 8px; }
-.tools summary { display: flex; align-items: center; gap: 6px; cursor: pointer; width: fit-content; min-height: 28px; color: var(--muted); font-size: .85rem; border-radius: 6px; }
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-block: 8px; }
-.tool { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; padding: 10px; background: var(--surface); border-radius: 10px; }
-.tool h3 { display: flex; align-items: center; gap: 6px; width: 100%; font-size: .9rem; }
-.input { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--muted); }
-.input input { width: 100px; min-width: 0; min-height: 30px; border: 1px solid var(--material-border); border-radius: 6px; padding: 4px 6px; }
-.actions { display: flex; flex-wrap: wrap; gap: 4px; }
-.readout { font-family: var(--font-numbers); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
-.finished { color: var(--accent); }
-.hint { font-size: .75rem; color: var(--muted); padding-bottom: 4px; }
-@media (max-width: 479px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.tools { grid-column: 1 / -1; min-width: 0; border: 1px solid var(--material-border); border-radius: var(--radius); padding: var(--space-2) var(--space-4); background: var(--material-fill); backdrop-filter: blur(var(--material-blur, 0px)); box-shadow: var(--material-shadow); }
+.tools summary { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); cursor: pointer; min-height: 40px; color: var(--text); font-size: .92857rem; font-weight: 600; border-radius: var(--radius); }
+.summaryHint { margin-left: auto; color: var(--muted); font-size: .78571rem; font-weight: 400; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); padding-block: var(--space-3); }
+.tool { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-3); min-width: 0; padding: var(--space-4); background: var(--surface); border: 1px solid var(--material-border); border-radius: var(--radius); }
+.tool h3 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-size: 1rem; font-weight: 600; }
+.tool h3 > svg { color: var(--accent); }
+.status { margin-left: auto; color: var(--muted); font-size: .75rem; font-weight: 400; }
+.input { display: flex; flex-direction: column; gap: var(--space-2); color: var(--muted); font-size: .78571rem; }
+.input input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 64px; border: 1px solid var(--control-border); background: var(--control-fill); color: var(--text); border-radius: var(--radius); padding: var(--space-3); font-family: var(--font-numbers); font-size: 2rem; font-variant-numeric: tabular-nums; line-height: 1.2; color-scheme: inherit; }
+.presets { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.presets button { flex: 1; min-height: 36px; white-space: nowrap; font-size: .78571rem; }
+.presets button[aria-pressed='true'] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
+.actions button { flex: 1; min-height: 40px; }
+.actions .primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.readout { display: block; padding-block: var(--space-4); font-family: var(--font-numbers); font-size: clamp(1.65rem, 2.5vw, 2.4rem); font-variant-numeric: tabular-nums; letter-spacing: -.04em; line-height: 1.3; overflow-wrap: anywhere; }
+.readout small { font-size: .6em; color: var(--muted); }
+.finished { color: var(--accent); font-size: 1.5rem; padding-block: var(--space-4); }
+.hint { font-size: .78571rem; color: var(--muted); line-height: 1.6; padding-bottom: var(--space-1); }
+.soundBar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); padding-block: var(--space-2); border-bottom: 1px solid var(--material-border); }
+.soundBar > span, .soundBar label { display: inline-flex; align-items: center; gap: var(--space-2); font-size: .85714rem; }
+.soundBar label { margin-left: auto; min-height: 40px; }
+.soundBar button { min-height: 40px; }
+@media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tool:last-child { grid-column: 1 / -1; } }
+@media (max-width: 599px) { .grid { grid-template-columns: minmax(0, 1fr); } .summaryHint { margin-left: 0; width: 100%; } .soundBar label { margin-left: 0; } }
+@media (pointer: coarse) { .presets button, .actions button, .soundBar button, .soundBar label { min-height: 44px; } }
+@media (forced-colors: active) { .tools, .tool { background: Canvas; border-color: CanvasText; backdrop-filter: none; } }

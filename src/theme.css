@@ -164,9 +164,19 @@ h1, h2, h3 { font-family: var(--font-heading); }
 }
 
 /* Shared compact control treatment; touch keeps generous targets. */
-button { min-height: 28px; padding: 4px 8px; gap: 6px; border-radius: 8px; border-color: var(--material-border); font-size: .9rem; font-weight: 500; line-height: 1.3; box-shadow: inset 0 1px 0 rgb(255 255 255 / .08); }
+button { min-height: 28px; padding: 4px 8px; gap: 6px; border-radius: 6px; border-color: var(--material-border); font-size: .85714rem; font-weight: 500; line-height: 1.3; box-shadow: none; }
 button:hover:not(:disabled) { border-color: var(--control-border); }
 button svg { max-width: 20px; max-height: 20px; }
 input, select, textarea { max-width: 100%; }
 @media (pointer: coarse) { button, select { min-height: 44px; } }
 @media (forced-colors: active) { button { border-color: ButtonText; } }
+
+:root[data-custom-colors='true'] {
+  --accent: var(--custom-accent);
+  --on-accent: var(--custom-on-accent);
+  --accent-soft: color-mix(in srgb, var(--custom-accent) 16%, var(--panel));
+  --panel-rgb: var(--tinted-panel-rgb);
+  --page-gradient: linear-gradient(125deg, color-mix(in srgb, var(--tint-one) var(--color-mix), var(--background)), color-mix(in srgb, var(--tint-two) var(--color-mix), var(--background)));
+  --atmosphere: radial-gradient(ellipse at 18% 12%, color-mix(in srgb, var(--tint-one) var(--color-mix), transparent), transparent 60%), radial-gradient(ellipse at 87% 72%, color-mix(in srgb, var(--tint-two) var(--color-mix), transparent), transparent 60%);
+}
+:root[data-transparent-cards='true'] { --surface: transparent; --material-shadow: none; }

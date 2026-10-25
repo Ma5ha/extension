@@ -1,3 +1,4 @@
+import { defaultNavigation, parseNavigation, type NavigationName } from '../workspace/navigation';
 import { workspaceKey, type WorkspaceId } from '../workspace/WorkspaceContext';
 import { defaultLayout, parseLayout, type Layout } from '../workspace/layout';
 import { isExtension } from './chrome';
@@ -12,11 +13,20 @@ export const fontSizePresets = [
 
 export interface Settings {
   version: 1;
+  sidebarItems: NavigationName[];
   theme: 'light' | 'dark' | 'system';
   fontSize: typeof fontSizePresets[number]['value'];
   backgroundMotion: boolean;
   glass: number;
   blur: number;
+  customColors: boolean;
+  accentColor: string;
+  tintOne: string;
+  tintTwo: string;
+  colorMix: number;
+  backgroundImage: string;
+  backgroundFit: 'cover' | 'contain';
+  backgroundDim: number;
   layoutMode: 'console' | 'custom';
   agenda: boolean;
   gmail: boolean;
@@ -25,23 +35,36 @@ export interface Settings {
   sessions: boolean;
   focus: boolean;
   clock: boolean;
+  news: boolean;
+  console: boolean;
   layout: Layout;
 }
-export const defaults: Settings = { version: 1, theme: 'light', fontSize: 'compact', backgroundMotion: true, glass: 55, blur: 12, layoutMode: 'console', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, clock: true, layout: defaultLayout };
+export const defaults: Settings = { version: 1, sidebarItems: defaultNavigation, theme: 'light', fontSize: 'compact', backgroundMotion: true, glass: 55, blur: 12, customColors: false, accentColor: '#548fc4', tintOne: '#78b8bc', tintTwo: '#a18ac5', colorMix: 35, backgroundImage: '', backgroundFit: 'cover', backgroundDim: 20, layoutMode: 'custom', agenda: true, gmail: true, music: true, bookmarks: true, sessions: true, focus: true, clock: true, news: true, console: true, layout: defaultLayout };
 const key = 'tabora.settings.v1';
-const fields = ['version', 'theme', 'fontSize', 'backgroundMotion', 'glass', 'blur', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'clock', 'layout'] as const;
+const fields = ['version', 'sidebarItems', 'theme', 'fontSize', 'backgroundMotion', 'glass', 'blur', 'customColors', 'accentColor', 'tintOne', 'tintTwo', 'colorMix', 'backgroundImage', 'backgroundFit', 'backgroundDim', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'clock', 'news', 'console', 'layout'] as const;
+const validColor = (value: unknown): value is string => typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
 export function parseSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== 'object') return defaults;
   const s = raw as Partial<Settings>;
   if (s.version !== undefined && s.version !== 1) return defaults;
   return {
     version: 1,
+    sidebarItems: parseNavigation(s.sidebarItems),
     theme: s.theme === 'dark' || s.theme === 'system' ? s.theme : 'light',
     fontSize: fontSizePresets.find(preset => preset.value === s.fontSize)?.value ?? 'compact',
     backgroundMotion: typeof s.backgroundMotion === 'boolean' ? s.backgroundMotion : true,
-    glass: typeof s.glass === 'number' && Number.isFinite(s.glass) ? Math.min(70, Math.max(0, s.glass)) : defaults.glass,
+    glass: typeof s.glass === 'number' && Number.isFinite(s.glass) ? Math.min(100, Math.max(0, s.glass)) : defaults.glass,
     blur: typeof s.blur === 'number' && Number.isFinite(s.blur) ? Math.min(32, Math.max(0, s.blur)) : defaults.blur,
-    layoutMode: s.layoutMode === 'custom' ? 'custom' : 'console',
+    customColors: s.customColors === true,
+    accentColor: validColor(s.accentColor) ? s.accentColor : defaults.accentColor,
+    tintOne: validColor(s.tintOne) ? s.tintOne : defaults.tintOne,
+    tintTwo: validColor(s.tintTwo) ? s.tintTwo : defaults.tintTwo,
+    colorMix: typeof s.colorMix === 'number' && Number.isFinite(s.colorMix) ? Math.min(100, Math.max(0, s.colorMix)) : defaults.colorMix,
+    backgroundImage: typeof s.backgroundImage === 'string' && s.backgroundImage.length <= 4_200_000 && /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(s.backgroundImage) ? s.backgroundImage : '',
+    backgroundFit: s.backgroundFit === 'contain' ? 'contain' : 'cover',
+    backgroundDim: typeof s.backgroundDim === 'number' && Number.isFinite(s.backgroundDim) ? Math.min(100, Math.max(0, s.backgroundDim)) : defaults.backgroundDim,
+    // Retain the legacy storage field while using a single layout for every workspace.
+    layoutMode: 'custom',
     agenda: typeof s.agenda === 'boolean' ? s.agenda : true,
     gmail: typeof s.gmail === 'boolean' ? s.gmail : true,
     music: typeof s.music === 'boolean' ? s.music : true,
@@ -49,10 +72,12 @@ export function parseSettings(raw: unknown): Settings {
     sessions: typeof s.sessions === 'boolean' ? s.sessions : true,
     focus: typeof s.focus === 'boolean' ? s.focus : true,
     clock: typeof s.clock === 'boolean' ? s.clock : true,
+    news: typeof s.news === 'boolean' ? s.news : true,
+    console: typeof s.console === 'boolean' ? s.console : true,
     layout: parseLayout(s.layout),
   };
 }
-const scoped = new Set<string>(['layout', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'clock']);
+const scoped = new Set<string>(['layout', 'layoutMode', 'agenda', 'gmail', 'music', 'bookmarks', 'sessions', 'focus', 'clock', 'news', 'console']);
 const fieldKey = (field: string, workspace: WorkspaceId) => scoped.has(field) ? workspaceKey(`${key}.${field}`, workspace) : `${key}.${field}`;
 export async function loadSettings(workspace: WorkspaceId = 'work'): Promise<Settings> {
   const keys = fields.map(field => fieldKey(field, workspace));

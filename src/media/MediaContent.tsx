@@ -24,7 +24,7 @@ export function MediaContent({ compact = false, detached = false }: { compact?: 
     {!windowPlayer.pipWindow && <button aria-label={windowPlayer.opening ? 'Opening detached controls' : 'Detach controls'} title={windowPlayer.supported ? 'Detach controls above other windows' : 'Detached window is not supported'} disabled={!windowPlayer.supported || windowPlayer.opening} onClick={event => void player.detach(event.currentTarget)}><ArrowSquareOut size={18} /></button>}
   </>;
   return <section className={`${styles.panel} ${media.panel} ${compact ? media.compact : ''}`} data-detached={detached} aria-label="Media">
-    <header className={styles.panelHeader}><h2><Headphones size={20} aria-hidden="true" />Media</h2><div className={media.headerTools}>{source && !detached && <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />}<button className={media.iconButton} aria-label="Refresh sources" title="Refresh sources" disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}><ArrowsClockwise size={18} /></button></div></header>
+    <header className={styles.panelHeader}><h2><Headphones size={20} aria-hidden="true" />Media</h2><div className={media.headerTools}><button className={media.iconButton} aria-label="Refresh sources" title="Refresh sources" disabled={busy || state === 'preview'} onClick={() => void perform(refresh)}><ArrowsClockwise size={18} /></button></div></header>
     {windowPlayer.error && <p role="status">{windowPlayer.error}</p>}
     {state === 'preview' && <div className={media.empty}><p>Controls are available in the Chrome extension.</p><small>Play media in another tab, then choose a source.</small></div>}
     {state === 'loading' && <p role="status">Finding sources…</p>}
@@ -54,7 +54,6 @@ export function MediaContent({ compact = false, detached = false }: { compact?: 
       </>}
       <div className={media.controls} aria-label="Source controls">
         <VolumeControl />
-        {detached && <SourcePicker sources={sources} selectedId={source.tab.id} busy={busy} select={player.selectSource} />}
         <div className={media.actions}>
           <button title="Open tab" aria-label="Open tab" disabled={busy} onClick={() => void perform(() => openSource(source.tab.id!))}><ArrowUpRight size={18} /></button>
           {source.status === 'ready' && item?.kind === 'Video' && <button title={item.pipActive ? 'Hide video' : 'Show video'} aria-label={item.pipActive ? 'Hide video' : 'Show video'} aria-pressed={item.pipActive} disabled={busy || (!item.pipAvailable && !item.pipActive)} onClick={() => command({ type: item.pipActive ? 'pip-exit' : 'pip-enter' })}><PictureInPicture size={18} /></button>}
@@ -68,6 +67,7 @@ export function MediaContent({ compact = false, detached = false }: { compact?: 
       {source.status === 'unavailable' && <p>The player or page is unavailable. Open the source tab or refresh the list.</p>}
       {source.status === 'ready' && !item && <p>No HTML player is available. Media may be in an inaccessible frame or use another system. Open the source tab.</p>}
     </>}
+    {sources.length > 0 && <SourcePicker sources={sources} selectedId={source?.tab.id} busy={busy} select={player.selectSource} />}
     {message && <p role="status">{message}</p>}
     {!source && <div className={media.presentations}>{viewButtons}</div>}
     {(state === 'ready' || source) && <details className={media.help}><summary>Sources, permissions and help</summary>

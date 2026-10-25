@@ -53,20 +53,22 @@
 .draggableSection[data-height='medium'] > section { min-height: 360px; }
 .draggableSection[data-height='tall'] > section { min-height: 560px; }
 
-/* One material surface per widget, with its drag control inside the frame. */
-.draggableSection[data-widget] { border: 1px solid var(--material-border); border-radius: 16px; background: var(--material-fill); backdrop-filter: blur(var(--material-blur, 0px)); box-shadow: var(--material-shadow); transition: border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease; }
-.draggableSection[data-widget]:hover { border-color: rgb(var(--ink-rgb) / .24); box-shadow: inset 0 1px 0 rgb(255 255 255 / .24), 0 8px 28px rgb(0 0 0 / .055); }
-.draggableSection[data-widget]:focus-within { border-color: var(--control-border); }
-.draggableSection[data-widget] > section { background: transparent; border: 0; box-shadow: none; backdrop-filter: none; border-radius: 0 0 16px 16px; padding: var(--space-3) var(--space-4) var(--space-4); margin: 0; max-width: none; width: auto; }
-.sectionToolbar { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); min-height: 36px; padding: 4px 8px 4px 16px; border-bottom: 1px solid var(--material-border); background: rgb(var(--ink-rgb) / .018); border-radius: 16px 16px 0 0; }
-.sectionIdentity { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .75rem; letter-spacing: .03em; font-weight: 500; }
-.sectionIdentity svg { opacity: .8; }
-.dragGrip { margin-left: auto; width: 28px; min-height: 28px; padding: 4px; border-radius: 7px; opacity: .65; }
-.dragGrip:hover, .dragGrip:focus-visible { opacity: 1; background: var(--control-hover); }
-.orderActions { flex-basis: 100%; border-top: 1px solid var(--material-border); padding-top: 6px; }
+/* Floating section labels sit above the independent content surface. */
+.draggableSection[data-widget] { border: 0; background: transparent; box-shadow: none; }
+.draggableSection[data-widget] > section { background: var(--material-fill); border: 1px solid var(--material-border); box-shadow: var(--material-shadow); backdrop-filter: blur(var(--material-blur, 0px)); border-radius: var(--radius); padding: var(--space-4); margin: 0; max-width: none; width: auto; }
+.draggableSection[data-widget] > section:focus-within { border-color: var(--control-border); }
+.sectionToolbar { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); min-height: 40px; padding: 0 var(--space-1); margin-bottom: var(--space-2); border: 0; background: transparent; }
+.sectionToolbar::after { content: ''; flex: 1; height: 1px; background: var(--material-border); }
+.sectionIdentity { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: .85714rem; letter-spacing: .01em; font-weight: 600; line-height: 1.5; }
+.sectionIdentity svg { color: var(--accent); flex-shrink: 0; }
+.dragGrip { order: 1; width: 36px; min-height: 36px; padding: var(--space-2); border: 0; border-radius: 6px; background: transparent; box-shadow: none; color: var(--muted); }
+.dragGrip:hover, .dragGrip:focus-visible { color: var(--text); background: var(--control-hover); }
+.orderActions { order: 2; flex-basis: 100%; padding: var(--space-2); background: var(--surface); border: 1px solid var(--material-border); border-radius: var(--radius); }
+.orderActions button, .orderActions select { min-height: 40px; }
+.dropColumn { gap: var(--space-6); }
 .draggableSection[data-widget] > section > header h2 { font-family: var(--font-heading); font-weight: 600; letter-spacing: -.025em; }
-@media (pointer: coarse) { .dragGrip { width: 44px; min-height: 44px; } }
-@media (forced-colors: active) { .draggableSection[data-widget] { background: Canvas; border-color: CanvasText; backdrop-filter: none; } .sectionToolbar { background: Canvas; } }
+@media (pointer: coarse) { .dragGrip, .orderActions button, .orderActions select { min-height: 44px; } .dragGrip { width: 44px; } }
+@media (forced-colors: active) { .draggableSection[data-widget] > section { background: Canvas; border-color: CanvasText; backdrop-filter: none; } .sectionToolbar::after { background: CanvasText; } }
 
 @media (max-width: 999px) { .board { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } .column:last-child { grid-column: auto; } }
 @media (max-width: 759px) { .widget[data-height] > section, .draggableSection[data-height] > section { min-height: 0; } }

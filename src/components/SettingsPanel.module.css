@@ -1,0 +1,26 @@
+.navigation { position: sticky; top: -1px; z-index: 2; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-1); padding: var(--space-1); background: var(--panel); border: 1px solid var(--material-border); border-radius: var(--radius); }
+.navigation button { border: 0; background: transparent; min-height: 40px; padding: var(--space-2); color: var(--muted); font-size: .85714rem; }
+.navigation button[aria-current='page'] { background: var(--accent-soft); color: var(--accent); }
+.section { display: grid; gap: var(--space-4); min-width: 0; }
+.section > label { display: grid; gap: var(--space-2); }
+.section p { line-height: 1.65; color: var(--muted); }
+.section h3 { font-size: 1rem; }
+.presets { min-width: 0; }
+.presetGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin-block: var(--space-3); }
+.preset { display: flex; flex-direction: column; align-items: stretch; justify-content: start; text-align: left; gap: var(--space-2); min-width: 0; padding: var(--space-2); border: 1px solid var(--material-border); background: transparent; border-radius: var(--radius); }
+.preset[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); }
+.preset strong { font-size: .92857rem; }
+.preset small { color: var(--muted); font-size: .78571rem; line-height: 1.5; }
+.miniature { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: var(--space-1); padding: var(--space-2); height: 64px; border-radius: 6px; background: linear-gradient(125deg, var(--preview-one), var(--preview-two)); }
+.miniature > span { display: block; border: 1px solid var(--preview-border); background: var(--preview-panel); border-radius: 4px; }
+.row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.row button { min-height: 40px; }
+.hint { color: var(--muted); font-size: .78571rem; line-height: 1.6; }
+.connection { display: flex; flex-wrap: wrap; align-items: start; gap: var(--space-3); padding-block: var(--space-3); border-bottom: 1px solid var(--material-border); }
+.connection > div { flex: 1; min-width: min(200px, 100%); }
+.connection small { color: var(--muted); display: block; margin-top: var(--space-2); }
+.connection button { min-height: 40px; }
+.connection > p { flex-basis: 100%; }
+@media (max-width: 399px) { .navigation { grid-template-columns: repeat(2, minmax(0, 1fr)); } .presetGrid { grid-template-columns: minmax(0, 1fr); } }
+@media (pointer: coarse) { .navigation button, .row button, .connection button { min-height: 44px; } }
+@media (forced-colors: active) { .navigation, .preset { border-color: CanvasText; } .navigation button[aria-current='page'], .preset[aria-pressed='true'] { outline: 2px solid Highlight; } }

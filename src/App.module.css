@@ -279,3 +279,14 @@
 @media (pointer: coarse) { .workspaceToolbar > button, .tabNoteAction { min-height: 44px; } .tabNoteAction { width: 44px; } }
 
 .workspaceHeading { flex-wrap: wrap; }
+
+/* Quiet icon actions: the glyph is compact, the click target stays accessible. */
+.app button[aria-label]:not(.themeSwitch button):has(> svg:only-child) { width: 36px; height: 36px; min-height: 36px; flex-shrink: 0; padding: 8px; border: 1px solid transparent; border-radius: 6px; background: transparent; box-shadow: none; color: var(--muted); }
+.app button[aria-label]:not(.themeSwitch button):has(> svg:only-child):hover:not(:disabled) { background: var(--control-hover); color: var(--text); border-color: transparent; }
+.app button[aria-label]:not(.themeSwitch button):has(> svg:only-child) > svg { width: 16px; height: 16px; }
+.app button[aria-label]:not(.themeSwitch button):has(> svg:only-child)[aria-pressed='true'] { background: var(--accent-soft); color: var(--accent); }
+@media (pointer: coarse) { .app button[aria-label]:not(.themeSwitch button):has(> svg:only-child) { width: 44px; height: 44px; min-height: 44px; } }
+@media (forced-colors: active) { .app button[aria-label]:not(.themeSwitch button):has(> svg:only-child) { border-color: ButtonText; color: ButtonText; } }
+
+.app { background-image: linear-gradient(rgb(var(--background-shade-rgb, 0 0 0) / var(--background-dim, 0)), rgb(var(--background-shade-rgb, 0 0 0) / var(--background-dim, 0))), var(--atmosphere), var(--user-background, none), var(--page-gradient); background-size: cover, cover, var(--background-fit, cover), cover; background-position: center; background-repeat: no-repeat; }
+@media (forced-colors: active) { .app { background: Canvas; } }

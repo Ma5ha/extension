@@ -1,22 +1,13 @@
-.picker { position: relative; min-width: 0; max-width: 100%; }
-.picker summary { display: flex; align-items: center; gap: var(--space-2); min-height: 32px; padding: 6px 10px; cursor: pointer; color: var(--text); list-style: none; font-size: .8rem; border: 1px solid var(--material-border); border-radius: 10px; background: var(--control-fill); }
-.picker summary::-webkit-details-marker { display: none; }
-.picker summary span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.picker summary > svg:last-child { flex-shrink: 0; transition: transform var(--motion-fast) ease; }
-.picker[open] summary > svg:last-child { transform: rotate(180deg); }
-.choices { position: absolute; right: 0; top: calc(100% + 4px); z-index: 10; width: 300px; max-width: min(300px, 80vw); padding: var(--space-2); border: 1px solid var(--material-border); border-radius: 12px; background: var(--panel); box-shadow: 0 12px 32px #0002; }
-.choices > p { padding: 8px; font-size: .8rem; color: var(--muted); }
-.choices ul { padding: 0; margin: 0; list-style: none; }
+.picker { min-width: 0; width: 100%; border-top: 1px solid var(--material-border); padding-top: var(--space-3); }
+.heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-2); color: var(--text); font-size: .85rem; font-weight: 550; }
+.heading small { color: var(--muted); font-size: .75rem; font-weight: 400; }
+.choices ul { display: grid; gap: var(--space-1); padding: 0; margin: 0; list-style: none; }
 .choices button { width: 100%; min-height: 60px; justify-content: flex-start; gap: 10px; padding: 8px; border: 1px solid transparent; background: transparent; color: var(--text); text-align: left; }
-.choices button[aria-pressed='true'] { background: var(--surface); border-color: var(--material-border); }
-.choices button:hover:not(:disabled) { border-color: var(--control-border); }
+.choices button[aria-pressed='true'] { background: var(--surface); border-color: var(--control-border); }
+.choices button:hover:not(:disabled) { background: var(--control-fill); border-color: var(--control-border); }
+.choices button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .choices button > span { display: grid; gap: 4px; flex: 1; min-width: 0; }
 .choices strong { font-size: .85rem; font-weight: 550; line-height: 1.4; overflow-wrap: anywhere; }
 .choices button small { font-size: .75rem; color: var(--muted); overflow-wrap: anywhere; }
 .choices button > svg { flex-shrink: 0; }
-.picker[open] .choices { animation: choicesEnter var(--motion-enter) var(--ease-out); }
-@keyframes choicesEnter { from { opacity: .4; translate: 0 -3px; } to { opacity: 1; translate: 0 0; } }
-:global([data-detached='true']) .picker .choices { top: auto; bottom: calc(100% + 4px); right: auto; left: 50%; translate: -50% 0; max-width: min(280px, 80vw); }
-@media (forced-colors: active) { .choices { background: Canvas; border-color: CanvasText; } }
-
-.choices { max-height: min(320px, 55vh); overflow-y: auto; overscroll-behavior: contain; }
+@media (forced-colors: active) { .choices button[aria-pressed='true'] { border-color: Highlight; } }

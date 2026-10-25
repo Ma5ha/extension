@@ -1,8 +1,10 @@
+import { playReminderSound, registerSound } from './sound';
 import { emptyReminder, parseReminder, reminderKey, runningTimer, validReminderKind, type Reminder } from './reminders';
 import { completedSession, historyPrefix } from './history';
 import { parseTask } from '../focus/model';
 
 export function registerReminders() {
+  registerSound();
   const prefix = reminderKey('');
   let queue = Promise.resolve();
   function enqueue(action: () => Promise<void>) {
@@ -35,12 +37,19 @@ export function registerReminders() {
     }
     const session = kind === 'timer' ? completedSession(value) : null;
     await chrome.storage.local.set({ [key]: { ...emptyReminder, done: true }, ...(session ? { [historyPrefix + session.id]: session } : {}) });
+    if (kind === 'timer' || kind === 'alarm') {
+      try { await playReminderSound(); } catch { /* Completion and notifications remain available if audio fails. */ }
+    }
     try {
       if (await chrome.permissions.contains({ permissions: ['notifications'] })) await chrome.notifications.create(key, { type: 'basic', iconUrl: chrome.runtime.getURL('/reminder.png'), title: kind.startsWith('task:') ? 'Tabora · Task reminder' : 'Tabora', message, priority: 1 });
     } catch { /* Completion remains saved if notifications are blocked by the OS. */ }
   }
   chrome.runtime.onMessage.addListener((message, sender, respond) => {
     if (sender.id !== chrome.runtime.id) return;
+    if (message?.type === 'tabora-sound-preview') {
+      void playReminderSound().then(() => respond({ ok: true }), () => respond({ ok: false }));
+      return true;
+    }
     if (message?.type === 'tabora-timer-toggle') {
       let running = false;
       void enqueue(async () => {

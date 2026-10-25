@@ -1,0 +1,14 @@
+.filter { display: flex; align-items: center; gap: var(--space-2); min-height: 40px; margin-top: var(--space-2); }
+.notice { color: var(--muted); margin-block: var(--space-4); line-height: 1.6; }
+.account { color: var(--muted); overflow-wrap: anywhere; margin-block: var(--space-2); }
+.messages { list-style: none; padding: 0; margin: var(--space-2) 0; }
+.messages li + li { border-top: 1px solid var(--border); }
+.messages a { display: grid; gap: var(--space-1); padding-block: var(--space-3); color: var(--text); text-decoration: none; overflow-wrap: anywhere; border-radius: var(--radius); }
+.messages a:hover { background: var(--surface); }
+.messages strong { font-weight: 600; }
+.sender { font-size: .92857rem; }
+.details { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); color: var(--muted); font-size: .85714rem; }
+.details svg { margin-left: auto; flex-shrink: 0; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
+.actions a { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 40px; }
+.actions button { min-height: 40px; white-space: normal; }
